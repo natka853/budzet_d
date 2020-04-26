@@ -19,7 +19,6 @@ class Dochod(models.Model):
         return self.nazwa
 
     zrodlo = models.ForeignKey(Zrodlo, on_delete=models.CASCADE, null=True)
-
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
