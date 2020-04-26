@@ -49,7 +49,7 @@ class Wydatek(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
-    data = models.DateTimeField('Data')
+    data = models.DateTimeField('Data', default=timezone.now)
 
     class Meta:
         verbose_name = "Wydatek"
