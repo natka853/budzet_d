@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Budżet domowy</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">SALDO</h1>
+        <p class="lead">Dzisiejsze wydatki: oraz dochody:</p>
+    </div>
+
+    <div class="row">
+        <div class="col-8">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Kwota</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Praca</td>
+                    <td>marzec</td>
+                    <td>3000</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jedzenie</td>
+                    <td>Biedronka</td>
+                    <td>-50,99</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-sm">
+            <div class="btn-group-vertical btn-group-sm">
+                <button type="button" class="btn btn-light" href="/dodajPrzychod">Dodaj przychód</button>
+                <button type="button" class="btn btn-light" href="/dodajWydatek">Dodaj dochód</button>
+                <button type="button" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj/edytuj kategorie wydatku</button>
+                <button type="button" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj/edytuj zrodlo dochodu</button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>
