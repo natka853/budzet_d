@@ -1,13 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     <meta charset="UTF-8">
     <title>Budżet domowy</title>
 </head>
-<body style="background-color: beige">
-<h1> Witaj {{request.user}}</h1>
-
-<h2>Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</h2>
+<body>
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-4">Witaj</h1>
+        <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
+        <hr class="my-4">
+        <p>Kliknij poniżej, aby się zalogować.</p>
+        <a class="btn btn-primary btn-lg" href="/admin" role="button">Zaloguj się</a>
+    </div>
+</div>
 
 </body>
 </html>
