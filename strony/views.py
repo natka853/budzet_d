@@ -15,3 +15,6 @@ def dochody(request, *args, **kwargs):
 
 def wydatki(request, *args, **kwargs):
     return render(request, "wydatki.html", {})
+
+def podsumowanie(request, *args, **kwargs):
+    return render(request, "podsumowanie.html", {})
