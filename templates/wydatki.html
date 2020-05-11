@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h1 class="display-4"><b>Moje wydatki</b></h1>
+    <h1 class="display-4"><b>Moje wydatki</b></h1>
+    {% for object in expenses %}
+        <p> Nazwa : {{ object.nazwa }}, Kategoria : {{ object.kategoria }}, Kwota : {{ object.kwota }}, Opis: {{ object.opis }} </p>
+    {% endfor %}
 {% endblock %}

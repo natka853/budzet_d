@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from Budzet.models import Dochod
+from Budzet.models import Wydatek
 
 
 # Create your views here.
@@ -14,7 +15,8 @@ def dochody(request, *args, **kwargs):
 
 
 def wydatki(request, *args, **kwargs):
-    return render(request, "wydatki.html", {})
+    expenses = Wydatek.objects.all() #zbiór wszystkich wydatków z bazy
+    return render(request, "wydatki.html", {'expenses': expenses})
 
 
 def podsumowanie(request, *args, **kwargs):
