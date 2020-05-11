@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from Budzet.models import Dochod
 
 
 # Create your views here.
@@ -8,8 +9,9 @@ def home_view(request, *args, **kwargs):
 
 
 def dochody(request, *args, **kwargs):
-    # return HttpResponse("<h1>Tu są twoje dochody</h1>")
-    return render(request, "dochody.html", {})
+    incomes = Dochod.objects.get(id=1)
+    kontekst = dict(name=incomes.nazwa, source=incomes.zrodlo)
+    return render(request, "dochody.html", kontekst)
 
 
 def wydatki(request, *args, **kwargs):
