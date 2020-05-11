@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="display-4"><b>Moje kategorie</b></h1>
+    </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Nazwa</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for object in categories %}
+                <tr>
+                    <td>{{ object.nazwa }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

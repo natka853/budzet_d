@@ -29,6 +29,16 @@ def podsumowanie(request, *args, **kwargs):
     return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses})
 
 
+def zrodla(request, *args, **kwargs):
+    sources = Zrodlo.objects.all()  # zbiór wszystkich wydatków z bazy
+    return render(request, "zrodla.html", {'sources': sources})
+
+
+def kategorie(request, *args, **kwargs):
+    categories = Kategoria.objects.all()
+    return render(request, "kategorie.html", {'categories': categories})
+
+
 def dodaj_wydatek(request, *args, **kwargs):
     categories = Kategoria.objects.all()
     return render(request, "dodajWydatek.html", {'categories': categories})
@@ -54,8 +64,8 @@ def dodaj_kategorie_wydatku(request, *args, **kwargs):
 def dodaj_zrodlo_dochodu(request, *args, **kwargs):
     form = ZrodloForm(request.POST or None)
     if form.is_valid():
-        form.save(commit=True) #zapis do bazy danych
-        form = ZrodloForm() #odświeżanie formularza
+        form.save(commit=True)  # zapis do bazy danych
+        form = ZrodloForm()  # odświeżanie formularza
     return render(request, "dodajZrodloDochodu.html", {'form': form})
 
 
