@@ -9,9 +9,8 @@ def home_view(request, *args, **kwargs):
 
 
 def dochody(request, *args, **kwargs):
-    incomes = Dochod.objects.get(id=1)
-    kontekst = dict(name=incomes.nazwa, source=incomes.zrodlo)
-    return render(request, "dochody.html", kontekst)
+    incomes = Dochod.objects.all() #zbiór wszystkich dochodów z bazy
+    return render(request, "dochody.html", {'incomes': incomes})
 
 
 def wydatki(request, *args, **kwargs):
