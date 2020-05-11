@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
+from Budzet.models import Zrodlo
+from Budzet.models import Kategoria
 
 
 # Create your views here.
@@ -26,11 +28,13 @@ def podsumowanie(request, *args, **kwargs):
 
 
 def dodajWydatek(request, *args, **kwargs):
-    return render(request, "dodajWydatek.html", {})
+    categories = Kategoria.objects.all()
+    return render(request, "dodajWydatek.html", {'categories': categories})
 
 
 def dodajPrzychod(request, *args, **kwargs):
-    return render(request, "dodajPrzychod.html", {})
+    sources = Zrodlo.objects.all()
+    return render(request, "dodajPrzychod.html", {'sources': sources})
 
 
 def dodajKategorieWydatku(request, *args, **kwargs):

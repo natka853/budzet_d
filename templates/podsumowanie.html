@@ -11,8 +11,9 @@
             <table class="table">
                 <thead>
                 <tr>
+                    <th scope="col">Data</th>
                     <th scope="col">Nazwa</th>
-                    <th scope="col">Źródło</th>
+                    <th scope="col">Źródło/Kategoria</th>
                     <th scope="col">Opis</th>
                     <th scope="col">Kwota</th>
                 </tr>
@@ -20,32 +21,20 @@
                 <tbody>
                 {% for object in incomes %}
                     <tr>
-                        <td> {{ object.nazwa }}</td>
-                        <td> {{ object.zrodlo }}</td>
-                        <td> {{ object.opis }}</td>
-                        <td> {{ object.kwota }}</td>
+                        <td>{{ object.data }}</td>
+                        <td>{{ object.nazwa }}</td>
+                        <td>{{ object.zrodlo }}</td>
+                        <td>{{ object.opis }}</td>
+                        <td style="float: right">+{{ object.kwota }}</td>
                     </tr>
                 {% endfor %}
-                </tbody>
-            </table>
-            </br>
-            <h3> Wydatki </h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Kategoria</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Kwota</th>
-                </tr>
-                </thead>
-                <tbody>
                 {% for object in incomes %}
                     <tr>
-                        <td> {{ object.nazwa }}</td>
-                        <td> {{ object.kategoria }}</td>
-                        <td> {{ object.opis }}</td>
-                        <td> {{ object.kwota }}</td>
+                        <td>{{ object.data }}</td>
+                        <td>{{ object.nazwa }}</td>
+                        <td>{{ object.kategoria }}</td>
+                        <td>{{ object.opis }}</td>
+                        <td style="float: right">-{{ object.kwota }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -5,19 +5,25 @@
     </div>
 
     <table class="table">
+        <thead>
         <tr>
-            <th> Nazwa </th>
-            <th> Źródło </th>
-            <th> Kwota </th>
-            <th> Opis </th>
+            <th scope="col">Data</th>
+            <th scope="col">Nazwa</th>
+            <th scope="col">Źródło</th>
+            <th scope="col">Opis</th>
+            <th scope="col">Kwota</th>
         </tr>
+        </thead>
+        <tbody>
         {% for object in incomes %}
             <tr>
-                <td> {{ object.nazwa }}</td>
-                <td> {{ object.zrodlo }}</td>
-                <td> {{ object.kwota }}</td>
-                <td> {{ object.opis }}</td>
+                <td>{{ object.data }}</td>
+                <td>{{ object.nazwa }}</td>
+                <td>{{ object.zrodlo }}</td>
+                <td>{{ object.opis }}</td>
+                <td style="float: right">{{ object.kwota }}</td>
             </tr>
         {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

@@ -1,9 +1,7 @@
-import datetime
+from datetime import datetime
 
 from django.db import models
-from django.utils import timezone
 
-# Create your models here.
 
 class Zrodlo(models.Model):
     def __str__(self):
@@ -25,7 +23,7 @@ class Dochod(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-    data = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    data = models.DateTimeField(default=datetime.now, blank=True)
 
     class Meta:
         verbose_name = "Dochod"
@@ -51,7 +49,7 @@ class Wydatek(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
-    data = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    data = models.DateTimeField(default=datetime.now, blank=True)
 
     class Meta:
         verbose_name = "Wydatek"
@@ -59,7 +57,7 @@ class Wydatek(models.Model):
 
 
 class Saldo(models.Model):
-    data = models.DateTimeField(default=datetime.datetime.now, blank=True)
+    data = models.DateTimeField(default=datetime.now, blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
 
     class Meta:
