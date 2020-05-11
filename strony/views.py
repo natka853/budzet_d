@@ -10,12 +10,12 @@ def home_view(request, *args, **kwargs):
 
 
 def dochody(request, *args, **kwargs):
-    incomes = Dochod.objects.all() #zbiór wszystkich dochodów z bazy
+    incomes = Dochod.objects.all()  # zbiór wszystkich dochodów z bazy
     return render(request, "dochody.html", {'incomes': incomes})
 
 
 def wydatki(request, *args, **kwargs):
-    expenses = Wydatek.objects.all() #zbiór wszystkich wydatków z bazy
+    expenses = Wydatek.objects.all()  # zbiór wszystkich wydatków z bazy
     return render(request, "wydatki.html", {'expenses': expenses})
 
 
@@ -41,3 +41,7 @@ def dodajZrodloDochodu(request, *args, **kwargs):
 
 def logowanie(request, *args, **kwargs):
     return render(request, "logowanie.html", {})
+
+
+def rejestrowanie(request, *args, **kwargs):
+    return render(request, "rejestrowanie.html", {})
