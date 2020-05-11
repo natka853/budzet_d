@@ -2,7 +2,20 @@
 
 {% block content %}
     <h1 class="display-4"><b>Moje dochody</b></h1>
-    {% for object in incomes %}
-        <p> Nazwa : {{ object.nazwa }}, Źródło : {{ object.zrodlo }}, Kwota : {{ object.kwota }}, Opis: {{ object.opis }} </p>
-    {% endfor %}
+    <table style="width: 100%">
+        <tr>
+            <th> Nazwa </th>
+            <th> Źródło </th>
+            <th> Kwota </th>
+            <th> Opis </th>
+        </tr>
+        {% for object in incomes %}
+            <tr>
+                <td> {{ object.nazwa }}</td>
+                <td> {{ object.zrodlo }}</td>
+                <td> {{ object.kwota }}</td>
+                <td> {{ object.opis }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
