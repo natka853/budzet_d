@@ -1,22 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budżet domowy</title>
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-    <div class="jumbotron">
-        <h1 class="display-4">Witaj</h1>
+{% block content %}
+        <h1 class="display-4"><b>Witaj</b></h1>
         <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
         <hr class="my-4">
-        <p>Kliknij poniżej, aby się zalogować.</p>
-        <a class="btn btn-primary btn-lg" href="/admin" role="button">Zaloguj się</a>
-    </div>
-</div>
-
-</body>
-</html>
+        <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
+        <a class="btn btn-primary btn-lg" href="/admin" role="button">Zaloguj się</a> &nbsp;
+        <a class="btn btn-primary btn-lg" href="/admin" role="button">Zarejestruj się</a>
+{% endblock %}

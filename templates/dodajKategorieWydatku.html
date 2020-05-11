@@ -1,14 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budżet domowy</title>
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
+{% block content %}
+        <h1 class="display-4"><b>Moje wydatki</b></h1>
+    </div>
     <form>
         <div class="form-group">
             <label for="exampleFormControlInput1">Email address</label>
@@ -39,7 +33,5 @@
             <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
     </form>
-</div>
-</body>
-</html>
+{% endblock %}
 

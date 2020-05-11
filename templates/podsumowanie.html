@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Budżet domowy</title>
+{% extends 'base.html' %}
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
-<div class="container">
-    <div class="jumbotron">
+{% block content %}
         <h1 class="display-4">SALDO</h1>
         <p class="lead">Dzisiejsze wydatki: oraz dochody:</p>
     </div>
@@ -45,14 +36,10 @@
             <div class="btn-group-vertical btn-group-sm">
                 <a role="button" class="btn btn-light" href="/dodajPrzychod">Dodaj przychód</a>
                 <a role="button" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>
-                <a role="button" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj/edytuj kategorie
-                    wydatku
-                </a>
-                <a role="button" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj/edytuj zrodlo dochodu
+                <a role="button" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj/edytuj kategorię wydatku</a>
+                <a role="button" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj/edytuj źródło dochodu
                 </a>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+{% endblock %}

@@ -24,7 +24,7 @@ class Dochod(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-    data = models.DateTimeField('Data')
+   # data = models.DateTimeField('Data')
 
     class Meta:
         verbose_name = "Dochod"
@@ -49,7 +49,7 @@ class Wydatek(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
-    data = models.DateTimeField('Data', default=timezone.now)
+    #data = models.DateTimeField('Data')
 
     class Meta:
         verbose_name = "Wydatek"
@@ -57,7 +57,7 @@ class Wydatek(models.Model):
 
 class Saldo(models.Model):
 
-    data = models.DateTimeField('Dzień')
+   # data = models.DateTimeField('Dzień')
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
 
     class Meta:
