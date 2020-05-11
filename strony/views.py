@@ -36,3 +36,7 @@ def dodajKategorieWydatku(request, *args, **kwargs):
 
 def dodajZrodloDochodu(request, *args, **kwargs):
     return render(request, "dodajZrodloDochodu.html", {})
+
+
+def logowanie(request, *args, **kwargs):
+    return render(request, "logowanie.html", {})
