@@ -2,20 +2,26 @@
 
 {% block content %}
     <h1 class="display-4"><b>Moje wydatki</b></h1>
-    <table style="width: 100%">
+    </div>
+
+    <table class="table">
+        <thead>
         <tr>
             <th> Nazwa </th>
             <th> Kategoria </th>
             <th> Kwota </th>
             <th> Opis </th>
         </tr>
-        {% for object in expenses %}
-            <tr>
-                <td> {{ object.nazwa }}</td>
-                <td> {{ object.kategoria }}</td>
-                <td> {{ object.kwota }}</td>
-                <td> {{ object.opis }}</td>
-            </tr>
-        {% endfor %}
+        </thead>
+        <tbody>
+            {% for object in expenses %}
+                <tr>
+                    <td> {{ object.nazwa }}</td>
+                    <td> {{ object.kategoria }}</td>
+                    <td> {{ object.kwota }}</td>
+                    <td> {{ object.opis }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

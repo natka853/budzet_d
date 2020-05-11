@@ -2,33 +2,52 @@
 
 {% block content %}
         <h1 class="display-4">SALDO</h1>
-        <p class="lead">Dzisiejsze wydatki: oraz dochody:</p>
+        <p class="lead">Dzisiejsze dochody: oraz wydatki:</p>
     </div>
 
     <div class="row">
         <div class="col-8">
+            <h3> Dochody </h3>
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Nazwa</th>
+                    <th scope="col">Źródło</th>
                     <th scope="col">Opis</th>
                     <th scope="col">Kwota</th>
                 </tr>
                 </thead>
                 <tbody>
+                {% for object in incomes %}
+                    <tr>
+                        <td> {{ object.nazwa }}</td>
+                        <td> {{ object.zrodlo }}</td>
+                        <td> {{ object.opis }}</td>
+                        <td> {{ object.kwota }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </br>
+            <h3> Wydatki </h3>
+            <table class="table">
+                <thead>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Praca</td>
-                    <td>marzec</td>
-                    <td>3000</td>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Kategoria</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Kwota</th>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jedzenie</td>
-                    <td>Biedronka</td>
-                    <td>-50,99</td>
-                </tr>
+                </thead>
+                <tbody>
+                {% for object in incomes %}
+                    <tr>
+                        <td> {{ object.nazwa }}</td>
+                        <td> {{ object.kategoria }}</td>
+                        <td> {{ object.opis }}</td>
+                        <td> {{ object.kwota }}</td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>

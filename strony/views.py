@@ -20,7 +20,9 @@ def wydatki(request, *args, **kwargs):
 
 
 def podsumowanie(request, *args, **kwargs):
-    return render(request, "podsumowanie.html", {})
+    incomes = Dochod.objects.all()  # zbiór wszystkich dochodów z bazy
+    expenses = Wydatek.objects.all()  # zbiór wszystkich wydatków z bazy
+    return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses})
 
 
 def dodajWydatek(request, *args, **kwargs):

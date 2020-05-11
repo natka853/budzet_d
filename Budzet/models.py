@@ -2,6 +2,8 @@ import datetime
 
 from django.db import models
 from django.utils import timezone
+
+
 # Create your models here.
 
 class Zrodlo(models.Model):
@@ -24,11 +26,13 @@ class Dochod(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-   # data = models.DateTimeField('Data')
+
+    # data = models.DateTimeField('Data')
 
     class Meta:
         verbose_name = "Dochod"
         verbose_name_plural = "Dochody"
+
 
 class Kategoria(models.Model):
     def __str__(self):
@@ -40,6 +44,7 @@ class Kategoria(models.Model):
         verbose_name = "Kategoria"
         verbose_name_plural = "Kategorie"
 
+
 class Wydatek(models.Model):
     def __str__(self):
         return self.nazwa
@@ -49,15 +54,16 @@ class Wydatek(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
-    #data = models.DateTimeField('Data')
+
+    # data = models.DateTimeField('Data')
 
     class Meta:
         verbose_name = "Wydatek"
         verbose_name_plural = "Wydatki"
 
-class Saldo(models.Model):
 
-   # data = models.DateTimeField('Dzień')
+class Saldo(models.Model):
+    # data = models.DateTimeField('Dzień')
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
 
     class Meta:
