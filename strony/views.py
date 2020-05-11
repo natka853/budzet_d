@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
@@ -6,6 +7,7 @@ from Budzet.models import Kategoria
 from Budzet.forms import ZrodloForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
+from django.contrib.auth.forms import UserCreationForm
 
 
 def home_view(request, *args, **kwargs):
@@ -44,7 +46,7 @@ def dodaj_wydatek(request, *args, **kwargs):
     return render(request, "dodajWydatek.html", {'categories': categories})
 
 
-def dodaj_przychod(request, *args, **kwargs): #TODO pobieranie od użytkownika
+def dodaj_przychod(request, *args, **kwargs):  # TODO pobieranie od użytkownika
     sources = Zrodlo.objects.all()
     form = DochodForm(request.POST or None)
     if form.is_valid():
@@ -74,4 +76,14 @@ def logowanie(request, *args, **kwargs):
 
 
 def rejestrowanie(request, *args, **kwargs):
-    return render(request, "rejestrowanie.html", {})
+    form = UserCreationForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True)
+        username = form.cleaned_data.get('username')
+        raw_password = form.cleaned_data.get('password1')
+        user = authenticate(username=username, password=raw_password)
+        login(request, user)
+        return redirect('home')
+    else:
+        form = UserCreationForm()
+    return render(request, "rejestrowanie.html", {'form': form})
