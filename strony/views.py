@@ -34,7 +34,7 @@ def dodaj_wydatek(request, *args, **kwargs):
     return render(request, "dodajWydatek.html", {'categories': categories})
 
 
-def dodaj_przychod(request, *args, **kwargs):
+def dodaj_przychod(request, *args, **kwargs): #TODO pobieranie od użytkownika
     sources = Zrodlo.objects.all()
     form = DochodForm(request.POST or None)
     if form.is_valid():
