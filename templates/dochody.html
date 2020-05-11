@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <p> {{ name }}</p>
-    <p> {{ source }}</p>
+    {% for object in incomes %}
+        <p> Nazwa : {{ object.nazwa }}, Źródło : {{ object.zrodlo }}, Kwota : {{ object.kwota }}, Opis: {{ object.opis }} </p>
+    {% endfor %}
 {% endblock %}
