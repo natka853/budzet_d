@@ -4,34 +4,32 @@
         <h1 class="display-4"><b>Dodaj dochód</b></h1>
     </div>
     <div>
-       <form class="form-group">
-    <form>
+    <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
-            <label for="exampleFormControlInput1">Podaj nazwę dochodu</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nazwa dochodu">
+            <label for="nazwa">Podaj nazwę dochodu</label></br>
+            <input type="text" class="form-control" placeholder="Nazwa dochodu" name="nazwa"/>
         </div>
         <div class="form-group">
-            <label for="exampleFormControlSelect1">Wybierz źródło dochodu</label>
-            <select class="form-control" id="exampleFormControlSelect1">
+            <label for="zrodlo">Wybierz źródło dochodu</label>
+            <select class="form-control" name="zrodlo">
                 {% for object in sources %}
                     <option>{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="exampleFormControlTextarea1">Opis</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Opis dochodu"></textarea>
+            <label for="opis">Opis</label>
+            <textarea class="form-control" rows="3" placeholder="Opis dochodu" name="opis"></textarea>
         </div>
         <div class="form-group">
-            <label for="exampleFormControlInput1">Kwota</label>
+            <label for="kwota">Kwota</label>
              </br>
-            <input type="number" class="float-left" id="quantity" name="quantity" min="1" max="15" placeholder="0.00">
-        </br>
+            <input type="number" class="float-left" name="kwota" min="1" max="15" placeholder="0.00">
             </br>
-             <a class="btn btn-primary btn-lg" role="button">Dodaj</a>
+            </br>
+            <input class="btn btn-primary btn-lg" role="button" type="submit" value="Dodaj"/>
         </div>
     </form>
-       </form>
     </div>
 {% endblock %}
 

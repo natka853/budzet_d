@@ -3,9 +3,11 @@ from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
 from Budzet.models import Kategoria
+from Budzet.forms import ZrodloForm
+from Budzet.forms import KategoriaForm
+from Budzet.forms import DochodForm
 
 
-# Create your views here.
 def home_view(request, *args, **kwargs):
     #  return HttpResponse("<h1>Budżet domowy</h1>")
     return render(request, "home.html", {})
@@ -27,22 +29,34 @@ def podsumowanie(request, *args, **kwargs):
     return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses})
 
 
-def dodajWydatek(request, *args, **kwargs):
+def dodaj_wydatek(request, *args, **kwargs):
     categories = Kategoria.objects.all()
     return render(request, "dodajWydatek.html", {'categories': categories})
 
 
-def dodajPrzychod(request, *args, **kwargs):
+def dodaj_przychod(request, *args, **kwargs):
     sources = Zrodlo.objects.all()
-    return render(request, "dodajPrzychod.html", {'sources': sources})
+    form = DochodForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True)  # zapis do bazy danych
+        form = DochodForm()  # odświeżanie formularza
+    return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
 
 
-def dodajKategorieWydatku(request, *args, **kwargs):
-    return render(request, "dodajKategorieWydatku.html", {})
+def dodaj_kategorie_wydatku(request, *args, **kwargs):
+    form = KategoriaForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True)  # zapis do bazy danych
+        form = KategoriaForm()  # odświeżanie formularza
+    return render(request, "dodajKategorieWydatku.html", {'form': form})
 
 
-def dodajZrodloDochodu(request, *args, **kwargs):
-    return render(request, "dodajZrodloDochodu.html", {})
+def dodaj_zrodlo_dochodu(request, *args, **kwargs):
+    form = ZrodloForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True) #zapis do bazy danych
+        form = ZrodloForm() #odświeżanie formularza
+    return render(request, "dodajZrodloDochodu.html", {'form': form})
 
 
 def logowanie(request, *args, **kwargs):

@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from strony.views import home_view, dochody, wydatki, podsumowanie, dodajWydatek, dodajPrzychod, dodajKategorieWydatku, dodajZrodloDochodu, logowanie, rejestrowanie
+from strony.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, logowanie, rejestrowanie
 
 
 urlpatterns = [
@@ -24,10 +24,10 @@ urlpatterns = [
     path('podsumowanie/', podsumowanie),
     path('dochody/', dochody),
     path('wydatki/', wydatki),
-    path('dodajWydatek/', dodajWydatek),
-    path('dodajPrzychod/', dodajPrzychod),
-    path('dodajKategorieWydatku/', dodajKategorieWydatku),
-    path('dodajZrodloDochodu/', dodajZrodloDochodu),
+    path('dodajWydatek/', dodaj_wydatek),
+    path('dodajPrzychod/', dodaj_przychod),
+    path('dodajKategorieWydatku/', dodaj_kategorie_wydatku),
+    path('dodajZrodloDochodu/', dodaj_zrodlo_dochodu),
     path('logowanie/', logowanie),
     path('rejestrowanie/', rejestrowanie),
     path('admin/', admin.site.urls),

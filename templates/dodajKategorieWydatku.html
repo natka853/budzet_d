@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h1 class="display-4"><b>Moje wydatki</b></h1>
+        <h1 class="display-4"><b>Dodaj kategorię wydatku</b></h1>
     </div>
-    <form>
+    <form method="post"> {% csrf_token %}
         <div class="form-group">
-            <label>Podaj nazwę kategorii</label>
-            <input type="text" class="form-control" placeholder="Nazwa kategorii">
-            </br>
-            <a class="btn btn-primary btn-lg" role="button">Dodaj</a>
+            <label for="nazwa">Podaj nazwę kategorii</label></br>
+            <input type="text" class="form-control" placeholder="Nazwa źródła" name="nazwa"/></br>
+            <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
         </div>
     </form>
 {% endblock %}
