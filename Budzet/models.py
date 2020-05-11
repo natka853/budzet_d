@@ -26,8 +26,7 @@ class Dochod(models.Model):
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-
-    # data = models.DateTimeField('Data')
+    data = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 
     class Meta:
         verbose_name = "Dochod"
@@ -50,12 +49,11 @@ class Wydatek(models.Model):
         return self.nazwa
 
     kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE, null=True)
-
     nazwa = models.CharField(max_length=60)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
 
-    # data = models.DateTimeField('Data')
+    data = models.DateTimeField(default=datetime.datetime.now(), blank=True)
 
     class Meta:
         verbose_name = "Wydatek"
@@ -63,7 +61,7 @@ class Wydatek(models.Model):
 
 
 class Saldo(models.Model):
-    # data = models.DateTimeField('Dzień')
+    data = models.DateTimeField(default=datetime.datetime.now(), blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
 
     class Meta:

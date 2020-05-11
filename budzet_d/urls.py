@@ -18,6 +18,7 @@ from django.urls import path
 
 from strony.views import home_view, dochody, wydatki, podsumowanie, dodajWydatek, dodajPrzychod, dodajKategorieWydatku, dodajZrodloDochodu, logowanie, rejestrowanie
 
+
 urlpatterns = [
     path('', home_view, name='home'),
     path('podsumowanie/', podsumowanie),
