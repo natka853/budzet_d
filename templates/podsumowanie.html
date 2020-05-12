@@ -25,7 +25,7 @@
                         <td>{{ object.nazwa }}</td>
                         <td>{{ object.zrodlo }}</td>
                         <td>{{ object.opis }}</td>
-                        <td style="float: right">+{{ object.kwota }}</td>
+                        <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
                     </tr>
                 {% endfor %}
                 {% for object in expenses %}
@@ -34,7 +34,7 @@
                         <td>{{ object.nazwa }}</td>
                         <td>{{ object.kategoria }}</td>
                         <td>{{ object.opis }}</td>
-                        <td style="float: right">-{{ object.kwota }}</td>
+                        <td style="float: right; color: red">-{{ object.kwota }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>

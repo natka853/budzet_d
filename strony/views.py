@@ -7,6 +7,7 @@ from Budzet.models import Kategoria
 from Budzet.forms import ZrodloForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
+from Budzet.forms import WydatekForm
 from django.contrib.auth.forms import UserCreationForm
 
 
@@ -43,7 +44,11 @@ def kategorie(request, *args, **kwargs):
 
 def dodaj_wydatek(request, *args, **kwargs):
     categories = Kategoria.objects.all()
-    return render(request, "dodajWydatek.html", {'categories': categories})
+    form = WydatekForm(request.POST or None)
+    if form.is_valid():
+        form.save(commit=True)  # zapis do bazy danych
+        form = WydatekForm()  # odświeżanie formularza
+    return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
 
 
 def dodaj_przychod(request, *args, **kwargs):  # TODO pobieranie od użytkownika

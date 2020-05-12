@@ -3,6 +3,7 @@ from django import forms
 from .models import Zrodlo
 from .models import Kategoria
 from .models import Dochod
+from .models import Wydatek
 
 
 class ZrodloForm(forms.ModelForm):
@@ -27,6 +28,17 @@ class DochodForm(forms.ModelForm):
         fields = [
             'nazwa',
             'zrodlo',
+            'opis',
+            'kwota'
+        ]
+
+
+class WydatekForm(forms.ModelForm):
+    class Meta:
+        model = Wydatek
+        fields = [
+            'nazwa',
+            'kategoria',
             'opis',
             'kwota'
         ]
