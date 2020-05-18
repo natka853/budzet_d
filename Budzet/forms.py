@@ -29,7 +29,8 @@ class DochodForm(forms.ModelForm):
             'nazwa',
             'zrodlo',
             'opis',
-            'kwota'
+            'kwota',
+            'data'
         )
 
 
@@ -40,5 +41,6 @@ class WydatekForm(forms.ModelForm):
             'nazwa',
             'kategoria',
             'opis',
-            'kwota'
+            'kwota',
+            'data'
         )

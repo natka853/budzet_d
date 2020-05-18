@@ -63,6 +63,7 @@ def dodaj_wydatek(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
         form = WydatekForm(request.POST or None)
+        print(form.errors)
         if form.is_valid():
             form.save(commit=True)  # zapis do bazy danych
             form = WydatekForm()  # odświeżanie formularza
@@ -75,6 +76,7 @@ def dodaj_przychod(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
         form = DochodForm(request.POST or None)
+        print(form.errors)
         if form.is_valid():
             form.save(commit=True)  # zapis do bazy danych
             form = DochodForm()  # odświeżanie formularza

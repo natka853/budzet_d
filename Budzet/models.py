@@ -21,9 +21,8 @@ class Dochod(models.Model):
     def __str__(self):
         return self.nazwa
 
-    zrodlo = models.ForeignKey(Zrodlo, on_delete=models.CASCADE, null=True)
-
     nazwa = models.CharField(max_length=60)
+    zrodlo = models.ForeignKey(Zrodlo, on_delete=models.CASCADE, null=True)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
     data = models.DateTimeField(default=datetime.now, blank=True)
@@ -50,8 +49,8 @@ class Wydatek(models.Model):
     def __str__(self):
         return self.nazwa
 
-    kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE, null=True)
     nazwa = models.CharField(max_length=60)
+    kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE, null=True)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
     data = models.DateTimeField(default=datetime.now, blank=True)
