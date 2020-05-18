@@ -13,7 +13,7 @@
                 <label for="zrodlo">Wybierz źródło dochodu</label>
                 <select class="form-control" name="zrodlo">
                     {% for object in sources %}
-                        <option>{{ object.nazwa }}</option>
+                        <option value="{{ object.id }}">{{ object.nazwa }}</option>
                     {% endfor %}
                 </select>
             </div>

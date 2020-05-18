@@ -6,25 +6,25 @@
     <div>
         <form method="post" class="form-group"> {% csrf_token %}
             <div class="form-group">
-                <label for="form.nazwa">Podaj nazwę wydatku</label>
-                <input type="text" class="form-control" name="form.nazwa" placeholder="Nazwa wydatku">
+                <label for="nazwa">Podaj nazwę wydatku</label>
+                <input type="text" class="form-control" name="nazwa" placeholder="Nazwa wydatku">
             </div>
             <div class="form-group">
-                <label for="form.kategoria">Wybierz kategorię wydatku</label>
-                <select class="form-control" name="form.kategoria">
+                <label for="kategoria">Wybierz kategorię wydatku</label>
+                <select class="form-control" name="kategoria">
                     {% for object in categories %}
-                        <option>{{ object.nazwa }}</option>
+                        <option value="{{ object.id }}">{{ object.nazwa }}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="form-group">
-                <label for="form.opis">Opis</label>
-                <textarea class="form-control" name="form.opis" rows="3" placeholder="Opis wydatku"></textarea>
+                <label for="opis">Opis</label>
+                <textarea class="form-control" name="opis" rows="3" placeholder="Opis wydatku"></textarea>
             </div>
             <div class="form-group">
-                <label for="form.kwota">Kwota</label>
+                <label for="kwota">Kwota</label>
                 </br>
-                <input type="number" class="float-left" name="form.kwota" min="1" step="0.01" placeholder="0.00">
+                <input type="number" class="float-left" name="kwota" min="1" step="0.01" placeholder="0.00">
             </div>
             </br>
             <div class="form-group">
