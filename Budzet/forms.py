@@ -9,36 +9,36 @@ from .models import Wydatek
 class ZrodloForm(forms.ModelForm):
     class Meta:
         model = Zrodlo
-        fields = [
-            'nazwa'
-        ]
+        fields = (
+            'nazwa',
+        )
 
 
 class KategoriaForm(forms.ModelForm):
     class Meta:
         model = Kategoria
-        fields = [
-            'nazwa'
-        ]
+        fields = (
+            'nazwa',
+        )
 
 
 class DochodForm(forms.ModelForm):
     class Meta:
         model = Dochod
-        fields = [
+        fields = (
             'nazwa',
             'zrodlo',
             'opis',
             'kwota'
-        ]
+        )
 
 
 class WydatekForm(forms.ModelForm):
     class Meta:
         model = Wydatek
-        fields = [
+        fields = (
             'nazwa',
             'kategoria',
             'opis',
             'kwota'
-        ]
+        )
