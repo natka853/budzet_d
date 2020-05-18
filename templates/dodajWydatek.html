@@ -10,24 +10,24 @@
             <input type="text" class="form-control" name="form.nazwa" placeholder="Nazwa wydatku">
         </div>
         <div class="form-group">
-            <label for="kategoria">Wybierz kategorię wydatku</label>
-            <select class="form-control" name="kategoria">
+            <label for="form.kategoria">Wybierz kategorię wydatku</label>
+            <select class="form-control" name="form.kategoria">
                 {% for object in categories %}
                     <option>{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="opis">Opis</label>
-            <textarea class="form-control"name="opis" rows="3" placeholder="Opis wydatku"></textarea>
+            <label for="form.opis">Opis</label>
+            <textarea class="form-control"name="form.opis" rows="3" placeholder="Opis wydatku"></textarea>
         </div>
         <div class="form-group">
-            <label for="kwota">Kwota</label>
+            <label for="form.kwota">Kwota</label>
              </br>
-            <input type="number" class="float-left" name="kwota" min="1" max="15" placeholder="0.00">
+            <input type="number" class="float-left" name="form.kwota" min="1" max="1000" placeholder="0.00">
         </br>
             </br>
-             <a class="btn btn-primary btn-lg" role="button">Dodaj</a>
+             <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
         </div>
     </form>
     </form>
