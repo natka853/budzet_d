@@ -3,8 +3,8 @@
 {% block content %}
     <h1 class="display-4"><b>Dodaj wydatek</b></h1>
     </div>
-    <form>
-        <form>
+    <div>
+        <form method="post" class="form-group"> {% csrf_token %}
             <div class="form-group">
                 <label for="form.nazwa">Podaj nazwę wydatku</label>
                 <input type="text" class="form-control" name="form.nazwa" placeholder="Nazwa wydatku">
@@ -36,5 +36,5 @@
             </br>
             <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
         </form>
-    </form>
+    </div>
 {% endblock %}
