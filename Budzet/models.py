@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Zrodlo(models.Model):
@@ -8,6 +9,8 @@ class Zrodlo(models.Model):
         return self.nazwa
 
     nazwa = models.CharField(max_length=30)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
 
     class Meta:
         verbose_name = "Zrodlo"
@@ -24,6 +27,7 @@ class Dochod(models.Model):
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
     data = models.DateTimeField(default=datetime.now, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
 
     class Meta:
         verbose_name = "Dochod"
@@ -35,6 +39,8 @@ class Kategoria(models.Model):
         return self.nazwa
 
     nazwa = models.CharField(max_length=30)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
 
     class Meta:
         verbose_name = "Kategoria"
@@ -50,16 +56,8 @@ class Wydatek(models.Model):
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
     data = models.DateTimeField(default=datetime.now, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
 
     class Meta:
         verbose_name = "Wydatek"
         verbose_name_plural = "Wydatki"
-
-
-class Saldo(models.Model):
-    data = models.DateTimeField(default=datetime.now, blank=True)
-    kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-
-    class Meta:
-        verbose_name = "Saldo"
-        verbose_name_plural = "Saldo"
