@@ -12,8 +12,10 @@ from django.contrib.auth.forms import UserCreationForm
 
 
 def home_view(request, *args, **kwargs):
-    #  return HttpResponse("<h1>Budżet domowy</h1>")
-    return render(request, "home.html", {})
+    username = ""
+    if request.user.is_authenticated:
+        username = request.user.username
+    return render(request, "home.html", {'username': username})
 
 
 def dochody(request, *args, **kwargs):

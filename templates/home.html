@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <h1 class="display-4"><b>Witaj</b></h1>
-        <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
-        <hr class="my-4">
-        <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
+    <h1 class="display-4"><b>Witaj</b></h1>
+    <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
+    <hr class="my-4">
+    <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
+    {% if user.is_authenticated %}
+        <h4>Witaj {{ username }}!</h4>
+    {% else %}
         <a class="btn btn-primary btn-lg" href="/logowanie" role="button">Zaloguj się</a> &nbsp;
         <a class="btn btn-primary btn-lg" href="/rejestrowanie" role="button">Zarejestruj się</a>
+    {% endif %}
 {% endblock %}
