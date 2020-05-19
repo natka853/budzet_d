@@ -3,52 +3,39 @@
 {% block content %}
     <h1 class="display-4"><b>Dodaj dochód</b></h1>
     </div>
-    <div>
-        <form method="post" class="form-group"> {% csrf_token %}
-            <div>
-                <div class="form-group">
-                    <label for="nazwa">Podaj nazwę dochodu</label></br>
-                    <input type="text" class="form-control" placeholder="Nazwa dochodu" name="nazwa"/>
-                </div>
-                <div class="form-group">
-                    <label for="zrodlo">Wybierz źródło dochodu</label>
-                    <select class="form-control" name="zrodlo">
-                        {% for object in sources %}
-                            <option value="{{ object.id }}">{{ object.nazwa }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="opis">Opis</label>
-                    <textarea class="form-control" rows="3" placeholder="Opis dochodu" name="opis"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="kwota">Kwota</label>
-                    </br>
-                    <input type="number" class="float-left" name="kwota" min="0" step="0.01" placeholder="0.00">
-                </div>
-                </br>
-                <div class="form-group">
-                    <label for="data">Data</label>
-                    </br>
-                    <input type="date">
-                </div>
-                </br>
-                </br>
-            </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-2">
-                        <input class="btn btn-primary btn-lg" role="button" type="submit" value="Dodaj"/>
-                    </div>
-                    <div class="col">
-                        <a role="button" class="btn btn-primary btn-lg"
-                           href="/podsumowanie">Anuluj</a>
-                    </div>
-                </div>
-            </div>
 
-        </form>
-    </div>
+    <form method="post" class="form-group"> {% csrf_token %}
+        <div class="form-group">
+            <label for="nazwa">Podaj nazwę dochodu</label></br>
+            <input type="text" class="form-control" placeholder="Nazwa dochodu" name="nazwa"/>
+        </div>
+        <div class="form-group">
+            <label for="zrodlo">Wybierz źródło dochodu</label>
+            <select class="form-control" name="zrodlo">
+                {% for object in sources %}
+                    <option value="{{ object.id }}">{{ object.nazwa }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="opis">Opis</label>
+            <textarea class="form-control" rows="3" placeholder="Opis dochodu" name="opis"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="kwota">Kwota</label>
+            </br>
+            <input type="number" class="float-left" name="kwota" min="0" step="0.01" placeholder="0.00">
+        </div>
+        </br>
+        <div class="form-group">
+            <label for="data">Data</label>
+            </br>
+            <input type="date">
+        </div>
+        </br>
+
+        <input class="btn btn-primary btn-lg" role="button" type="submit" value="Dodaj"/>
+        <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
+    </form>
 {% endblock %}
 
