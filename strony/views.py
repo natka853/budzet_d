@@ -23,7 +23,7 @@ def dochody(request, *args, **kwargs):
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
         return render(request, "dochody.html", {'incomes': incomes})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def wydatki(request, *args, **kwargs):
@@ -31,7 +31,7 @@ def wydatki(request, *args, **kwargs):
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
         return render(request, "wydatki.html", {'expenses': expenses})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def podsumowanie(request, *args, **kwargs):
@@ -40,7 +40,7 @@ def podsumowanie(request, *args, **kwargs):
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def zrodla(request, *args, **kwargs):
@@ -48,7 +48,7 @@ def zrodla(request, *args, **kwargs):
         sources = Zrodlo.objects.filter(user=request.user.id)
         return render(request, "zrodla.html", {'sources': sources})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def kategorie(request, *args, **kwargs):
@@ -56,7 +56,7 @@ def kategorie(request, *args, **kwargs):
         categories = Kategoria.objects.filter(user=request.user.id)
         return render(request, "kategorie.html", {'categories': categories})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def dodaj_wydatek(request, *args, **kwargs):
@@ -69,7 +69,7 @@ def dodaj_wydatek(request, *args, **kwargs):
             form = WydatekForm()  # odświeżanie formularza
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def dodaj_przychod(request, *args, **kwargs):
@@ -82,7 +82,7 @@ def dodaj_przychod(request, *args, **kwargs):
             form = DochodForm()  # odświeżanie formularza
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def dodaj_kategorie_wydatku(request, *args, **kwargs):
@@ -95,7 +95,7 @@ def dodaj_kategorie_wydatku(request, *args, **kwargs):
             form = KategoriaForm()  # odświeżanie formularza
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def dodaj_zrodlo_dochodu(request, *args, **kwargs):
@@ -108,7 +108,7 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
             form = ZrodloForm()  # odświeżanie formularza
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
-        return redirect('home')
+        return render(request, "unlogged.html", {})
 
 
 def logowanie(request, *args, **kwargs):
