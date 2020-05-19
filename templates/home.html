@@ -6,9 +6,12 @@
     <hr class="my-4">
     {% if user.is_authenticated %}
         <h4>Witaj {{ username }}!</h4>
+        </br>
+        <a class="btn btn-primary btn-lg" href="/podsumowanie" role="button">Przejdź do podsumowania</a>
     {% else %}
         <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
         <a class="btn btn-primary btn-lg" href="/logowanie" role="button">Zaloguj się</a> &nbsp;
         <a class="btn btn-primary btn-lg" href="/rejestrowanie" role="button">Zarejestruj się</a>
+
     {% endif %}
 {% endblock %}
