@@ -89,7 +89,9 @@ def dodaj_kategorie_wydatku(request, *args, **kwargs):
     if request.user.is_authenticated:
         form = KategoriaForm(request.POST or None)
         if form.is_valid():
-            form.save(commit=True)  # zapis do bazy danych
+            us = form.save(commit=False)  # zapis obiektu
+            us.user = request.user  # ustawienie użytkownika na zalogowanego
+            us.save()  # zapis do bazy
             form = KategoriaForm()  # odświeżanie formularza
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
@@ -100,7 +102,9 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
     if request.user.is_authenticated:
         form = ZrodloForm(request.POST or None)
         if form.is_valid():
-            form.save(commit=True)  # zapis do bazy danych
+            us = form.save(commit=False)  # zapis obiektu
+            us.user = request.user  # ustawienie użytkownika na zalogowanego
+            us.save()
             form = ZrodloForm()  # odświeżanie formularza
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:

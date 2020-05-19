@@ -10,7 +10,7 @@ class Zrodlo(models.Model):
 
     nazwa = models.CharField(max_length=30)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = "Zrodlo"
@@ -38,7 +38,7 @@ class Kategoria(models.Model):
 
     nazwa = models.CharField(max_length=30)
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, default=1)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
 
     class Meta:
         verbose_name = "Kategoria"
@@ -50,7 +50,7 @@ class Wydatek(models.Model):
         return self.nazwa
 
     nazwa = models.CharField(max_length=60)
-    kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE, null=True)
+    kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
     data = models.DateTimeField(default=datetime.now, blank=True)
