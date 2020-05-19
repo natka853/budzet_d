@@ -17,7 +17,8 @@ from django.contrib import admin
 from django.urls import path
 
 from strony.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
-    dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, logowanie, rejestrowanie, zrodla, kategorie
+    dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, logowanie, rejestrowanie, zrodla, kategorie, edytuj_zrodlo_dochodu, \
+    edytuj_kategorie_wydatku
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -29,7 +30,9 @@ urlpatterns = [
     path('dodajWydatek/', dodaj_wydatek),
     path('dodajPrzychod/', dodaj_przychod),
     path('dodajKategorieWydatku/', dodaj_kategorie_wydatku),
+    path('edytujKategorieWydatku/', edytuj_kategorie_wydatku),
     path('dodajZrodloDochodu/', dodaj_zrodlo_dochodu),
+    path('edytujZrodloDochodu/', edytuj_zrodlo_dochodu),
     path('logowanie/', logowanie),
     path('rejestrowanie/', rejestrowanie),
     path('admin/', admin.site.urls),

@@ -111,6 +111,30 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
+def edytuj_kategorie_wydatku(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        form = KategoriaForm(request.POST or None)
+        if form.is_valid():
+            us = form.save(commit=False)  # zapis obiektu
+            us.user = request.user  # ustawienie użytkownika na zalogowanego
+            # TODO
+        return render(request, "edytujKategorieWydatku.html", {'form': form})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def edytuj_zrodlo_dochodu(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        form = ZrodloForm(request.POST or None)
+        if form.is_valid():
+            us = form.save(commit=False)  # zapis obiektu
+            us.user = request.user  # ustawienie użytkownika na zalogowanego
+            # TODO
+        return render(request, "edytujZrodloDochodu.html", {'form': form})
+    else:
+        return render(request, "unlogged.html", {})
+
+
 def logowanie(request, *args, **kwargs):
     return render(request, "logowanie.html", {})
 
