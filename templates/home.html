@@ -5,7 +5,7 @@
     <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
     <hr class="my-4">
     {% if user.is_authenticated %}
-        <h4>Witaj {{ username }}!</h4>
+        <h4>Witaj {{ username }}!</h4> <a class="btn btn-primary btn-lg" href="/logout/">Wyloguj się</a>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Podsumowanie</a>
         </br>
     {% else %}

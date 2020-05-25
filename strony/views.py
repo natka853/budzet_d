@@ -1,4 +1,5 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
@@ -151,3 +152,7 @@ def rejestrowanie(request, *args, **kwargs):
     else:
         form = UserCreationForm()
     return render(request, "rejestrowanie.html", {'form': form})
+
+def logout_page(request):
+    logout(request)
+    return HttpResponseRedirect("/")
