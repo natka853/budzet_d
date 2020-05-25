@@ -5,6 +5,10 @@ from .models import Kategoria
 from .models import Dochod
 from .models import Wydatek
 
+from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
 
 class ZrodloForm(forms.ModelForm):
     class Meta:
@@ -44,3 +48,15 @@ class WydatekForm(forms.ModelForm):
             'kwota',
             'data'
         )
+
+
+class UserRegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ('username',
+                  'email',
+                  'password1',
+                  'password2'
+                  )

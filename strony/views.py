@@ -10,6 +10,9 @@ from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
 from Budzet.forms import WydatekForm
 from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from .forms import UserRegisterForm
 
 
 def home_view(request, *args, **kwargs):
@@ -153,6 +156,28 @@ def rejestrowanie(request, *args, **kwargs):
         form = UserCreationForm()
     return render(request, "rejestrowanie.html", {'form': form})
 
+
 def logout_page(request):
     logout(request)
     return HttpResponseRedirect("/")
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            ###W TYM MIEJSCU MOZNA COS TAM POROBIC
+            ###U NAS NP. PO REJESTRACJI TWORZYMY NOWEGO UZYTKOWNIKOWI FOLDER NA SERWERZE
+            ###UZYWAJAC WPISANEGO USERNAME'A
+            # username = form.cleaned_data.get('username')
+            # user = User.objects.filter(username=username).first()
+            # directory = Directory(directoryName = username + "_root", owner = user)
+            # disk = Disk(mainDirectory = directory, owner = user, maxSize = 31457280)
+            # os.mkdir( settings.MEDIA_ROOT + "\\" + directory.directoryName)
+            # directory.save()
+            # disk.save()
+            return redirect('home')  # powrot do strony glownej
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
