@@ -28,9 +28,12 @@
                         <td>{{ object.zrodlo }}</td>
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
-                        <td><a title="Edytuj dochód" href="/edytujDochod">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg">
-                        </a></td>
+                        <td><a title="Edytuj dochód" href="/{{ object.id }}/edytujDochod">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń dochód" href="/{{ object.id }}/usunietoDochod"
+                           onclick="return confirm('Czy na pewno chcesz usunąć wybrany dochód?')">
+                            <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                        </td>
                     </tr>
                 {% endfor %}
                 {% for object in expenses %}
@@ -40,9 +43,12 @@
                         <td>{{ object.kategoria }}</td>
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: red">-{{ object.kwota }}</td>
-                        <td><a title="Edytuj wydatek" href="/edytujWydatek">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg">
-                        </a></td>
+                        <td><a title="Edytuj wydatek" href="/{{ object.id }}/edytujWydatek">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń wydatek" href="/{{ object.id }}/usunietoWydatek"
+                           onclick="return confirm('Czy na pewno chcesz usunąć wybrany wydatek?')">
+                            <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                        </td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -50,12 +56,12 @@
         </div>
         <div class="col-sm">
             <div class="btn-group-vertical btn-group-sm">
-                <a role="button" class="btn btn-light" href="/dodajPrzychod">Dodaj przychód</a>
+                <a role="button" class="btn btn-light" href="/dodajPrzychod">Dodaj dochód</a>
                 <a role="button" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>
                 <a role="button" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj kategorię wydatku</a>
                 <a role="button" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj źródło dochodu</a>
-                <a role="button" class="btn btn-light" href="/edytujKategorieWydatku">Edytuj kategorię wydatku</a>
-                <a role="button" class="btn btn-light" href="/edytujZrodloDochodu">Edytuj źródło dochodu</a>
+                <a role="button" class="btn btn-light" href="/kategorie">Zarządzaj kategoriami</a>
+                <a role="button" class="btn btn-light" href="/zrodla">Zarządzaj źródłami</a>
             </div>
         </div>
     </div>

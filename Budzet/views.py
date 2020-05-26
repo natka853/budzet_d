@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.utils.datetime_safe import datetime
 
@@ -6,7 +7,7 @@ from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
 from Budzet.models import Kategoria
-from Budzet.forms import ZrodloForm, EditCategoryForm, EditSourceForm, EditIncomeForm, EditExpenseForm
+from Budzet.forms import ZrodloForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
 from Budzet.forms import WydatekForm
@@ -53,7 +54,7 @@ def podsumowanie(request, *args, **kwargs):
         expenses_sum = Wydatek.objects.filter(kategoria__user=request.user.id).aggregate(Sum('kwota'))
         if expenses_sum['kwota__sum'] is None:
             expenses_sum['kwota__sum'] = 0.00
-        saldo = round(incomes_sum['kwota__sum'] - expenses_sum['kwota__sum'], 2)
+        saldo = round(float(incomes_sum['kwota__sum']) - float(expenses_sum['kwota__sum']), 2)
         today = datetime.today()
         today_incomes = Dochod.objects.filter(zrodlo__user=request.user.id, data__year=today.year,
                                               data__month=today.month, data__day=today.day).aggregate(Sum('kwota'))
@@ -142,54 +143,93 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def edytuj_kategorie_wydatku(request, *args, **kwargs):
+def edytuj_kategorie_wydatku(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditCategoryForm(request.POST or None)
-        categories = Kategoria.objects.filter(user=request.user.id)
+        category = Kategoria.objects.get(id=nr)
         if form.is_valid():
-            nazwa = form.cleaned_data.get('nazwa')
-            category = Kategoria.objects.get(user=request.user.id, nazwa=nazwa)
-            category.nazwa = form.cleaned_data.get('name')
+            category.nazwa = form.cleaned_data.get('nazwa')
             category.save()
             form = EditCategoryForm()
-        return render(request, "edytujKategorieWydatku.html", {'form': form, 'categories': categories})
+        return render(request, "edytujKategorieWydatku.html", {'form': form, 'category': category})
     else:
         return render(request, "unlogged.html", {})
 
 
-def edytuj_zrodlo_dochodu(request, *args, **kwargs):
+def edytuj_zrodlo_dochodu(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditSourceForm(request.POST or None)
-        sources = Zrodlo.objects.filter(user=request.user.id)
+        source = Zrodlo.objects.get(id=nr)
         if form.is_valid():
-            nazwa = form.cleaned_data.get('nazwa')
-            source = Zrodlo.objects.get(user=request.user.id, nazwa=nazwa)
-            source.nazwa = form.cleaned_data.get('name')
+            source.nazwa = form.cleaned_data.get('nazwa')
             source.save()
             form = EditSourceForm()
-        return render(request, "edytujZrodloDochodu.html", {'form': form, 'sources': sources})
+        return render(request, "edytujZrodloDochodu.html", {'form': form, 'source': source})
     else:
         return render(request, "unlogged.html", {})
 
 
-def edit_income(request, *args, **kwargs):
+def edit_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditIncomeForm()
+        income = Dochod.objects.get(id=nr)
         sources = Zrodlo.objects.filter(user=request.user.id)
         if form.is_valid():
+            income.nazwa = form.cleaned_data.get('nazwa')
+            income.save()
             form = EditIncomeForm()
-        return render(request, "edytujDochod.html", {'form': form, 'source': sources})
+        return render(request, "edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
     else:
         return render(request, "unlogged.html", {})
 
 
-def edit_expense(request, *args, **kwargs):
+def delete_expense(request, nr, *args, **kwargs):
+    if request.user.is_authenticated:
+        Wydatek.objects.get(id=nr).delete()
+        return render(request, "usunietoWydatek.html", {})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def delete_income(request, nr, *args, **kwargs):
+    if request.user.is_authenticated:
+        Dochod.objects.get(id=nr).delete()
+        return render(request, "usunietoDochod.html", {})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def delete_category(request, nr, *args, **kwargs):
+    if request.user.is_authenticated:
+        Kategoria.objects.get(id=nr).delete()
+        return render(request, "usunietoKategorie.html", {})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def delete_source(request, nr, *args, **kwargs):
+    if request.user.is_authenticated:
+        Zrodlo.objects.get(id=nr).delete()
+        return render(request, "usunietoKategorie.html", {})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def delete_account(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        User.objects.get(id=request.user.id).delete()
+        return render(request, "usunKonto.html", {})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def edit_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditExpenseForm()
         categories = Kategoria.objects.filter(user=request.user.id)
         if form.is_valid():
             form = EditExpenseForm()
-        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories})
+        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'nr': nr})
     else:
         return render(request, "unlogged.html", {})
 

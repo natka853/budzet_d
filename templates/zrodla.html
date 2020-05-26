@@ -8,12 +8,20 @@
         <thead>
         <tr>
             <th scope="col">Nazwa</th>
+            <th scope="col">Akcje</th>
         </tr>
         </thead>
         <tbody>
             {% for object in sources %}
                 <tr>
                     <td>{{ object.nazwa }}</td>
+                    <td><a title="Edytuj źródło" href="/{{ object.id }}/edytujZrodloDochodu">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń źródło" href="/{{ object.id }}/usunietoZrodlo"
+                           onclick="return confirm('Czy na pewno chcesz usunąć wybrane źródło?' +
+                            '\nSpowoduje to usunięcie wszystkich powiązanych z nim dochodów!')">
+                            <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -8,12 +8,20 @@
         <thead>
         <tr>
             <th scope="col">Nazwa</th>
+            <th scope="col">Akcje</th>
         </tr>
         </thead>
         <tbody>
             {% for object in categories %}
                 <tr>
                     <td>{{ object.nazwa }}</td>
+                    <td><a title="Edytuj kategorię" href="/{{ object.id }}/edytujKategorieWydatku">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń kategorię" href="/{{ object.id }}/usunietoKategorie"
+                           onclick="return confirm('Czy na pewno chcesz usunąć wybraną kategorię?\n' +
+                            'Spowoduje to usunięcie wszystkich powiązanych z nią wydatków!')">
+                            <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

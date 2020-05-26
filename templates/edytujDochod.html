@@ -7,9 +7,10 @@
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
             <label for="nazwa">Podaj nazwę dochodu</label></br>
-            <input type="text" class="form-control" placeholder="Nazwa dochodu" name="nazwa"/>
+            <input type="text" class="form-control" placeholder="{{ income.nazwa }}" name="nazwa"/>
         </div>
         <div class="form-group">
+            <p>{{ income.zrodlo }}</p>
             <label for="zrodlo">Wybierz źródło dochodu</label>
             <select class="form-control" name="zrodlo">
                 {% for object in sources %}
@@ -21,12 +22,12 @@
         </div>
         <div class="form-group">
             <label for="opis">Opis</label>
-            <textarea class="form-control" rows="3" placeholder="Opis dochodu" name="opis"></textarea>
+            <textarea class="form-control" rows="3" placeholder="{{ income.opis }}" name="opis"></textarea>
         </div>
         <div class="form-group">
             <label for="kwota">Kwota</label>
             </br>
-            <input type="number" class="float-left" name="kwota" min="0" step="0.01" placeholder="0.00">
+            <input type="number" class="float-left" name="kwota" min="0" step="0.01" placeholder="{{ income.kwota }}">
         </div>
         </br>
         <div class="form-group">
@@ -36,7 +37,7 @@
         </div>
         </br>
 
-        <input class="btn btn-primary btn-lg" role="button" type="submit" value="Dodaj"/>
+        <input class="btn btn-primary btn-lg" role="button" type="submit" value="Zatwierdź"/>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
     </form>
 {% endblock %}

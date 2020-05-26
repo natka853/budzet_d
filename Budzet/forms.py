@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import CharField
 
 from .models import Zrodlo
 from .models import Kategoria
@@ -63,32 +64,21 @@ class UserRegisterForm(UserCreationForm):
 
 
 class EditCategoryForm(forms.ModelForm):
-    name = forms.CharField()
-
     class Meta:
         model = Kategoria
-        fields = ('nazwa', )
+        fields = ('nazwa',)
 
 
 class EditSourceForm(forms.ModelForm):
-    name = forms.CharField()
-
     class Meta:
         model = Zrodlo
-        fields = ('nazwa', )
+        fields = ('nazwa',)
 
 
 class EditIncomeForm(forms.ModelForm):
-    name = forms.CharField()
-
     class Meta:
         model = Dochod
-        fields = (
-            'nazwa',
-            'zrodlo',
-            'opis',
-            'data'
-        )
+        fields = ('nazwa', 'zrodlo')
 
 
 class EditExpenseForm(forms.ModelForm):

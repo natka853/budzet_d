@@ -6,20 +6,12 @@
 
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
-            <label for="nazwa">Wybierz kategorię wydatku</label>
-            <select class="form-control" name="nazwa">
-                {% for object in categories %}
-                    <option value="{{ object.nazwa }}">{{ object.nazwa }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="name">Podaj nową nazwę</label>
-            <input type="text" class="form-control" name="name" placeholder="Nazwa wydatku">
+            <label for="nazwa">Podaj nową nazwę</label>
+            <input type="text" class="form-control" name="nazwa" placeholder="{{ category.nazwa}}">
         </div>
         </br>
 
-        <input type="submit" value="Zmień" role="button" class="btn btn-primary btn-lg"/>
-        <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
+        <input type="submit" value="Zatwierdź" role="button" class="btn btn-primary btn-lg"/>
+        <a role="button" class="btn btn-primary btn-lg" href="/kategorie">Anuluj</a>
     </form>
 {% endblock %}

@@ -7,6 +7,7 @@
     {% if user.is_authenticated %}
         <h4>Witaj {{ username }}!</h4> <a class="btn btn-primary btn-lg" href="/logout/">Wyloguj się</a>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Podsumowanie</a>
+        <a class="btn btn-lg" href="/usunietoKonto" role="button" style="background: orangered">Usuń konto</a>
         </br>
     {% else %}
         <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>

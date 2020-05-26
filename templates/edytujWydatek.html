@@ -2,6 +2,7 @@
 
 {% block content %}
     <h1 class="display-4"><b>Edytuj wydatek</b></h1>
+    <h3>{{ nr }}</h3>
     </div>
 
     <form method="post" class="form-group"> {% csrf_token %}
@@ -37,7 +38,7 @@
         </div>
         </br>
 
-        <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
+        <input type="submit" value="Zatwierdź" role="button" class="btn btn-primary btn-lg"/>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
     </form>
 {% endblock %}
