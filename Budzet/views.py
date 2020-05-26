@@ -52,10 +52,14 @@ def podsumowanie(request, *args, **kwargs):
         incomes_sum = Dochod.objects.filter(zrodlo__user=request.user.id).aggregate(Sum('kwota'))
         if incomes_sum['kwota__sum'] is None:
             incomes_sum['kwota__sum'] = 0.00
+        else:
+            incomes_sum['kwota__sum'] = round(incomes_sum['kwota__sum'], 2)
         expenses_sum = Wydatek.objects.filter(kategoria__user=request.user.id).aggregate(Sum('kwota'))
         if expenses_sum['kwota__sum'] is None:
             expenses_sum['kwota__sum'] = 0.00
-        saldo = round(incomes_sum['kwota__sum'] - expenses_sum['kwota__sum'], 2)
+        else:
+            expenses_sum['kwota__sum'] = round(expenses_sum['kwota__sum'], 2)
+        saldo = incomes_sum['kwota__sum'] - expenses_sum['kwota__sum']
         today = datetime.today()
         today_incomes = Dochod.objects.filter(zrodlo__user=request.user.id, data__year=today.year,
                                               data__month=today.month, data__day=today.day).aggregate(Sum('kwota'))
