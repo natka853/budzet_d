@@ -6,16 +6,16 @@
 
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
-            <label for="kategoria">Wybierz kategorię wydatku</label>
-            <select class="form-control" name="kategoria">
+            <label for="nazwa">Wybierz kategorię wydatku</label>
+            <select class="form-control" name="nazwa">
                 {% for object in categories %}
-                    <option value="{{ object.id }}">{{ object.nazwa }}</option>
+                    <option value="{{ object.nazwa }}">{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
         </div>
         <div class="form-group">
-            <label for="nazwa">Podaj nową nazwę</label>
-            <input type="text" class="form-control" name="nazwa" placeholder="Nazwa wydatku">
+            <label for="name">Podaj nową nazwę</label>
+            <input type="text" class="form-control" name="name" placeholder="Nazwa wydatku">
         </div>
         </br>
 

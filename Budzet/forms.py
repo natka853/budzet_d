@@ -68,3 +68,11 @@ class EditCategoryForm(forms.ModelForm):
     class Meta:
         model = Kategoria
         fields = ('nazwa', )
+
+
+class EditSourceForm(forms.ModelForm):
+    name = forms.CharField()
+
+    class Meta:
+        model = Zrodlo
+        fields = ('nazwa', )

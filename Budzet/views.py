@@ -1,19 +1,17 @@
 from django.contrib.auth import authenticate, login
 from django.db.models import Sum
-from django.http import HttpResponseRedirect
 from django.utils.datetime_safe import datetime
 
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
 from Budzet.models import Kategoria
-from Budzet.forms import ZrodloForm, EditCategoryForm
+from Budzet.forms import ZrodloForm, EditCategoryForm, EditSourceForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
 from Budzet.forms import WydatekForm
 from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 
 
@@ -52,14 +50,10 @@ def podsumowanie(request, *args, **kwargs):
         incomes_sum = Dochod.objects.filter(zrodlo__user=request.user.id).aggregate(Sum('kwota'))
         if incomes_sum['kwota__sum'] is None:
             incomes_sum['kwota__sum'] = 0.00
-        else:
-            incomes_sum['kwota__sum'] = round(incomes_sum['kwota__sum'], 2)
         expenses_sum = Wydatek.objects.filter(kategoria__user=request.user.id).aggregate(Sum('kwota'))
         if expenses_sum['kwota__sum'] is None:
             expenses_sum['kwota__sum'] = 0.00
-        else:
-            expenses_sum['kwota__sum'] = round(expenses_sum['kwota__sum'], 2)
-        saldo = incomes_sum['kwota__sum'] - expenses_sum['kwota__sum']
+        saldo = round(incomes_sum['kwota__sum'] - expenses_sum['kwota__sum'], 2)
         today = datetime.today()
         today_incomes = Dochod.objects.filter(zrodlo__user=request.user.id, data__year=today.year,
                                               data__month=today.month, data__day=today.day).aggregate(Sum('kwota'))
@@ -153,14 +147,11 @@ def edytuj_kategorie_wydatku(request, *args, **kwargs):
         form = EditCategoryForm(request.POST or None)
         categories = Kategoria.objects.filter(user=request.user.id)
         if form.is_valid():
-            us = form.save(commit=False)  # zapis obiektu
-            us.user = request.user  # ustawienie użytkownika na zalogowanego #TODO
             nazwa = form.cleaned_data.get('nazwa')
             category = Kategoria.objects.get(user=request.user.id, nazwa=nazwa)
-            name = form.cleaned_data.get('name')
-            category.nazwa = name
-            us.save(commit=True)
-            form.EditCategoryForm()
+            category.nazwa = form.cleaned_data.get('name')
+            category.save()
+            form = EditCategoryForm()
         return render(request, "edytujKategorieWydatku.html", {'form': form, 'categories': categories})
     else:
         return render(request, "unlogged.html", {})
@@ -168,12 +159,15 @@ def edytuj_kategorie_wydatku(request, *args, **kwargs):
 
 def edytuj_zrodlo_dochodu(request, *args, **kwargs):
     if request.user.is_authenticated:
-        form = ZrodloForm(request.POST or None)
+        form = EditSourceForm(request.POST or None)
+        sources = Zrodlo.objects.filter(user=request.user.id)
         if form.is_valid():
-            us = form.save(commit=False)  # zapis obiektu
-            us.user = request.user  # ustawienie użytkownika na zalogowanego
-            # TODO
-        return render(request, "edytujZrodloDochodu.html", {'form': form})
+            nazwa = form.cleaned_data.get('nazwa')
+            source = Zrodlo.objects.get(user=request.user.id, nazwa=nazwa)
+            source.nazwa = form.cleaned_data.get('name')
+            source.save()
+            form = EditSourceForm()
+        return render(request, "edytujZrodloDochodu.html", {'form': form, 'sources': sources})
     else:
         return render(request, "unlogged.html", {})
 
