@@ -6,7 +6,7 @@ from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
 from Budzet.models import Kategoria
-from Budzet.forms import ZrodloForm, EditCategoryForm, EditSourceForm
+from Budzet.forms import ZrodloForm, EditCategoryForm, EditSourceForm, EditIncomeForm, EditExpenseForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
 from Budzet.forms import WydatekForm
@@ -168,6 +168,28 @@ def edytuj_zrodlo_dochodu(request, *args, **kwargs):
             source.save()
             form = EditSourceForm()
         return render(request, "edytujZrodloDochodu.html", {'form': form, 'sources': sources})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def edit_income(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        form = EditIncomeForm()
+        sources = Zrodlo.objects.filter(user=request.user.id)
+        if form.is_valid():
+            form = EditIncomeForm()
+        return render(request, "edytujDochod.html", {'form': form, 'source': sources})
+    else:
+        return render(request, "unlogged.html", {})
+
+
+def edit_expense(request, *args, **kwargs):
+    if request.user.is_authenticated:
+        form = EditExpenseForm()
+        categories = Kategoria.objects.filter(user=request.user.id)
+        if form.is_valid():
+            form = EditExpenseForm()
+        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories})
     else:
         return render(request, "unlogged.html", {})
 

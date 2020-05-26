@@ -76,3 +76,29 @@ class EditSourceForm(forms.ModelForm):
     class Meta:
         model = Zrodlo
         fields = ('nazwa', )
+
+
+class EditIncomeForm(forms.ModelForm):
+    name = forms.CharField()
+
+    class Meta:
+        model = Dochod
+        fields = (
+            'nazwa',
+            'zrodlo',
+            'opis',
+            'data'
+        )
+
+
+class EditExpenseForm(forms.ModelForm):
+    name = forms.CharField()
+
+    class Meta:
+        model = Wydatek
+        fields = (
+            'nazwa',
+            'kategoria',
+            'opis',
+            'data'
+        )

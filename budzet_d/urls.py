@@ -14,14 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.views.generic import TemplateView
 
 from Budzet.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
     dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, logowanie, rejestrowanie, zrodla, kategorie, edytuj_zrodlo_dochodu, \
-    edytuj_kategorie_wydatku, register, register_success
+    edytuj_kategorie_wydatku, register, register_success, edit_income, edit_expense
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -39,11 +37,14 @@ urlpatterns = [
     path('logowanie/', logowanie),
     path('rejestrowanie/', rejestrowanie),
     path('admin/', admin.site.urls),
-   # path('logout/', logout_page),
+    path('edytujDochod/', edit_income),
+    path('edytujWydatek/', edit_expense),
+    # path('logout/', logout_page),
     path('register/', register),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
-   # path('register_success/', TemplateView.as_view(template_name='users/register_success.html'), name='register_success'),
-    path('register_success/', register_success) #to nie wiem czy jest dobrze - możliwe do zmiany
+    # path('register_success/', TemplateView.as_view(template_name='users/register_success.html'),
+    # name='register_success'),
+    path('register_success/', register_success)  # to nie wiem czy jest dobrze - możliwe do zmiany
 ]

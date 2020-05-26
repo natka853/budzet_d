@@ -17,25 +17,32 @@
                     <th scope="col">Źródło/Kategoria</th>
                     <th scope="col">Opis</th>
                     <th scope="col">Kwota</th>
+                    <th scope="col">Akcje</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for object in incomes %}
                     <tr>
-                        <td>{{ object.data }}</td>
+                        <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
                         <td>{{ object.nazwa }}</td>
                         <td>{{ object.zrodlo }}</td>
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
+                        <td><a title="Edytuj dochód" href="/edytujDochod">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg">
+                        </a></td>
                     </tr>
                 {% endfor %}
                 {% for object in expenses %}
                     <tr>
-                        <td>{{ object.data }}</td>
+                        <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
                         <td>{{ object.nazwa }}</td>
                         <td>{{ object.kategoria }}</td>
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: red">-{{ object.kwota }}</td>
+                        <td><a title="Edytuj wydatek" href="/edytujWydatek">
+                            <img alt="Change" src="/static/admin/img/icon-changelink.svg">
+                        </a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
