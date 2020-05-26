@@ -2,12 +2,13 @@
 
 {% block content %}
     <h1 class="display-4">SALDO</h1>
-    <p class="lead">Dzisiejsze dochody: {{ today_incomes }} zł oraz wydatki: {{ today_expenses }} zł </p>
+    <p class="lead">Twoje saldo: {{ saldo }} zł</br>Dzisiejsze dochody: {{ today_incomes }} zł</br>
+        Dzisiejsze wydatki: {{ today_expenses }} zł </p>
     </div>
 
     <div class="row">
         <div class="col-9">
-            <h3> Twoje saldo: {{ saldo }}zł </h3>
+            <h4> Historia </h4>
             <table class="table">
                 <thead>
                 <tr>

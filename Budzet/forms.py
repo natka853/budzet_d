@@ -60,3 +60,11 @@ class UserRegisterForm(UserCreationForm):
                   'password1',
                   'password2'
                   )
+
+
+class EditCategoryForm(forms.ModelForm):
+    name = forms.CharField()
+
+    class Meta:
+        model = Kategoria
+        fields = ('nazwa', )

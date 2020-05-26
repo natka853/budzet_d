@@ -7,7 +7,7 @@ from Budzet.models import Dochod
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
 from Budzet.models import Kategoria
-from Budzet.forms import ZrodloForm
+from Budzet.forms import ZrodloForm, EditCategoryForm
 from Budzet.forms import KategoriaForm
 from Budzet.forms import DochodForm
 from Budzet.forms import WydatekForm
@@ -146,12 +146,18 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
 
 def edytuj_kategorie_wydatku(request, *args, **kwargs):
     if request.user.is_authenticated:
-        form = KategoriaForm(request.POST or None)
+        form = EditCategoryForm(request.POST or None)
+        categories = Kategoria.objects.filter(user=request.user.id)
         if form.is_valid():
             us = form.save(commit=False)  # zapis obiektu
-            us.user = request.user  # ustawienie użytkownika na zalogowanego
-            # TODO
-        return render(request, "edytujKategorieWydatku.html", {'form': form})
+            us.user = request.user  # ustawienie użytkownika na zalogowanego #TODO
+            nazwa = form.cleaned_data.get('nazwa')
+            category = Kategoria.objects.get(user=request.user.id, nazwa=nazwa)
+            name = form.cleaned_data.get('name')
+            category.nazwa = name
+            us.save(commit=True)
+            form.EditCategoryForm()
+        return render(request, "edytujKategorieWydatku.html", {'form': form, 'categories': categories})
     else:
         return render(request, "unlogged.html", {})
 
