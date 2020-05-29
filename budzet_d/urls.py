@@ -18,7 +18,7 @@ from django.urls import path
 from django.contrib.auth import views as auth_views
 
 from Budzet.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
-    dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, logowanie, rejestrowanie, zrodla, kategorie, edytuj_zrodlo_dochodu, \
+    dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, zrodla, kategorie, edytuj_zrodlo_dochodu, \
     edytuj_kategorie_wydatku, register, register_success, edit_income, edit_expense, delete_expense, delete_income, \
     delete_category, delete_source, delete_account
 
@@ -35,8 +35,6 @@ urlpatterns = [
     path('<int:nr>/edytujKategorieWydatku/', edytuj_kategorie_wydatku),
     path('dodajZrodloDochodu/', dodaj_zrodlo_dochodu),
     path('<int:nr>/edytujZrodloDochodu/', edytuj_zrodlo_dochodu),
-    path('logowanie/', logowanie),
-    path('rejestrowanie/', rejestrowanie),
     path('admin/', admin.site.urls),
     path('<int:nr>/edytujDochod/', edit_income),
     path('<int:nr>/edytujWydatek/', edit_expense),
@@ -45,12 +43,9 @@ urlpatterns = [
     path('<int:nr>/usunietoKategorie/', delete_category),
     path('<int:nr>/usunietoZrodlo/', delete_source),
     path('usunietoKonto/', delete_account),
-    # path('logout/', logout_page),
     path('register/', register),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
-    # path('register_success/', TemplateView.as_view(template_name='users/register_success.html'),
-    # name='register_success'),
     path('register_success/', register_success)  # to nie wiem czy jest dobrze - możliwe do zmiany
 ]

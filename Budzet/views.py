@@ -25,7 +25,7 @@ def home_view(request, *args, **kwargs):
 
 # to do poprawy(ale jeszcze nie rozkminiłam)
 def register_success(request, *args, **kwargs):
-    return render(request, "users/register_success.html", {})
+        return render(request, "users/register_success.html", {})
 
 
 def dochody(request, *args, **kwargs):
@@ -240,31 +240,13 @@ def edit_expense(request, nr, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def logowanie(request, *args, **kwargs):
-    return render(request, "logowanie.html", {})
-
-
-def rejestrowanie(request, *args, **kwargs):
-    form = UserCreationForm(request.POST or None)
-    if form.is_valid():
-        form.save(commit=True)
-        username = form.cleaned_data.get('username')
-        raw_password = form.cleaned_data.get('password1')
-        user = authenticate(username=username, password=raw_password)
-        login(request, user)
-        return redirect('home')
-    else:
-        form = UserCreationForm()
-    return render(request, "rejestrowanie.html", {'form': form})
-
-
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
 
-            return redirect('home')
+            return render(request, 'users/register_success.html', {})
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
