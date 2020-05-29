@@ -23,11 +23,6 @@ def home_view(request, *args, **kwargs):
     return render(request, "home.html", {'username': username})
 
 
-# to do poprawy(ale jeszcze nie rozkminiłam)
-def register_success(request, *args, **kwargs):
-        return render(request, "users/register_success.html", {})
-
-
 def dochody(request, *args, **kwargs):
     if request.user.is_authenticated:
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))

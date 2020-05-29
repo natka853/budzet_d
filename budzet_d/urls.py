@@ -19,7 +19,7 @@ from django.contrib.auth import views as auth_views
 
 from Budzet.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
     dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, zrodla, kategorie, edytuj_zrodlo_dochodu, \
-    edytuj_kategorie_wydatku, register, register_success, edit_income, edit_expense, delete_expense, delete_income, \
+    edytuj_kategorie_wydatku, register, edit_income, edit_expense, delete_expense, delete_income, \
     delete_category, delete_source, delete_account
 
 urlpatterns = [
@@ -47,5 +47,4 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
-    path('register_success/', register_success)  # to nie wiem czy jest dobrze - możliwe do zmiany
 ]
