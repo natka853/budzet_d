@@ -54,7 +54,7 @@ def podsumowanie(request, *args, **kwargs):
                 dtick=0.75
             )
         )
-        fig.show()''' # po odkomentowaniu pokaże tylko wykres a nie podsumowanie
+        fig.show()'''  # po odkomentowaniu pokaże tylko wykres a nie podsumowanie
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
         incomes_sum = Dochod.objects.filter(zrodlo__user=request.user.id).aggregate(Sum('kwota'))
@@ -77,7 +77,7 @@ def podsumowanie(request, *args, **kwargs):
             today_expenses['kwota__sum'] = round(today_expenses['kwota__sum'], 2)
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses,
                                                      'saldo': saldo, 'today_incomes': today_incomes['kwota__sum'],
-                                                     'today_expenses': today_expenses['kwota__sum'], 'graph': fig})
+                                                     'today_expenses': today_expenses['kwota__sum']})
     else:
         return render(request, "unlogged.html", {})
 
