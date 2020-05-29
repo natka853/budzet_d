@@ -1,4 +1,5 @@
-from datetime import datetime
+from datetime import date
+from django.utils.datetime_safe import datetime
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -25,7 +26,7 @@ class Dochod(models.Model):
     zrodlo = models.ForeignKey(Zrodlo, on_delete=models.CASCADE, null=True)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=9999999, decimal_places=2)
-    data = models.DateTimeField(default=datetime.now, blank=True)
+    data = models.DateField(default=date.today)
 
     class Meta:
         verbose_name = "Dochod"
@@ -53,7 +54,7 @@ class Wydatek(models.Model):
     kategoria = models.ForeignKey(Kategoria, on_delete=models.CASCADE, null=True)
     opis = models.TextField(blank=True)
     kwota = models.DecimalField(max_digits=99999999, decimal_places=2)
-    data = models.DateTimeField(default=datetime.now, blank=True)
+    data = models.DateField(default=date.today)
 
     class Meta:
         verbose_name = "Wydatek"

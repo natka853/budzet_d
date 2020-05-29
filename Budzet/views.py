@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from django.utils.datetime_safe import datetime
+from datetime import date
 
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
@@ -55,22 +55,20 @@ def podsumowanie(request, *args, **kwargs):
         if expenses_sum['kwota__sum'] is None:
             expenses_sum['kwota__sum'] = 0.00
         saldo = round(float(incomes_sum['kwota__sum']) - float(expenses_sum['kwota__sum']), 2)
-        today = datetime.today()
-        today_incomes = Dochod.objects.filter(zrodlo__user=request.user.id, data__year=today.year,
-                                              data__month=today.month, data__day=today.day).aggregate(Sum('kwota'))
+        today = date.today()
+        today_incomes = Dochod.objects.filter(zrodlo__user=request.user.id, data=today).aggregate(Sum('kwota'))
         if today_incomes['kwota__sum'] is None:
             today_incomes['kwota__sum'] = '0.00'
         else:
             today_incomes['kwota__sum'] = round(today_incomes['kwota__sum'], 2)
-        today_expenses = Wydatek.objects.filter(kategoria__user=request.user.id, data__year=today.year,
-                                                data__month=today.month, data__day=today.day).aggregate(Sum('kwota'))
+        today_expenses = Wydatek.objects.filter(kategoria__user=request.user.id, data=today).aggregate(Sum('kwota'))
         if today_expenses['kwota__sum'] is None:
             today_expenses['kwota__sum'] = '0.00'
         else:
             today_expenses['kwota__sum'] = round(today_expenses['kwota__sum'], 2)
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses,
                                                      'saldo': saldo, 'today_incomes': today_incomes['kwota__sum'],
-                                                     'today_expenses': today_expenses['kwota__sum'], 'today': today})
+                                                     'today_expenses': today_expenses['kwota__sum']})
     else:
         return render(request, "unlogged.html", {})
 
@@ -94,10 +92,14 @@ def kategorie(request, *args, **kwargs):
 def dodaj_wydatek(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
+        today = date.today()
         form = WydatekForm(request.POST or None)
         print(form.errors)
         if form.is_valid():
-            form.save(commit=True)  # zapis do bazy danych
+            expense = form.save(commit=False)
+            if not request.POST['data']:
+                expense.data = today
+            expense.save()  # zapis do bazy danych
             form = WydatekForm()  # odświeżanie formularza
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
@@ -107,10 +109,14 @@ def dodaj_wydatek(request, *args, **kwargs):
 def dodaj_przychod(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
+        today = date.today()
         form = DochodForm(request.POST or None)
         print(form.errors)
         if form.is_valid():
-            form.save(commit=True)  # zapis do bazy danych
+            income = form.save(commit=False)
+            if not request.POST['data']:
+                income.data = today
+            income.save()  # zapis do bazy danych
             form = DochodForm()  # odświeżanie formularza
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:

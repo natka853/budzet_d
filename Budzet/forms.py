@@ -28,6 +28,8 @@ class KategoriaForm(forms.ModelForm):
 
 
 class DochodForm(forms.ModelForm):
+    data = forms.DateField(required=False)
+
     class Meta:
         model = Dochod
         fields = (
@@ -40,6 +42,8 @@ class DochodForm(forms.ModelForm):
 
 
 class WydatekForm(forms.ModelForm):
+    data = forms.DateField(required=False)
+
     class Meta:
         model = Wydatek
         fields = (
