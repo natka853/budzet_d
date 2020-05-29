@@ -2,43 +2,42 @@
 
 {% block content %}
     <h1 class="display-4"><b>Edytuj wydatek</b></h1>
-    <h3>{{ nr }}</h3>
     </div>
 
     <form method="post" class="form-group"> {% csrf_token %}
-
         <div class="form-group">
-            <label for="nazwa">Podaj nazwę wydatku</label>
-            <input type="text" class="form-control" name="nazwa" placeholder="Nazwa wydatku">
+            <label for="nazwa">Podaj nazwę wydatku</label></br>
+            <input type="text" class="form-control" placeholder="{{ expense.nazwa }}" name="nazwa"/>
         </div>
         <div class="form-group">
             <label for="kategoria">Wybierz kategorię wydatku</label>
             <select class="form-control" name="kategoria">
+                <option value="{{ expense.kategoria.id }}">{{ expense.kategoria.nazwa }}</option>
                 {% for object in categories %}
                     <option value="{{ object.id }}">{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
-        </br>
-        <a role="button" class="btn btn-primary btn-sm" href="/dodajKategorieWydatku">Dodaj kategorię wydatku</a>
+            </br>
+            <a role="button" class="btn btn-primary btn-sm" href="/dodajKategorieWydatku">Dodaj kategorię wydatku</a>
         </div>
         <div class="form-group">
             <label for="opis">Opis</label>
-            <textarea class="form-control" name="opis" rows="3" placeholder="Opis wydatku"></textarea>
+            <textarea class="form-control" rows="3" placeholder="{{ expense.opis }}" name="opis"></textarea>
         </div>
         <div class="form-group">
             <label for="kwota">Kwota</label>
             </br>
-            <input type="number" class="float-left" name="kwota" min="1" step="0.01" placeholder="0.00">
+            <input type="number" class="float-left" name="kwota" min="0" step="0.01" placeholder="{{ expense.kwota }}">
         </div>
         </br>
         <div class="form-group">
             <label for="data">Data</label>
             </br>
-            <input type="date">
+            <input type="date" name="data">
         </div>
         </br>
 
-        <input type="submit" value="Zatwierdź" role="button" class="btn btn-primary btn-lg"/>
+        <input class="btn btn-primary btn-lg" role="button" type="submit" value="Zatwierdź"/>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
     </form>
 {% endblock %}

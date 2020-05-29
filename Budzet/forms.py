@@ -80,13 +80,25 @@ class EditSourceForm(forms.ModelForm):
 
 
 class EditIncomeForm(forms.ModelForm):
+    nazwa = forms.CharField(required=False)
+    kwota = forms.DecimalField(required=False)
+    data = forms.CharField(required=False)
+
     class Meta:
         model = Dochod
-        fields = ('nazwa', 'zrodlo')
+        fields = (
+            'nazwa',
+            'zrodlo',
+            'opis',
+            'kwota',
+            'data'
+        )
 
 
 class EditExpenseForm(forms.ModelForm):
-    name = forms.CharField()
+    nazwa = forms.CharField(required=False)
+    kwota = forms.DecimalField(required=False)
+    data = forms.CharField(required=False)
 
     class Meta:
         model = Wydatek
@@ -94,5 +106,6 @@ class EditExpenseForm(forms.ModelForm):
             'nazwa',
             'kategoria',
             'opis',
+            'kwota',
             'data'
         )

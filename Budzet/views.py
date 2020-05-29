@@ -172,11 +172,19 @@ def edytuj_zrodlo_dochodu(request, nr, *args, **kwargs):
 
 def edit_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        form = EditIncomeForm()
+        form = EditIncomeForm(request.POST or None)
         income = Dochod.objects.get(id=nr)
-        sources = Zrodlo.objects.filter(user=request.user.id)
+        sources = Zrodlo.objects.filter(user=request.user.id).exclude(id=income.zrodlo.id)
         if form.is_valid():
-            income.nazwa = form.cleaned_data.get('nazwa')
+            if request.POST['nazwa']:
+                income.nazwa = form.cleaned_data.get('nazwa')
+            if request.POST['opis']:
+                income.opis = form.cleaned_data.get('opis')
+            if request.POST['kwota']:
+                income.kwota = form.cleaned_data.get('kwota')
+            if request.POST['data']:
+                income.data = form.cleaned_data.get('data')
+            income.zrodlo = form.cleaned_data.get('zrodlo')
             income.save()
             form = EditIncomeForm()
         return render(request, "edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
@@ -226,11 +234,22 @@ def delete_account(request, *args, **kwargs):
 
 def edit_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        form = EditExpenseForm()
-        categories = Kategoria.objects.filter(user=request.user.id)
+        form = EditExpenseForm(request.POST or None)
+        expense = Wydatek.objects.get(id=nr)
+        categories = Kategoria.objects.filter(user=request.user.id).exclude(id=expense.kategoria.id)
         if form.is_valid():
+            if request.POST['nazwa']:
+                expense.nazwa = form.cleaned_data.get('nazwa')
+            if request.POST['opis']:
+                expense.opis = form.cleaned_data.get('opis')
+            if request.POST['kwota']:
+                expense.kwota = form.cleaned_data.get('kwota')
+            if request.POST['data']:
+                expense.data = form.cleaned_data.get('data')
+            expense.kategoria = form.cleaned_data.get('kategoria')
+            expense.save()
             form = EditExpenseForm()
-        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'nr': nr})
+        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'expense': expense})
     else:
         return render(request, "unlogged.html", {})
 
