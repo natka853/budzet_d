@@ -2,6 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from datetime import date
+import plotly.graph_objects as go
 
 from Budzet.models import Dochod
 from Budzet.models import Wydatek
@@ -41,6 +42,19 @@ def wydatki(request, *args, **kwargs):
 
 def podsumowanie(request, *args, **kwargs):
     if request.user.is_authenticated:
+        '''fig = go.Figure(go.Scatter(
+            x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            y=[28.8, 28.5, 37, 56.8, 69.7, 79.7, 78.5, 77.8, 74.1, 62.6, 45.3, 39.9]
+        ))
+
+        fig.update_layout(
+            xaxis=dict(
+                tickmode='linear',
+                tick0=0.5,
+                dtick=0.75
+            )
+        )
+        fig.show()''' # po odkomentowaniu pokaże tylko wykres a nie podsumowanie
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
         incomes_sum = Dochod.objects.filter(zrodlo__user=request.user.id).aggregate(Sum('kwota'))
@@ -63,7 +77,7 @@ def podsumowanie(request, *args, **kwargs):
             today_expenses['kwota__sum'] = round(today_expenses['kwota__sum'], 2)
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses,
                                                      'saldo': saldo, 'today_incomes': today_incomes['kwota__sum'],
-                                                     'today_expenses': today_expenses['kwota__sum']})
+                                                     'today_expenses': today_expenses['kwota__sum'], 'graph': fig})
     else:
         return render(request, "unlogged.html", {})
 
