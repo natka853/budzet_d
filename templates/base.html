@@ -41,8 +41,6 @@
                     if (form.checkValidity() === false) {
                         event.preventDefault();
                         event.stopPropagation();
-                    } else{
-                        document.getElementById("message").style.display = "block";
                     }
                     form.classList.add('was-validated');
                 }, false);

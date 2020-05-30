@@ -1,5 +1,6 @@
+from datetime import date
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.shortcuts import render
