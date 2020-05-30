@@ -3,16 +3,21 @@
 {% block content %}
     <h1 class="display-4"><b>Dodaj kategorię wydatku</b></h1>
     </div>
-    <form method="post"> {% csrf_token %}
+    <form method="post" class="needs-validation" novalidate> {% csrf_token %}
         <div class="form-group">
             <div>
                 <label for="nazwa">Podaj nazwę kategorii</label></br>
-                <input type="text" class="form-control" placeholder="Nazwa kategorii" name="nazwa"/></br>
+                <input type="text" class="form-control" placeholder="Nazwa kategorii" name="nazwa" required/></br>
+                <div class="invalid-feedback">
+                    Podaj nazwę kategorii!
+                </div>
             </div>
 
             <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
             <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
         </div>
     </form>
+
+    <div id="message" style="display:none">Dochód dodano!</div>
 {% endblock %}
 

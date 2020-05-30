@@ -1,19 +1,18 @@
-from django.contrib.auth import authenticate, login
+from datetime import date
+import time
+
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from datetime import date
-import plotly.graph_objects as go
+from django.shortcuts import render
 
+from Budzet.forms import DochodForm
+from Budzet.forms import KategoriaForm
+from Budzet.forms import WydatekForm
+from Budzet.forms import ZrodloForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
 from Budzet.models import Dochod
+from Budzet.models import Kategoria
 from Budzet.models import Wydatek
 from Budzet.models import Zrodlo
-from Budzet.models import Kategoria
-from Budzet.forms import ZrodloForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
-from Budzet.forms import KategoriaForm
-from Budzet.forms import DochodForm
-from Budzet.forms import WydatekForm
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
 
 
@@ -110,6 +109,7 @@ def dodaj_wydatek(request, *args, **kwargs):
                 expense.data = today
             expense.save()  # zapis do bazy danych
             form = WydatekForm()  # odświeżanie formularza
+            time.sleep(4)
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -127,6 +127,7 @@ def dodaj_przychod(request, *args, **kwargs):
                 income.data = today
             income.save()  # zapis do bazy danych
             form = DochodForm()  # odświeżanie formularza
+            time.sleep(4)
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -140,6 +141,7 @@ def dodaj_kategorie_wydatku(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
             form = KategoriaForm()  # odświeżanie formularza
+            time.sleep(4)
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -153,6 +155,7 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
             form = ZrodloForm()  # odświeżanie formularza
+            time.sleep(4)
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})

@@ -1,3 +1,7 @@
+{% load javascript_settings_tags %}
+{% load javascript_settings_tags %}
+<script type="text/javascript">{% javascript_settings %}</script>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -6,14 +10,48 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style> {# do przeniesienia do pliku css #}
+    napis {
+        display: none;
+    }
+
+    :target {
+        display: block;
+    }
+
+    </style>
 </head>
 <body style="background-color: ghostwhite">
 <div class="container">
-    <div class="jumbotron", style="background-color: #fff8c8">
+    <div class="jumbotron" , style="background-color: #fff8c8">
         {% block content %}
         {% endblock %}
     </div>
 </div>
+
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    } else{
+                        document.getElementById("message").style.display = "block";
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+
+</script>
+
 <footer style="text-align: center">Made by: Zuzanna Plauszta, Natalia Tarasiuk, Ida Milewska</footer>
 </body>
 </html>

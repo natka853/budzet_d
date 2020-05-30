@@ -3,12 +3,14 @@
 {% block content %}
     <h1 class="display-4"><b>Dodaj wydatek</b></h1>
     </div>
-
-    <form method="post" class="form-group"> {% csrf_token %}
+    <form method="post" class="needs-validation" novalidate> {% csrf_token %}
 
         <div class="form-group">
             <label for="nazwa">Podaj nazwę wydatku</label>
-            <input type="text" class="form-control" name="nazwa" placeholder="Nazwa wydatku">
+            <input type="text" class="form-control" name="nazwa" placeholder="Nazwa wydatku" required>
+            <div class="invalid-feedback">
+                Podaj nazwę wydatku!
+            </div>
         </div>
         <div class="form-group">
             <label for="kategoria">Wybierz kategorię wydatku</label>
@@ -17,8 +19,8 @@
                     <option value="{{ object.id }}">{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
-        </br>
-        <a role="button" class="btn btn-primary btn-sm" href="/dodajKategorieWydatku">Dodaj kategorię wydatku</a>
+            </br>
+            <a role="button" class="btn btn-primary btn-sm" href="/dodajKategorieWydatku">Dodaj kategorię wydatku</a>
         </div>
         <div class="form-group">
             <label for="opis">Opis</label>
@@ -27,7 +29,10 @@
         <div class="form-group">
             <label for="kwota">Kwota</label>
             </br>
-            <input type="number" class="float-left" name="kwota" min="1" step="0.01" placeholder="0.00">
+            <input type="number" class="form-control" name="kwota" min="1" step="0.01" placeholder="0.00" required>
+            <div class="invalid-feedback">
+                Musisz podać kwotę!
+            </div>
         </div>
         </br>
         <div class="form-group">
@@ -40,4 +45,6 @@
         <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
     </form>
+    <div id="message" style="display:none">Przychód dodano!</div>
+
 {% endblock %}
