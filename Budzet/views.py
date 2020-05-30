@@ -1,6 +1,5 @@
-from datetime import date
-import time
-
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.shortcuts import render
@@ -109,7 +108,7 @@ def dodaj_wydatek(request, *args, **kwargs):
                 expense.data = today
             expense.save()  # zapis do bazy danych
             form = WydatekForm()  # odświeżanie formularza
-            time.sleep(4)
+            messages.success(request, 'Dodano wydatek')
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -127,7 +126,7 @@ def dodaj_przychod(request, *args, **kwargs):
                 income.data = today
             income.save()  # zapis do bazy danych
             form = DochodForm()  # odświeżanie formularza
-            time.sleep(4)
+            messages.success(request, 'Dodano dochód')
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -141,7 +140,7 @@ def dodaj_kategorie_wydatku(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
             form = KategoriaForm()  # odświeżanie formularza
-            time.sleep(4)
+            messages.success(request, 'Dodano kategorię')
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -155,7 +154,7 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
             form = ZrodloForm()  # odświeżanie formularza
-            time.sleep(4)
+            messages.success(request, 'Dodano źródło')
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
