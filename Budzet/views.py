@@ -18,6 +18,10 @@ from django.shortcuts import render, redirect
 from .forms import UserRegisterForm
 
 
+def err404(request, *args, **kwargs):
+    return render(request, "err404.html", {})
+
+
 def home_view(request, *args, **kwargs):
     username = ""
     if request.user.is_authenticated:

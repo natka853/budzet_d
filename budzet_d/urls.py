@@ -20,7 +20,7 @@ from django.contrib.auth import views as auth_views
 from Budzet.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
     dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, zrodla, kategorie, edytuj_zrodlo_dochodu, \
     edytuj_kategorie_wydatku, register, edit_income, edit_expense, delete_expense, delete_income, \
-    delete_category, delete_source, delete_account
+    delete_category, delete_source, delete_account, err404
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -44,6 +44,7 @@ urlpatterns = [
     path('<int:nr>/usunietoZrodlo/', delete_source),
     path('usunietoKonto/', delete_account),
     path('register/', register),
+    path('err404/', err404),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
