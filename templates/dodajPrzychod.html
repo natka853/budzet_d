@@ -13,11 +13,14 @@
         </div>
         <div class="form-group">
             <label for="zrodlo">Wybierz źródło dochodu</label>
-            <select class="form-control" name="zrodlo">
+            <select class="form-control" name="zrodlo" required>
                 {% for object in sources %}
                     <option value="{{ object.id }}">{{ object.nazwa }}</option>
                 {% endfor %}
             </select>
+            <div class="invalid-feedback">
+                Jeżeli nie dodałeś żadnego źródła kliknij przycisk "Dodaj źródło dochodu"!
+            </div>
             </br>
             <a role="button" class="btn btn-primary btn-sm" href="/dodajZrodloDochodu">Dodaj źródło dochodu</a>
         </div>
