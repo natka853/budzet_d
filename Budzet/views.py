@@ -5,8 +5,8 @@ from datetime import date
 # import plotly.graph_objects as go
 
 from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
-from Budzet.forms import ZrodloForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
-from Budzet.forms import KategoriaForm, DochodForm, WydatekForm
+from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
+from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
 from django.shortcuts import render, get_object_or_404  # , redirect
 from .forms import UserRegisterForm
 
@@ -22,7 +22,7 @@ def home_view(request, *args, **kwargs):
     return render(request, "home.html", {'username': username})
 
 
-def dochody(request, *args, **kwargs):
+def my_incomes(request, *args, **kwargs):
     if request.user.is_authenticated:
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
         return render(request, "dochody.html", {'incomes': incomes})
@@ -30,7 +30,7 @@ def dochody(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def wydatki(request, *args, **kwargs):
+def my_expenses(request, *args, **kwargs):
     if request.user.is_authenticated:
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
         return render(request, "wydatki.html", {'expenses': expenses})
@@ -38,7 +38,7 @@ def wydatki(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def podsumowanie(request, *args, **kwargs):
+def summary(request, *args, **kwargs):
     if request.user.is_authenticated:
         '''fig = go.Figure(go.Scatter(
             x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -80,7 +80,7 @@ def podsumowanie(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def zrodla(request, *args, **kwargs):
+def my_sources(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
         return render(request, "zrodla.html", {'sources': sources})
@@ -88,7 +88,7 @@ def zrodla(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def kategorie(request, *args, **kwargs):
+def my_categories(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
         return render(request, "kategorie.html", {'categories': categories})
@@ -96,71 +96,71 @@ def kategorie(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def dodaj_wydatek(request, *args, **kwargs):
+def add_income(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
         today = date.today()
-        form = WydatekForm(request.POST or None)
+        form = ExpenseForm(request.POST or None)
         print(form.errors)
         if form.is_valid():
             expense = form.save(commit=False)
             if not request.POST['data']:
                 expense.data = today
             expense.save()  # zapis do bazy danych
-            form = WydatekForm()  # odświeżanie formularza
+            form = ExpenseForm()  # odświeżanie formularza
             messages.success(request, 'Dodano wydatek')
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def dodaj_przychod(request, *args, **kwargs):
+def add_expense(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
         today = date.today()
-        form = DochodForm(request.POST or None)
+        form = IncomeForm(request.POST or None)
         print(form.errors)
         if form.is_valid():
             income = form.save(commit=False)
             if not request.POST['data']:
                 income.data = today
             income.save()  # zapis do bazy danych
-            form = DochodForm()  # odświeżanie formularza
+            form = IncomeForm()  # odświeżanie formularza
             messages.success(request, 'Dodano dochód')
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def dodaj_kategorie_wydatku(request, *args, **kwargs):
+def add_expense_category(request, *args, **kwargs):
     if request.user.is_authenticated:
-        form = KategoriaForm(request.POST or None)
+        form = CategoryForm(request.POST or None)
         if form.is_valid():
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
-            form = KategoriaForm()  # odświeżanie formularza
+            form = CategoryForm()  # odświeżanie formularza
             messages.success(request, 'Dodano kategorię')
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def dodaj_zrodlo_dochodu(request, *args, **kwargs):
+def add_income_source(request, *args, **kwargs):
     if request.user.is_authenticated:
-        form = ZrodloForm(request.POST or None)
+        form = SourceForm(request.POST or None)
         if form.is_valid():
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
-            form = ZrodloForm()  # odświeżanie formularza
+            form = SourceForm()  # odświeżanie formularza
             messages.success(request, 'Dodano źródło')
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def edytuj_kategorie_wydatku(request, nr, *args, **kwargs):
+def edit_expense_category(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditCategoryForm(request.POST or None)
         category = get_object_or_404(Kategoria, id=nr)
@@ -175,7 +175,7 @@ def edytuj_kategorie_wydatku(request, nr, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def edytuj_zrodlo_dochodu(request, nr, *args, **kwargs):
+def edit_income_source(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditSourceForm(request.POST or None)
         source = get_object_or_404(Zrodlo, id=nr)
