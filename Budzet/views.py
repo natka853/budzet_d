@@ -44,10 +44,12 @@ def summary(request, *args, **kwargs):
     if request.user.is_authenticated:
         act_date = date.today() - timedelta(days=30)
         dates = [act_date.strftime('%d-%m-%Y'), ]
-        incomes_balance = Dochod.objects.filter(zrodlo__user=request.user.id, data__lte=act_date).aggregate(Sum('kwota'))
+        incomes_balance = Dochod.objects.filter(zrodlo__user=request.user.id, data__lte=act_date).aggregate(
+            Sum('kwota'))
         if incomes_balance['kwota__sum'] is None:
             incomes_balance['kwota__sum'] = 0.00
-        expenses_balance = Wydatek.objects.filter(kategoria__user=request.user.id, data__lte=act_date).aggregate(Sum('kwota'))
+        expenses_balance = Wydatek.objects.filter(kategoria__user=request.user.id, data__lte=act_date).aggregate(
+            Sum('kwota'))
         if expenses_balance['kwota__sum'] is None:
             expenses_balance['kwota__sum'] = 0.00
         bal = round(float(incomes_balance['kwota__sum']) - float(expenses_balance['kwota__sum']), 2)
@@ -63,24 +65,52 @@ def summary(request, *args, **kwargs):
                 Sum('kwota'))
             if expenses_balance['kwota__sum'] is None:
                 expenses_balance['kwota__sum'] = 0.00
-            print(act_date.__str__() + ' ' + str(incomes_balance['kwota__sum']) + ' ' + str(expenses_balance['kwota__sum']))
             bal += round(float(incomes_balance['kwota__sum']) - float(expenses_balance['kwota__sum']), 2)
             act_date += timedelta(days=1)
             daily_balance.append(bal)
         fig = go.Figure(go.Scatter(
             x=dates,
             y=daily_balance,
-            line={'shape': 'spline'}
+            mode='lines+markers'
         ))
         fig.update_layout(
             xaxis=dict(
                 tickmode='linear',
                 tick0=0.5,
-                dtick=0.75
-            )
+                dtick=0.75,
+                title='Data',
+                titlefont={'family': 'Times New Roman'}
+            ),
+            yaxis=dict(title='Saldo', titlefont={'family': 'Times New Roman'}),
+            title={'text': 'Twoje saldo z ostatnich 30 dni', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+            titlefont={'family': 'Times New Roman'}
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
-        '''fig.show()'''  # po odkomentowaniu pokaże tylko wykres a nie podsumowanie
+
+        labels_cat = []
+        values_cat = []
+        for category in Kategoria.objects.filter(user=request.user.id):
+            labels_cat.append(category.nazwa)
+            values_cat.append(Wydatek.objects.filter(kategoria=category).aggregate(Sum('kwota'))['kwota__sum'])
+        fig_cat = go.Figure(data=[go.Pie(labels=labels_cat, values=values_cat, pull=[0, 0, 0.2, 0])])
+        fig_cat.update_layout(
+            title={'text': 'Udział kategorii wydatków', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+            titlefont={'family': 'Times New Roman'}
+        )
+        graph_div_cat = plotly.offline.plot(fig_cat, auto_open=False, output_type="div")
+
+        labels_src = []
+        values_src = []
+        for source in Zrodlo.objects.filter(user=request.user.id):
+            labels_src.append(source.nazwa)
+            values_src.append(Dochod.objects.filter(zrodlo=source).aggregate(Sum('kwota'))['kwota__sum'])
+        fig_src = go.Figure(data=[go.Pie(labels=labels_src, values=values_src, pull=[0, 0, 0.2, 0])])
+        fig_src.update_layout(
+            title={'text': 'Udział źródeł dochodów', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+            titlefont={'family': 'Times New Roman'}
+        )
+        graph_div_src = plotly.offline.plot(fig_src, auto_open=False, output_type="div")
+
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
         incomes_sum = Dochod.objects.filter(zrodlo__user=request.user.id).aggregate(Sum('kwota'))
@@ -103,7 +133,8 @@ def summary(request, *args, **kwargs):
             today_expenses['kwota__sum'] = round(today_expenses['kwota__sum'], 2)
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses,
                                                      'balance': balance, 'today_incomes': today_incomes['kwota__sum'],
-                                                     'today_expenses': today_expenses['kwota__sum'], 'fig': graph_div})
+                                                     'today_expenses': today_expenses['kwota__sum'], 'fig': graph_div,
+                                                     'fig2': graph_div_cat, 'fig3': graph_div_src})
     else:
         return render(request, "unlogged.html", {})
 
