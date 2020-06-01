@@ -83,7 +83,8 @@ def summary(request, *args, **kwargs):
             ),
             yaxis=dict(title='Saldo', titlefont={'family': 'Times New Roman'}),
             title={'text': 'Twoje saldo z ostatnich 30 dni', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-            titlefont={'family': 'Times New Roman'}
+            titlefont={'family': 'Times New Roman'},
+            paper_bgcolor='ghostwhite'
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
@@ -95,7 +96,8 @@ def summary(request, *args, **kwargs):
         fig_cat = go.Figure(data=[go.Pie(labels=labels_cat, values=values_cat)])
         fig_cat.update_layout(
             title={'text': 'Udział kategorii wydatków', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-            titlefont={'family': 'Times New Roman'}
+            titlefont={'family': 'Times New Roman'},
+            paper_bgcolor='ghostwhite'
         )
         graph_div_cat = plotly.offline.plot(fig_cat, auto_open=False, output_type="div")
 
@@ -107,7 +109,8 @@ def summary(request, *args, **kwargs):
         fig_src = go.Figure(data=[go.Pie(labels=labels_src, values=values_src)])
         fig_src.update_layout(
             title={'text': 'Udział źródeł dochodów', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-            titlefont={'family': 'Times New Roman'}
+            titlefont={'family': 'Times New Roman'},
+            paper_bgcolor='ghostwhite'
         )
         graph_div_src = plotly.offline.plot(fig_src, auto_open=False, output_type="div")
 
