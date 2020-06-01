@@ -1,24 +1,17 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.db.models import Sum
 from datetime import date
-import plotly.graph_objects as go
+# import plotly.graph_objects as go
 
-from Budzet.models import Dochod
-from Budzet.models import Wydatek
-from Budzet.models import Zrodlo
-from Budzet.models import Kategoria
+from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import ZrodloForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
-from Budzet.forms import KategoriaForm
-from Budzet.forms import DochodForm
-from Budzet.forms import WydatekForm
-from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import render, redirect
+from Budzet.forms import KategoriaForm, DochodForm, WydatekForm
+from django.shortcuts import render, get_object_or_404  # , redirect
 from .forms import UserRegisterForm
 
 
-def err404(request, *args, **kwargs):
+def err404(request, *args, **kwargs):  # tymczasowo do podglądu strony błędu
     return render(request, "err404.html", {})
 
 
@@ -170,7 +163,9 @@ def dodaj_zrodlo_dochodu(request, *args, **kwargs):
 def edytuj_kategorie_wydatku(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditCategoryForm(request.POST or None)
-        category = Kategoria.objects.get(id=nr)
+        category = get_object_or_404(Kategoria, id=nr)
+        if category.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
         if form.is_valid():
             category.nazwa = form.cleaned_data.get('nazwa')
             category.save()
@@ -183,7 +178,9 @@ def edytuj_kategorie_wydatku(request, nr, *args, **kwargs):
 def edytuj_zrodlo_dochodu(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditSourceForm(request.POST or None)
-        source = Zrodlo.objects.get(id=nr)
+        source = get_object_or_404(Zrodlo, id=nr)
+        if source.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
         if form.is_valid():
             source.nazwa = form.cleaned_data.get('nazwa')
             source.save()
@@ -196,7 +193,9 @@ def edytuj_zrodlo_dochodu(request, nr, *args, **kwargs):
 def edit_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditIncomeForm(request.POST or None)
-        income = Dochod.objects.get(id=nr)
+        income = get_object_or_404(Dochod, id=nr)
+        if income.zrodlo.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
         sources = Zrodlo.objects.filter(user=request.user.id).exclude(id=income.zrodlo.id)
         if form.is_valid():
             if request.POST['nazwa']:
@@ -217,7 +216,10 @@ def edit_income(request, nr, *args, **kwargs):
 
 def delete_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        Wydatek.objects.get(id=nr).delete()
+        expense = get_object_or_404(Wydatek, id=nr)
+        if expense.kategoria.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
+        expense.delete()
         return render(request, "usunietoWydatek.html", {})
     else:
         return render(request, "unlogged.html", {})
@@ -225,7 +227,10 @@ def delete_expense(request, nr, *args, **kwargs):
 
 def delete_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        Dochod.objects.get(id=nr).delete()
+        income = get_object_or_404(Dochod, id=nr)
+        if income.zrodlo.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
+        income.delete()
         return render(request, "usunietoDochod.html", {})
     else:
         return render(request, "unlogged.html", {})
@@ -233,7 +238,10 @@ def delete_income(request, nr, *args, **kwargs):
 
 def delete_category(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        Kategoria.objects.get(id=nr).delete()
+        category = get_object_or_404(Kategoria, id=nr)
+        if category.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
+        category.delete()
         return render(request, "usunietoKategorie.html", {})
     else:
         return render(request, "unlogged.html", {})
@@ -241,7 +249,10 @@ def delete_category(request, nr, *args, **kwargs):
 
 def delete_source(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
-        Zrodlo.objects.get(id=nr).delete()
+        source = get_object_or_404(Zrodlo, id=nr)
+        if source.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
+        source.delete()
         return render(request, "usunietoKategorie.html", {})
     else:
         return render(request, "unlogged.html", {})
@@ -258,7 +269,9 @@ def delete_account(request, *args, **kwargs):
 def edit_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         form = EditExpenseForm(request.POST or None)
-        expense = Wydatek.objects.get(id=nr)
+        expense = get_object_or_404(Wydatek, id=nr)
+        if expense.kategoria.user.id != request.user.id:
+            return render(request, "noPermission.html", {})
         categories = Kategoria.objects.filter(user=request.user.id).exclude(id=expense.kategoria.id)
         if form.is_valid():
             if request.POST['nazwa']:

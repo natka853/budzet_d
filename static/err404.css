@@ -2,7 +2,6 @@ body{
     background-image: url("err404.png");
     background-size: contain;
     background-attachment: fixed;
-    background-position-x: center;
-    background-position-y: center;
+    background-position: center;
     background-repeat: no-repeat;
 }
