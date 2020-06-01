@@ -362,3 +362,54 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def is_valid_queryparam(param):
+    return param != '' and param is not None
+
+
+def BootstrapFilterView(request):
+    wy = Wydatek.objects.all()
+    categories = Kategoria.objects.all()
+
+    name_contains_query = request.GET.get('name_contains')
+    id_exact_query = request.GET.get('id_exact')
+    description_contains_query = request.GET.get('description_contains')
+    kwota_min = request.GET.get('kwota_min')
+    kwota_max = request.GET.get('kwota_max')
+    date_min = request.GET.get('date_min')
+    date_max = request.GET.get('date_max')
+    category = request.GET.get('category')
+
+    if is_valid_queryparam(name_contains_query):
+        wy = wy.filter(nazwa__icontains=name_contains_query)
+
+    if is_valid_queryparam(id_exact_query):
+        wy = wy.filter(id=id_exact_query)
+
+    if is_valid_queryparam(description_contains_query):
+        wy = wy.filter(opis__icontains=description_contains_query)
+
+    if is_valid_queryparam(kwota_min):
+        wy = wy.filter(kwota__gte=kwota_min)
+
+    if is_valid_queryparam(kwota_max):
+        wy = wy.filter(kwota__lt=kwota_max)
+
+    if is_valid_queryparam(date_min):
+        wy = wy.filter(data__gte=date_min)
+
+    if is_valid_queryparam(date_max):
+        wy = wy.filter(data__lt=date_max)
+
+# jak to się wykona na wyszukiwaniu to później nie chcą działać inne wyszukiwania
+#    if is_valid_queryparam(category):
+#        wy = wy.filter(kategoria__nazwa=category)
+
+
+    context = {
+        'queryset': wy,
+        'categories': categories,
+    }
+
+    return render(request, "bootstrap_form.html", context)

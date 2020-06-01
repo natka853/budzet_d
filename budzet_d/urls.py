@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
@@ -20,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from Budzet.views import home_view, my_incomes, my_expenses, summary, add_income, add_expense, \
     add_expense_category, add_income_source, my_sources, my_categories, edit_income_source, \
     edit_expense_category, register, edit_income, edit_expense, delete_expense, delete_income, \
-    delete_category, delete_source, delete_account, err404
+    delete_category, delete_source, delete_account, err404, BootstrapFilterView
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -48,4 +50,13 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
+    path('bs/', BootstrapFilterView, name='bootstrap'),
 ]
+
+if settings.DEBUG:
+   urlpatterns += static(settings.STATIC_URL,
+                         document_root=settings.STATIC_ROOT)
+  # urlpatterns += static(settings.MEDIA_URL,
+  #                       document_root=settings.MEDIA_ROOT)
+
+
