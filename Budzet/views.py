@@ -14,7 +14,7 @@ from .forms import UserRegisterForm
 
 
 def err404(request, *args, **kwargs):  # tymczasowo do podglądu strony błędu
-    return render(request, "err404.html", {})
+    return render(request, "404.html", {})
 
 
 def home_view(request, *args, **kwargs):
