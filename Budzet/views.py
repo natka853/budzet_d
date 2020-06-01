@@ -92,7 +92,7 @@ def summary(request, *args, **kwargs):
         for category in Kategoria.objects.filter(user=request.user.id):
             labels_cat.append(category.nazwa)
             values_cat.append(Wydatek.objects.filter(kategoria=category).aggregate(Sum('kwota'))['kwota__sum'])
-        fig_cat = go.Figure(data=[go.Pie(labels=labels_cat, values=values_cat, pull=[0, 0, 0.2, 0])])
+        fig_cat = go.Figure(data=[go.Pie(labels=labels_cat, values=values_cat)])
         fig_cat.update_layout(
             title={'text': 'Udział kategorii wydatków', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
             titlefont={'family': 'Times New Roman'}
@@ -104,7 +104,7 @@ def summary(request, *args, **kwargs):
         for source in Zrodlo.objects.filter(user=request.user.id):
             labels_src.append(source.nazwa)
             values_src.append(Dochod.objects.filter(zrodlo=source).aggregate(Sum('kwota'))['kwota__sum'])
-        fig_src = go.Figure(data=[go.Pie(labels=labels_src, values=values_src, pull=[0, 0, 0.2, 0])])
+        fig_src = go.Figure(data=[go.Pie(labels=labels_src, values=values_src)])
         fig_src.update_layout(
             title={'text': 'Udział źródeł dochodów', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
             titlefont={'family': 'Times New Roman'}
