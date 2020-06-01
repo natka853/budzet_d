@@ -1,6 +1,3 @@
-from django import forms
-from django.forms import CharField
-
 from .models import Zrodlo
 from .models import Kategoria
 from .models import Dochod
@@ -11,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 
-class ZrodloForm(forms.ModelForm):
+class SourceForm(forms.ModelForm):
     class Meta:
         model = Zrodlo
         fields = (
@@ -19,7 +16,7 @@ class ZrodloForm(forms.ModelForm):
         )
 
 
-class KategoriaForm(forms.ModelForm):
+class CategoryForm(forms.ModelForm):
     class Meta:
         model = Kategoria
         fields = (
@@ -27,7 +24,7 @@ class KategoriaForm(forms.ModelForm):
         )
 
 
-class DochodForm(forms.ModelForm):
+class IncomeForm(forms.ModelForm):
     data = forms.DateField(required=False)
 
     class Meta:
@@ -41,7 +38,7 @@ class DochodForm(forms.ModelForm):
         )
 
 
-class WydatekForm(forms.ModelForm):
+class ExpenseForm(forms.ModelForm):
     data = forms.DateField(required=False)
 
     class Meta:

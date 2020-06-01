@@ -17,24 +17,24 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
-from Budzet.views import home_view, dochody, wydatki, podsumowanie, dodaj_wydatek, dodaj_przychod, \
-    dodaj_kategorie_wydatku, dodaj_zrodlo_dochodu, zrodla, kategorie, edytuj_zrodlo_dochodu, \
-    edytuj_kategorie_wydatku, register, edit_income, edit_expense, delete_expense, delete_income, \
-    delete_category, delete_source, delete_account
+from Budzet.views import home_view, my_incomes, my_expenses, summary, add_income, add_expense, \
+    add_expense_category, add_income_source, my_sources, my_categories, edit_income_source, \
+    edit_expense_category, register, edit_income, edit_expense, delete_expense, delete_income, \
+    delete_category, delete_source, delete_account, err404
 
 urlpatterns = [
     path('', home_view, name='home'),
-    path('podsumowanie/', podsumowanie),
-    path('dochody/', dochody),
-    path('wydatki/', wydatki),
-    path('zrodla/', zrodla),
-    path('kategorie/', kategorie),
-    path('dodajWydatek/', dodaj_wydatek),
-    path('dodajPrzychod/', dodaj_przychod),
-    path('dodajKategorieWydatku/', dodaj_kategorie_wydatku),
-    path('<int:nr>/edytujKategorieWydatku/', edytuj_kategorie_wydatku),
-    path('dodajZrodloDochodu/', dodaj_zrodlo_dochodu),
-    path('<int:nr>/edytujZrodloDochodu/', edytuj_zrodlo_dochodu),
+    path('podsumowanie/', summary),
+    path('dochody/', my_incomes),
+    path('wydatki/', my_expenses),
+    path('zrodla/', my_sources),
+    path('kategorie/', my_categories),
+    path('dodajWydatek/', add_income),
+    path('dodajPrzychod/', add_expense),
+    path('dodajKategorieWydatku/', add_expense_category),
+    path('<int:nr>/edytujKategorieWydatku/', edit_expense_category),
+    path('dodajZrodloDochodu/', add_income_source),
+    path('<int:nr>/edytujZrodloDochodu/', edit_income_source),
     path('admin/', admin.site.urls),
     path('<int:nr>/edytujDochod/', edit_income),
     path('<int:nr>/edytujWydatek/', edit_expense),
@@ -44,6 +44,7 @@ urlpatterns = [
     path('<int:nr>/usunietoZrodlo/', delete_source),
     path('usunietoKonto/', delete_account),
     path('register/', register),
+    path('err404/', err404),  # Tymczasowo do podglądu strony błędu
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
