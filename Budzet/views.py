@@ -7,9 +7,10 @@ import plotly.graph_objects as go
 # import plotly.express as px
 
 from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
-from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
+from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm, \
+    AdminRegisterForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
-from django.shortcuts import render, get_object_or_404  # , redirect
+from django.shortcuts import render, get_object_or_404, redirect  # , redirect
 from .forms import UserRegisterForm
 
 
@@ -362,6 +363,19 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def register_admin(request):
+    if request.method == 'POST':
+        form = AdminRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_staff = True
+            user.save()
+            return render(request, 'users/register_success.html', {})
+    else:
+        form = AdminRegisterForm()
+    return render(request, 'users/admin_register.html', {'form': form})
 
 
 def is_valid_queryparam(param):

@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from Budzet.views import home_view, my_incomes, my_expenses, summary, add_income, add_expense, \
     add_expense_category, add_income_source, my_sources, my_categories, edit_income_source, \
     edit_expense_category, register, edit_income, edit_expense, delete_expense, delete_income, \
-    delete_category, delete_source, delete_account, err404, FilterIncomes, FilterExpenses
+    delete_category, delete_source, delete_account, err404, FilterIncomes, FilterExpenses, register_admin
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('dodajZrodloDochodu/', add_income_source),
     path('<int:nr>/edytujZrodloDochodu/', edit_income_source),
     path('admin/', admin.site.urls),
+    path('admin/register', register_admin),
     path('<int:nr>/edytujDochod/', edit_income),
     path('<int:nr>/edytujWydatek/', edit_expense),
     path('<int:nr>/usunietoWydatek/', delete_expense),

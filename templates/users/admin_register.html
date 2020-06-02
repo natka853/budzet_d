@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <legend class="border-bottom mb-4">Stwórz konto administratora strony Budżet domowy </legend>
+  <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% if field.help_text %}
+          <small style="color: green">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button class="btn btn-outline-info" type="submit" >Zarejestruj się</button>
+  </form>
+    </br>
+           <div class="border-top pt-3">
+           <small class="text-muted">
+               Masz już konto? <a class="ml-2" href="/admin/login">Zaloguj się</a>
+           </small>
+       </div>
+
+{% endblock %}
