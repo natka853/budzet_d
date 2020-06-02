@@ -368,7 +368,7 @@ def is_valid_queryparam(param):
     return param != '' and param is not None
 
 
-def BootstrapFilterView(request):
+def FilterExpenses(request):
     wy = Wydatek.objects.all()
     categories = Kategoria.objects.all()
 
@@ -412,4 +412,52 @@ def BootstrapFilterView(request):
         'categories': categories,
     }
 
-    return render(request, "bootstrap_form.html", context)
+    return render(request, "filtrujWydatki.html", context)
+
+def FilterIncomes(request):
+    if request.user.is_authenticated:
+        do = Dochod.objects.all()
+        sources = Zrodlo.objects.all()
+
+        name_contains_query = request.GET.get('name_contains')
+        id_exact_query = request.GET.get('id_exact')
+        description_contains_query = request.GET.get('description_contains')
+        kwota_min = request.GET.get('kwota_min')
+        kwota_max = request.GET.get('kwota_max')
+        date_min = request.GET.get('date_min')
+        date_max = request.GET.get('date_max')
+        zrodlo = request.GET.get('zrodlo')
+
+        if is_valid_queryparam(name_contains_query):
+             do = do.filter(nazwa__icontains=name_contains_query)
+
+        if is_valid_queryparam(id_exact_query):
+            do = do.filter(id=id_exact_query)
+
+        if is_valid_queryparam(description_contains_query):
+            do = do.filter(opis__icontains=description_contains_query)
+
+        if is_valid_queryparam(kwota_min):
+            do = do.filter(kwota__gte=kwota_min)
+
+        if is_valid_queryparam(kwota_max):
+            do = do.filter(kwota__lt=kwota_max)
+
+        if is_valid_queryparam(date_min):
+            do = do.filter(data__gte=date_min)
+
+        if is_valid_queryparam(date_max):
+            do = do.filter(data__lt=date_max)
+
+# jak to się wykona na wyszukiwaniu to później nie chcą działać inne wyszukiwania
+#    if is_valid_queryparam(zrodlo):
+#        do = do.filter(zrodlo__nazwa=zrodlo)
+
+        context = {
+            'queryset': do,
+            'sources': sources,
+         }
+
+        return render(request, "filtrujDochod.html", context)
+    else:
+        return render(request, "unlogged.html", {})

@@ -7,14 +7,14 @@
    <meta charset="utf-8">
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="">
-   <title>Filtruj Wydatki</title>
+   <title>Filtruj Dochody</title>
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    <link rel="stylesheet" href="{% static 'templates.css' %}">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
  </head>
  <body>
 <main role="main" class="container">
-   <h3>Filruj wydatki</h3>
+   <h3>Filtruj dochody</h3>
     </br>
    <form method="GET" action=".">
  <div class="form-row">
@@ -71,11 +71,11 @@
      <input type="date" class="form-control" id="dateMax" name="date_max">
    </div>
    <div class="form-group col-md-4">
-     <label for="inputState">Kategoria</label>
-     <select id="inputState" class="form-control" name="category">
+     <label for="inputState">Źródło</label>
+     <select id="inputState" class="form-control" name="zrodlo">
        <option selected>Choose...</option>
-         {% for cat in categories %}
-            <option value="{{ cat.id }}">{{ cat.nazwa }}</option>
+         {% for sour in sources %}
+            <option value="{{ sour.id }}">{{ sour.nazwa }}</option>
          {% endfor %}
      </select>
    </div>
@@ -87,13 +87,13 @@
    <hr />
    <div class="row">
        <ul>
-           {% for wyd in queryset %}
+           {% for dochod in queryset %}
                <li>
-               {{ wyd.nazwa }} &nbsp;
-               <span> Kategoria: {{ wyd.kategoria.nazwa }} </span> &nbsp;
-               <span>Opis: {{ wyd.opis }}</span> &nbsp;
-               <span>Kwota: {{ wyd.kwota }}</span> &nbsp;
-               <span>Data: {{ wyd.data }}</span> &nbsp;
+               {{dochod.nazwa }} &nbsp;
+               <span> Źródło: {{ dochod.zrodlo.nazwa }} </span> &nbsp;
+               <span>Opis: {{ dochod.opis }}</span> &nbsp;
+               <span>Kwota: {{ dochod.kwota }}</span> &nbsp;
+               <span>Data: {{ dochod.data }}</span> &nbsp;
                </li>
                <hr />
            {% endfor %}
@@ -101,6 +101,7 @@
    </div>
    <hr />
     <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
+&nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/bs">Przejdź do Filtruj wydatki</a>
         </br>
  </div>
 </br>
