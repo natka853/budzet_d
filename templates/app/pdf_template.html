@@ -1,8 +1,4 @@
 <html>
-<head>
-
-</head>
-
 <body>
 <!-- Content for Static Frame 'header_frame' -->
 <div id="header_content">
@@ -11,7 +7,8 @@
 
 <!-- Content for Static Frame 'footer_frame' -->
 <div id="footer_content">page
-    <pdf:pagenumber> of <pdf:pagecount>
+    <pdf:pagenumber> of
+        <pdf:pagecount>
 </div>
 
 <h2>Dochody</h2>
@@ -61,14 +58,6 @@
     {% endfor %}
     </tbody>
 </table>
-
-<div>
-    {{ fig|safe }}
-    </div>
-    <div class="row">
-        <div class="column" style="width: 50%">{{ fig2|safe }}</div>
-        <div class="column" style="width: 50%">{{ fig3|safe }}</div>
-    </div>
 
 </body>
 </html>
