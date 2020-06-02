@@ -371,8 +371,9 @@ def register_admin(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.is_staff = True
+            user.is_superuser = True
             user.save()
-            return render(request, 'users/register_success.html', {})
+            return render(request, 'users/admin_register_success.html', {})
     else:
         form = AdminRegisterForm()
     return render(request, 'users/admin_register.html', {'form': form})
