@@ -85,21 +85,39 @@
    </div>
    </form>
    <hr />
-   <div class="row">
-       <ul>
-           {% for dochod in queryset %}
-               <li>
-               {{dochod.nazwa }} &nbsp;
-               <span> Źródło: {{ dochod.zrodlo.nazwa }} </span> &nbsp;
-               <span>Opis: {{ dochod.opis }}</span> &nbsp;
-               <span>Kwota: {{ dochod.kwota }}</span> &nbsp;
-               <span>Data: {{ dochod.data }}</span> &nbsp;
-               </li>
-               <hr />
-           {% endfor %}
-       </ul>
-   </div>
-   <hr />
+<div class="row">
+        <div class="column" style="width: 50%">{{ fig2|safe }}</div>
+        <div class="column" style="width: 50%">{{ fig3|safe }}</div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Źródło</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Kwota</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for dochod in queryset %}
+                    <tr>
+                        <td>{{ dochod.data.day }}/{{ dochod.data.month }}/{{ dochod.data.year }}</td>
+                        <td>{{ dochod.nazwa }}</td>
+                        <td>{{ dochod.zrodlo }}</td>
+                        <td>{{ dochod.opis }}</td>
+                        <td style="float: right; color: green">{{ dochod.kwota }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<hr>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
 &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/bs">Przejdź do Filtruj wydatki</a>
         </br>

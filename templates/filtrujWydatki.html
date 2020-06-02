@@ -85,25 +85,42 @@
    </div>
    </form>
    <hr />
-   <div class="row">
-       <ul>
-           {% for wyd in queryset %}
-               <li>
-               {{ wyd.nazwa }} &nbsp;
-               <span> Kategoria: {{ wyd.kategoria.nazwa }} </span> &nbsp;
-               <span>Opis: {{ wyd.opis }}</span> &nbsp;
-               <span>Kwota: {{ wyd.kwota }}</span> &nbsp;
-               <span>Data: {{ wyd.data }}</span> &nbsp;
-               </li>
-               <hr />
-           {% endfor %}
-       </ul>
-   </div>
-   <hr />
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
-&nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/fd">Przejdź do Filtruj dochody</a>
+ <div class="row">
+        <div class="column" style="width: 50%">{{ fig2|safe }}</div>
+        <div class="column" style="width: 50%">{{ fig3|safe }}</div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Kategoria</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Kwota</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for wyd in queryset %}
+                    <tr>
+                        <td>{{ wyd.data.day }}/{{ wyd.data.month }}/{{ wyd.data.year }}</td>
+                        <td>{{ wyd.nazwa }}</td>
+                        <td>{{ wyd.kategoria }}</td>
+                        <td>{{ wyd.opis }}</td>
+                        <td style="float: right; color: red">{{ wyd.kwota }}</td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+<hr>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/fd">Przejdź do Filtruj dochody</a>
         </br>
- </div>
+
 </br>
 </main><!-- /.container -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
