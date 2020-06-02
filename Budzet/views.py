@@ -6,7 +6,6 @@ from datetime import date, timedelta
 import plotly.graph_objects as go
 # import plotly.express as px
 
-from django.shortcuts import render
 from io import BytesIO
 from django.http import HttpResponse
 from django.template.loader import get_template
@@ -383,20 +382,101 @@ def render_to_pdf(template_src, context_dict={}):
 
 class ViewPDF(View):
     def get(self, request, *args, **kwargs):
-        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
-        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
-        pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
-        return HttpResponse(pdf, content_type='application/pdf')
+        if request.user.is_authenticated:
+            act_date = date.today() - timedelta(days=30)
+            dates = [act_date.strftime('%d-%m-%Y'), ]
+            incomes_balance = Dochod.objects.filter(zrodlo__user=request.user.id, data__lte=act_date).aggregate(
+                Sum('kwota'))
+            if incomes_balance['kwota__sum'] is None:
+                incomes_balance['kwota__sum'] = 0.00
+            expenses_balance = Wydatek.objects.filter(kategoria__user=request.user.id, data__lte=act_date).aggregate(
+                Sum('kwota'))
+            if expenses_balance['kwota__sum'] is None:
+                expenses_balance['kwota__sum'] = 0.00
+            bal = round(float(incomes_balance['kwota__sum']) - float(expenses_balance['kwota__sum']), 2)
+            daily_balance = [bal, ]
+            act_date += timedelta(days=1)
+            while act_date <= date.today():
+                dates.append(act_date.strftime('%d-%m-%Y'))
+                incomes_balance = Dochod.objects.filter(zrodlo__user=request.user.id, data=act_date).aggregate(
+                    Sum('kwota'))
+                if incomes_balance['kwota__sum'] is None:
+                    incomes_balance['kwota__sum'] = 0.00
+                expenses_balance = Wydatek.objects.filter(kategoria__user=request.user.id, data=act_date).aggregate(
+                    Sum('kwota'))
+                if expenses_balance['kwota__sum'] is None:
+                    expenses_balance['kwota__sum'] = 0.00
+                bal += round(float(incomes_balance['kwota__sum']) - float(expenses_balance['kwota__sum']), 2)
+                act_date += timedelta(days=1)
+                daily_balance.append(bal)
+            fig = go.Figure(go.Scatter(
+                x=dates,
+                y=daily_balance,
+                mode='lines+markers'
+            ))
+            fig.update_layout(
+                xaxis=dict(
+                    tickmode='linear',
+                    tick0=0.5,
+                    dtick=0.75,
+                    title='Data',
+                    titlefont={'family': 'Times New Roman'}
+                ),
+                yaxis=dict(title='Saldo', titlefont={'family': 'Times New Roman'}),
+                title={'text': 'Twoje saldo z ostatnich 30 dni', 'y': 0.9, 'x': 0.5, 'xanchor': 'center',
+                       'yanchor': 'top'},
+                titlefont={'family': 'Times New Roman'},
+                paper_bgcolor='ghostwhite'
+            )
+            graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
+
+            labels_cat = []
+            values_cat = []
+            for category in Kategoria.objects.filter(user=request.user.id):
+                labels_cat.append(category.nazwa)
+                values_cat.append(Wydatek.objects.filter(kategoria=category).aggregate(Sum('kwota'))['kwota__sum'])
+            fig_cat = go.Figure(data=[go.Pie(labels=labels_cat, values=values_cat)])
+            fig_cat.update_layout(
+                title={'text': 'Udział kategorii wydatków', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+                titlefont={'family': 'Times New Roman'},
+                paper_bgcolor='ghostwhite'
+            )
+            graph_div_cat = plotly.offline.plot(fig_cat, auto_open=False, output_type="div")
+
+            labels_src = []
+            values_src = []
+            for source in Zrodlo.objects.filter(user=request.user.id):
+                labels_src.append(source.nazwa)
+                values_src.append(Dochod.objects.filter(zrodlo=source).aggregate(Sum('kwota'))['kwota__sum'])
+            fig_src = go.Figure(data=[go.Pie(labels=labels_src, values=values_src)])
+            fig_src.update_layout(
+                title={'text': 'Udział źródeł dochodów', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+                titlefont={'family': 'Times New Roman'},
+                paper_bgcolor='ghostwhite'
+            )
+            graph_div_src = plotly.offline.plot(fig_src, auto_open=False, output_type="div")
+            incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
+            expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
+                'data')
+            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses, 'fig': graph_div,
+                                                          'fig2': graph_div_cat, 'fig3': graph_div_src})
+            return HttpResponse(pdf, content_type='application/pdf')
+        else:
+            return render(request, "unlogged.html", {})
 
 
 class DownloadPDF(View):
     def get(self, request, *args, **kwargs):
-        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
-        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
-        pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+        if request.user.is_authenticated:
+            incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
+            expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
+                'data')
+            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
 
-        response = HttpResponse(pdf, content_type='application/pdf')
-        filename = "Transakcje_%s.pdf" % ("1")
-        content = "attachment; filename=%s" % (filename)
-        response['Content-Disposition'] = content
-        return response
+            response = HttpResponse(pdf, content_type='application/pdf')
+            filename = "Transakcje_%s.pdf" % ("1")
+            content = "attachment; filename=%s" % (filename)
+            response['Content-Disposition'] = content
+            return response
+        else:
+            return render(request, "unlogged.html", {})
