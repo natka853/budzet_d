@@ -22,7 +22,7 @@ from django.contrib.auth import views as auth_views
 from Budzet.views import home_view, my_incomes, my_expenses, summary, add_income, add_expense, \
     add_expense_category, add_income_source, my_sources, my_categories, edit_income_source, \
     edit_expense_category, register, edit_income, edit_expense, delete_expense, delete_income, \
-    delete_category, delete_source, delete_account, err404, BootstrapFilterView
+    delete_category, delete_source, delete_account, err404, FilterIncomes, FilterExpenses
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -50,7 +50,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('accounts/profile/', home_view),
-    path('bs/', BootstrapFilterView, name='bootstrap'),
+    path('bs/', FilterExpenses),
+    path('fd/', FilterIncomes),
 ]
 
 if settings.DEBUG:
