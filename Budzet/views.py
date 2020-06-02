@@ -6,6 +6,13 @@ from datetime import date, timedelta
 import plotly.graph_objects as go
 # import plotly.express as px
 
+from django.shortcuts import render
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
+
 from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
@@ -362,3 +369,34 @@ def register(request):
     else:
         form = UserRegisterForm()
     return render(request, 'users/register.html', {'form': form})
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+
+class ViewPDF(View):
+    def get(self, request, *args, **kwargs):
+        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
+        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
+        pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+        return HttpResponse(pdf, content_type='application/pdf')
+
+
+class DownloadPDF(View):
+    def get(self, request, *args, **kwargs):
+        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
+        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
+        pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Transakcje_%s.pdf" % ("1")
+        content = "attachment; filename=%s" % (filename)
+        response['Content-Disposition'] = content
+        return response
