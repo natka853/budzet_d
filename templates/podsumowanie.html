@@ -35,10 +35,10 @@
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
                         <td><a title="Edytuj dochód" href="/{{ object.id }}/edytujDochod">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                            <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
                             <a title="Usuń dochód" href="/{{ object.id }}/usunietoDochod"
                                onclick="return confirm('Czy na pewno chcesz usunąć wybrany dochód?')">
-                                <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                                <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
                         </td>
                     </tr>
                 {% endfor %}
@@ -50,10 +50,10 @@
                         <td>{{ object.opis }}</td>
                         <td style="float: right; color: red">-{{ object.kwota }}</td>
                         <td><a title="Edytuj wydatek" href="/{{ object.id }}/edytujWydatek">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                            <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
                             <a title="Usuń wydatek" href="/{{ object.id }}/usunietoWydatek"
                                onclick="return confirm('Czy na pewno chcesz usunąć wybrany wydatek?')">
-                                <img alt="Delete" src="/static/admin/img/icon-deletelink.svg"></a>
+                                <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
                         </td>
                     </tr>
                 {% endfor %}
