@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
+from Budzet import views
 from Budzet.views import home_view, my_incomes, my_expenses, summary, add_income, add_expense, \
     add_expense_category, add_income_source, my_sources, my_categories, edit_income_source, \
     edit_expense_category, register, edit_income, edit_expense, delete_expense, delete_income, \
@@ -53,6 +54,8 @@ urlpatterns = [
     path('accounts/profile/', home_view),
     path('bs/', FilterExpenses),
     path('fd/', FilterIncomes),
+    path('pdf_view/', views.ViewPDF.as_view(), name="pdf_view"),
+    path('pdf_download/', views.DownloadPDF.as_view(), name="pdf_download"),
 ]
 
 if settings.DEBUG:
