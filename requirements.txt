@@ -1,4 +1,4 @@
-Django==3.0.5
+Django==3.0.7
 plotly==4.8.1
 django-javascript-settings==1.1.2
 xhtml2pdf==0.2.4
