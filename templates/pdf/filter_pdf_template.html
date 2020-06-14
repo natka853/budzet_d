@@ -57,11 +57,14 @@
 
 <body>
 <div id="header_content">
-    {{ date.day }}/{{ date.month }}/{{ date.year }}
+    Data wygenerowania dokumentu: {{ date.day }}/{{ date.month }}/{{ date.year }}
 </div>
 
 <div id="footer_content">
-    Strona <pdf:pagenumber/>/<pdf:pagecount/>
+    Strona
+    <pdf:pagenumber/>
+    /
+    <pdf:pagecount/>
 </div>
 
 <div class='wrapper'>
