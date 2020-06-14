@@ -1,0 +1,133 @@
+<html lang="pl">
+<head>
+    <title>Transakcje</title>
+    <style>
+
+        @page {
+            size: letter portrait;
+            @frame header_frame {
+            -pdf-frame-content: header_content;
+            left: 50pt;
+            width: 512pt;
+            top: 50pt;
+            height: 40pt;
+        }
+        @frame content_frame {
+        left: 50pt;
+        width: 512pt;
+        top: 90pt;
+        height: 632pt;
+        }
+        @frame footer_frame {
+        -pdf-frame-content:footer_content;
+        left: 50pt;
+        width: 512pt;
+        top: 772pt;
+        height: 20pt;
+        }
+        }
+
+        body {
+            font-weight: 200;
+            font-size: 14px;
+        }
+
+        .header {
+            font-size: 20px;
+            font-weight: 100;
+            text-align: center;
+            color: #007cae;
+        }
+
+        .title {
+            font-size: 22px;
+            font-weight: 100;
+            padding: 10px 20px 0px 20px;
+        }
+
+        .title span {
+            color: #007cae;
+        }
+
+        .details {
+            padding: 10px 20px 0px 20px;
+            text-align: left !important;
+        }
+    </style>
+</head>
+
+<body>
+<div id="header_content">
+    <h1>Historia transakcji</h1>
+</div>
+
+<div id="footer_content"> page
+    <pdf:pagenumber/>
+    of
+    <pdf:pagecount/>
+</div>
+
+<div class='wrapper'>
+    <div class='header'>
+        <p class='title'>Dochody</p>
+    </div>
+</div>
+
+<div class='details'>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: left">Data</th>
+            <th scope="col" style="text-align: left">Nazwa</th>
+            <th scope="col" style="text-align: left">Zrodlo</th>
+            <th scope="col" style="text-align: left">Opis</th>
+            <th scope="col" style="text-align: left">Kwota</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in incomes %}
+            <tr>
+                <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
+                <td>{{ object.nazwa }}</td>
+                <td>{{ object.zrodlo }}</td>
+                <td>{{ object.opis }} &nbsp;</td>
+                <td>+{{ object.kwota }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class='wrapper'>
+    <div class='header'>
+        <p class='title'>Wydatki</p>
+    </div>
+</div>
+
+<div class='details'>
+    <table>
+        <thead>
+        <tr>
+            <th scope="col" style="text-align: left">Data</th>
+            <th scope="col" style="text-align: left">Nazwa</th>
+            <th scope="col" style="text-align: left">Kategoria</th>
+            <th scope="col" style="text-align: left">Opis</th>
+            <th scope="col" style="text-align: left">Kwota</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in expenses %}
+            <tr>
+                <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
+                <td>{{ object.nazwa }}</td>
+                <td>{{ object.kategoria }}</td>
+                <td>{{ object.opis }} &nbsp;</td>
+                <td>-{{ object.kwota }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>

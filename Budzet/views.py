@@ -500,7 +500,7 @@ class ViewPDF(View):
             incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
-            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+            pdf = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
             return HttpResponse(pdf, content_type='application/pdf')
         else:
             return render(request, "unlogged.html", {})
@@ -512,10 +512,10 @@ class DownloadPDF(View):
             incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
-            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+            pdf = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
 
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Transakcje_%s.pdf" % ("1")
+            filename = "Transakcje_%s.pdf" % (date.today())
             content = "attachment; filename=%s" % (filename)
             response['Content-Disposition'] = content
             return response
