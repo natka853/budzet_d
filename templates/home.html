@@ -4,6 +4,19 @@
     <h1 class="display-4"><b>Witaj</b></h1>
     <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
     <hr class="my-4">
+   {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <p class="alert alert-danger">
+                    {{ message }}
+                </p>
+            {% else %}
+                <p class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     {% if user.is_authenticated %}
         <h4>Witaj {{ username }}!</h4>
         </br>

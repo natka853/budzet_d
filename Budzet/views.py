@@ -17,7 +17,7 @@ from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm, \
     AdminRegisterForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
-from django.shortcuts import render, get_object_or_404, redirect  # , redirect
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import UserRegisterForm
 
 
@@ -166,7 +166,7 @@ def my_categories(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def add_income(request, *args, **kwargs):
+def add_expense(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
         today = date.today()
@@ -177,14 +177,14 @@ def add_income(request, *args, **kwargs):
             if not request.POST['data']:
                 expense.data = today
             expense.save()  # zapis do bazy danych
-            form = ExpenseForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano wydatek')
+            messages.success(request, 'Poprawnie dodano wydatek do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def add_expense(request, *args, **kwargs):
+def add_income(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
         today = date.today()
@@ -195,8 +195,8 @@ def add_expense(request, *args, **kwargs):
             if not request.POST['data']:
                 income.data = today
             income.save()  # zapis do bazy danych
-            form = IncomeForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano dochód')
+            messages.success(request, 'Poprawnie dodano dochód do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -209,8 +209,8 @@ def add_expense_category(request, *args, **kwargs):
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
-            form = CategoryForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano kategorię')
+            messages.success(request, 'Poprawnie dodano kategorię do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -223,8 +223,8 @@ def add_income_source(request, *args, **kwargs):
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
-            form = SourceForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano źródło')
+            messages.success(request, 'Poprawnie dodano źródło do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -288,9 +288,11 @@ def delete_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         expense = get_object_or_404(Wydatek, id=nr)
         if expense.kategoria.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         expense.delete()
-        return render(request, "usunietoWydatek.html", {})
+        messages.success(request, "Poprawnie usunięto wydatek z bazy")
+        return redirect('/podsumowanie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -299,9 +301,11 @@ def delete_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         income = get_object_or_404(Dochod, id=nr)
         if income.zrodlo.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         income.delete()
-        return render(request, "usunietoDochod.html", {})
+        messages.success(request, "Poprawnie usunięto dochód z bazy")
+        return redirect('/podsumowanie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -310,9 +314,11 @@ def delete_category(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         category = get_object_or_404(Kategoria, id=nr)
         if category.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         category.delete()
-        return render(request, "usunietoKategorie.html", {})
+        messages.success(request, "Poprawnie usunięto kategorię z bazy")
+        return redirect('/kategorie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -321,9 +327,11 @@ def delete_source(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         source = get_object_or_404(Zrodlo, id=nr)
         if source.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         source.delete()
-        return render(request, "usunietoKategorie.html", {})
+        messages.success(request, "Poprawnie usunięto źródło z bazy")
+        return redirect('/zrodla/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -331,7 +339,8 @@ def delete_source(request, nr, *args, **kwargs):
 def delete_account(request, *args, **kwargs):
     if request.user.is_authenticated:
         User.objects.get(id=request.user.id).delete()
-        return render(request, "usunKonto.html", {})
+        messages.success(request, "Twoje konto zostało usunięte poprawnie")
+        return redirect('/', request)
     else:
         return render(request, "unlogged.html", {})
 
