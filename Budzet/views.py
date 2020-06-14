@@ -571,7 +571,7 @@ class ViewPDF(View):
             incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
-            pdf = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+            pdf = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses, 'date': date.today()})
             return HttpResponse(pdf, content_type='application/pdf')
         else:
             return render(request, "unlogged.html", {})
@@ -584,7 +584,7 @@ class DownloadPDF(View):
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
             filename = "Transakcje_%s.pdf" % (date.today())
-            response = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses}, filename)
+            response = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses, 'date': date.today()}, filename)
             return response
         else:
             return render(request, "unlogged.html", {})

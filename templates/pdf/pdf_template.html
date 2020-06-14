@@ -58,7 +58,7 @@
 
 <body>
 <div id="header_content">
-    <h1>Historia transakcji</h1>
+    <span style="text-align: right">Data generowania dokumentu: {{ date.day }}/{{ date.month }}/{{ date.year }}</span>
 </div>
 
 <div id="footer_content"> page
@@ -66,6 +66,8 @@
     of
     <pdf:pagecount/>
 </div>
+
+<h1>Historia transakcji</h1>
 
 <div class='wrapper'>
     <div class='header'>
