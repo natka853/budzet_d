@@ -55,19 +55,19 @@
  </div>
        <div class="form-row">
    <div class="form-group col-md-2 col-lg-2">
-     <label for="inputEmail4">Minimalna Kwota</label>
+     <label for="kwotaMin">Minimalna Kwota</label>
      <input type="number" min=-10000000 class="form-control" id="kwotaMin" name="kwota_min" placeholder="Min. Kwota">
    </div>
    <div class="form-group col-md-2 col-lg-2">
-     <label for="inputPassword4">Maksymalna Kwota </label>
+     <label for="kwotaMax">Maksymalna Kwota </label>
      <input type="number" max="9999999999" class="form-control" id="kwotaMax" name="kwota_max" placeholder="Max. Kwota">
    </div>
    <div class="form-group col-md-2 col-lg-2">
-     <label for="inputEmail4">Data od</label>
+     <label for="dateMin">Data od</label>
      <input type="date" class="form-control" id="dateMin" name="date_min">
    </div>
    <div class="form-group col-md-2 col-lg-2">
-     <label for="inputPassword4">Data do </label>
+     <label for="dateMax">Data do </label>
      <input type="date" class="form-control" id="dateMax" name="date_max">
    </div>
    <div class="form-group col-md-4">
@@ -122,14 +122,41 @@
     </div>
         <div class="column" style="width: 50%">{{ fig2|safe }}</div>
 <hr>
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a> &nbsp; <a role="button" style="color: darkblue" class="btn btn-light" href="/fd">Przejdź do Filtruj dochody</a>
-        </br>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/fd">Przejdź do Filtruj dochody</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" onclick="downloadTable(false)">Podgląd PDF</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" onclick="downloadTable(true)">Pobierz jako PDF</a>
+    </br>
 
 </br>
 </main><!-- /.container -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
- </body>
+<script src="{% static 'downloadPdf.js' %}"></script>
+
+<script>
+    function downloadTable(isDownload) {
+        const serverUrl = "{{ request.get_host }}";
+        const protocol = {% if request.is_secure %}"https"{% else %}"http"{% endif %};
+        const requestUrl = protocol + "://" + serverUrl + "/table/";
+
+        const searchResult = [];
+        {% for wydatek in queryset %}
+            var row = {};
+            row.data = "{{ wydatek.data.day }}/{{ wydatek.data.month }}/{{ wydatek.data.year }}";
+            row.nazwa = "{{ wydatek.nazwa }}";
+            row.zrodlo = "{{ wydatek.kategoria }}";
+            row.opis = "{{ wydatek.opis }}";
+            row.kwota = "{{ wydatek.kwota }}";
+            searchResult.push(row);
+        {% endfor %}
+
+        generatePdf(requestUrl, searchResult, "Wydatki", isDownload)
+    }
+</script>
+
+</body>
 </html>
 {% endblock %}

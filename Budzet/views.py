@@ -1,3 +1,5 @@
+import json
+
 import plotly
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -15,7 +17,7 @@ from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm, \
     AdminRegisterForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect  # , redirect
 from .forms import UserRegisterForm
 
 
@@ -549,13 +551,17 @@ def filter_incomes(request):
         return render(request, "unlogged.html", {})
 
 
-def render_to_pdf(template_src, context_dict=None):
+def render_to_pdf(template_src, context_dict={}, filename="download.pdf"):
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()
     pdf = pisa.pisaDocument(BytesIO(html.encode('utf-8')), result)
     if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf')
+        response = HttpResponse(result.getvalue(), content_type='application/pdf')
+        pdf_value = result.getvalue()
+        response.write(pdf_value)
+        response['Content-Disposition'] = 'attachment; filename="%s"' % filename
+        return response
     return None
 
 
@@ -565,7 +571,7 @@ class ViewPDF(View):
             incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
-            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
+            pdf = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
             return HttpResponse(pdf, content_type='application/pdf')
         else:
             return render(request, "unlogged.html", {})
@@ -577,12 +583,25 @@ class DownloadPDF(View):
             incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
             expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by(
                 'data')
-            pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
-
-            response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Transakcje_%s.pdf" % ("1")
-            content = "attachment; filename=%s" % filename
-            response['Content-Disposition'] = content
+            filename = "Transakcje_%s.pdf" % (date.today())
+            response = render_to_pdf('pdf/pdf_template.html', {'incomes': incomes, 'expenses': expenses}, filename)
             return response
+        else:
+            return render(request, "unlogged.html", {})
+
+
+class FilterViewPDF(View):
+    def post(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            request_body = json.loads(request.body)
+            title = request_body['title']
+            parameters = {
+                'incomes': request_body['searchResult'],
+                'title': title,
+                'searchParameters': request_body['searchParameters'],
+                'date': date.today()
+            }
+            pdf = render_to_pdf('pdf/filter_pdf_template.html', parameters, '{}_{}.pdf'.format(title, date.today()))
+            return pdf
         else:
             return render(request, "unlogged.html", {})
