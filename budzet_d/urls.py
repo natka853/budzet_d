@@ -56,6 +56,7 @@ urlpatterns = [
     path('fd/', FilterIncomes),
     path('pdf_view/', views.ViewPDF.as_view(), name="pdf_view"),
     path('pdf_download/', views.DownloadPDF.as_view(), name="pdf_download"),
+    path('table/', views.FilterViewPDF.as_view(), name="table_pdf_view"),
 ]
 
 if settings.DEBUG:
