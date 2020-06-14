@@ -5,6 +5,11 @@
     <p class="lead">Twoje saldo: {{ balance|floatformat:"2" }} zł</br>Dzisiejsze dochody: {{ today_incomes }} zł</br>
         Dzisiejsze wydatki: {{ today_expenses }} zł </p>
     </div>
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
     <div>
     {{ fig|safe }}
     </div>

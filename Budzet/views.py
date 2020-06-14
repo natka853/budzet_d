@@ -15,7 +15,7 @@ from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm, \
     AdminRegisterForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .forms import UserRegisterForm
 
 
@@ -164,7 +164,7 @@ def my_categories(request, *args, **kwargs):
         return render(request, "unlogged.html", {})
 
 
-def add_income(request, *args, **kwargs):
+def add_expense(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
         today = date.today()
@@ -175,14 +175,14 @@ def add_income(request, *args, **kwargs):
             if not request.POST['data']:
                 expense.data = today
             expense.save()  # zapis do bazy danych
-            form = ExpenseForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano wydatek')
+            messages.success(request, 'Poprawnie dodano wydatek do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
 
-def add_expense(request, *args, **kwargs):
+def add_income(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
         today = date.today()
@@ -193,8 +193,8 @@ def add_expense(request, *args, **kwargs):
             if not request.POST['data']:
                 income.data = today
             income.save()  # zapis do bazy danych
-            form = IncomeForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano dochód')
+            messages.success(request, 'Poprawnie dodano dochód do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -207,8 +207,8 @@ def add_expense_category(request, *args, **kwargs):
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
-            form = CategoryForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano kategorię')
+            messages.success(request, 'Poprawnie dodano kategorię do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -221,8 +221,8 @@ def add_income_source(request, *args, **kwargs):
             us = form.save(commit=False)  # zapis obiektu
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
-            form = SourceForm()  # odświeżanie formularza
-            messages.success(request, 'Dodano źródło')
+            messages.success(request, 'Poprawnie dodano źródło do bazy')
+            return redirect('/podsumowanie/', request)
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -580,7 +580,7 @@ class DownloadPDF(View):
             pdf = render_to_pdf('app/pdf_template.html', {'incomes': incomes, 'expenses': expenses})
 
             response = HttpResponse(pdf, content_type='application/pdf')
-            filename = "Transakcje_%s.pdf" % ("1")
+            filename = "Transakcje_%s.pdf" % "1"
             content = "attachment; filename=%s" % filename
             response['Content-Disposition'] = content
             return response
