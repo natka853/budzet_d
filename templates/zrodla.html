@@ -3,7 +3,11 @@
 {% block content %}
     <h1 class="display-4"><b>Moje źródła</b></h1>
     </div>
-
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
     <table class="table">
         <thead>
         <tr>

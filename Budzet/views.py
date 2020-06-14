@@ -288,9 +288,11 @@ def delete_expense(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         expense = get_object_or_404(Wydatek, id=nr)
         if expense.kategoria.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         expense.delete()
-        return render(request, "usunietoWydatek.html", {})
+        messages.success(request, "Poprawnie usunięto wydatek z bazy")
+        return redirect('/podsumowanie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -299,9 +301,11 @@ def delete_income(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         income = get_object_or_404(Dochod, id=nr)
         if income.zrodlo.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         income.delete()
-        return render(request, "usunietoDochod.html", {})
+        messages.success(request, "Poprawnie usunięto dochód z bazy")
+        return redirect('/podsumowanie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -310,9 +314,11 @@ def delete_category(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         category = get_object_or_404(Kategoria, id=nr)
         if category.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         category.delete()
-        return render(request, "usunietoKategorie.html", {})
+        messages.success(request, "Poprawnie usunięto kategorię z bazy")
+        return redirect('/kategorie/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -321,9 +327,11 @@ def delete_source(request, nr, *args, **kwargs):
     if request.user.is_authenticated:
         source = get_object_or_404(Zrodlo, id=nr)
         if source.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         source.delete()
-        return render(request, "usunietoKategorie.html", {})
+        messages.success(request, "Poprawnie usunięto źródło z bazy")
+        return redirect('/zrodla/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -331,7 +339,8 @@ def delete_source(request, nr, *args, **kwargs):
 def delete_account(request, *args, **kwargs):
     if request.user.is_authenticated:
         User.objects.get(id=request.user.id).delete()
-        return render(request, "usunKonto.html", {})
+        messages.success(request, "Twoje konto zostało usunięte poprawnie")
+        return redirect('/', request)
     else:
         return render(request, "unlogged.html", {})
 

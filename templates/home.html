@@ -12,6 +12,11 @@
         <a class="btn btn-lg" href="/usunietoKonto" role="button" style="background: orangered">Usuń konto</a>
         </br>
     {% else %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
         <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
         <a class="btn btn-primary btn-lg" href="/login" role="button" name="Zaloguj">Zaloguj się</a> &nbsp;
         <a class="btn btn-primary btn-lg" href="/register" role="button">Zarejestruj się</a>
