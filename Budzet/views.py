@@ -423,8 +423,7 @@ def FilterExpenses(request):
     if is_valid_queryparam(date_max):
         wy = wy.filter(data__lt=date_max)
 
-    # jak to się wykona na wyszukiwaniu to później nie chcą działać inne wyszukiwania
-    if is_valid_queryparam(category):
+    if is_valid_queryparam(category) & (category != "Wybierz..."):
         wy = wy.filter(kategoria__nazwa=category)
 
     context = {
@@ -470,9 +469,8 @@ def FilterIncomes(request):
         if is_valid_queryparam(date_max):
             do = do.filter(data__lt=date_max)
 
-        # jak to się wykona na wyszukiwaniu to później nie chcą działać inne wyszukiwania
-        #    if is_valid_queryparam(zrodlo):
-        #        do = do.filter(zrodlo__nazwa=zrodlo)
+        if is_valid_queryparam(zrodlo) & (zrodlo != "Wybierz..."):
+            do = do.filter(zrodlo__nazwa=zrodlo)
 
         context = {
             'queryset': do,
