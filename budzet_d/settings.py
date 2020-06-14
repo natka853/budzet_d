@@ -122,3 +122,11 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
    STATIC_PATH,
 )
+
+if os.environ.get('DJANGO_DEBUG') == 'False':
+    print("Debug is disabled.")
+    DEBUG = False
+    ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+else:
+    print("Debug is enabled.")
+    DEBUG = True
