@@ -390,8 +390,8 @@ def is_valid_queryparam(param):
 
 
 def FilterExpenses(request):
-    wy = Wydatek.objects.all()
-    categories = Kategoria.objects.all()
+    wy = Wydatek.objects.filter(kategoria__user=request.user.id)
+    categories = Kategoria.objects.filter(user=request.user.id)
 
     name_contains_query = request.GET.get('name_contains')
     id_exact_query = request.GET.get('id_exact')
@@ -424,8 +424,8 @@ def FilterExpenses(request):
         wy = wy.filter(data__lt=date_max)
 
     # jak to się wykona na wyszukiwaniu to później nie chcą działać inne wyszukiwania
-    #    if is_valid_queryparam(category):
-    #        wy = wy.filter(kategoria__nazwa=category)
+    if is_valid_queryparam(category):
+        wy = wy.filter(kategoria__nazwa=category)
 
     context = {
         'queryset': wy,
@@ -437,8 +437,8 @@ def FilterExpenses(request):
 
 def FilterIncomes(request):
     if request.user.is_authenticated:
-        do = Dochod.objects.all()
-        sources = Zrodlo.objects.all()
+        do = Dochod.objects.filter(zrodlo__user=request.user.id)
+        sources = Zrodlo.objects.filter(user=request.user.id)
 
         name_contains_query = request.GET.get('name_contains')
         id_exact_query = request.GET.get('id_exact')
