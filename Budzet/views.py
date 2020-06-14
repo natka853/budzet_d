@@ -2,9 +2,8 @@ import plotly
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.db.models import Sum
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 import plotly.graph_objects as go
-# import plotly.express as px
 
 from io import BytesIO
 from django.http import HttpResponse
@@ -16,7 +15,7 @@ from Budzet.models import Dochod, Wydatek, Zrodlo, Kategoria
 from Budzet.forms import SourceForm, EditSourceForm, EditIncomeForm, EditExpenseForm, EditCategoryForm, \
     AdminRegisterForm
 from Budzet.forms import CategoryForm, IncomeForm, ExpenseForm
-from django.shortcuts import render, get_object_or_404, redirect  # , redirect
+from django.shortcuts import render, get_object_or_404
 from .forms import UserRegisterForm
 
 
@@ -389,7 +388,7 @@ def is_valid_queryparam(param):
     return param != '' and param is not None
 
 
-def FilterExpenses(request):
+def filter_expenses(request):
     wy = Wydatek.objects.filter(kategoria__user=request.user.id)
     categories = Kategoria.objects.filter(user=request.user.id)
 
@@ -401,6 +400,9 @@ def FilterExpenses(request):
     date_min = request.GET.get('date_min')
     date_max = request.GET.get('date_max')
     category = request.GET.get('category')
+
+    act_date = date.today() - timedelta(days=30)
+    tod_date = date.today()
 
     if is_valid_queryparam(name_contains_query):
         wy = wy.filter(nazwa__icontains=name_contains_query)
@@ -419,22 +421,53 @@ def FilterExpenses(request):
 
     if is_valid_queryparam(date_min):
         wy = wy.filter(data__gte=date_min)
+        act_date = datetime.strptime(date_min, '%Y-%m-%d').date()
 
     if is_valid_queryparam(date_max):
         wy = wy.filter(data__lt=date_max)
+        tod_date = datetime.strptime(date_max, '%Y-%m-%d').date()
 
     if is_valid_queryparam(category) & (category != "Wybierz..."):
         wy = wy.filter(kategoria__nazwa=category)
 
-    context = {
-        'queryset': wy,
-        'categories': categories,
-    }
+    dates = [act_date.strftime('%d-%m-%Y'), ]
+    bal = wy.filter(data=act_date).aggregate(Sum('kwota'))
+    if bal['kwota__sum'] is None:
+        bal['kwota__sum'] = 0.00
+    daily_balance = [bal['kwota__sum'], ]
+    act_date += timedelta(days=1)
+    while act_date <= tod_date:
+        dates.append(act_date.strftime('%d-%m-%Y'))
+        incomes_balance = wy.filter(data=act_date).aggregate(Sum('kwota'))
+        if incomes_balance['kwota__sum'] is None:
+            incomes_balance['kwota__sum'] = 0.00
+        bal = round(float(incomes_balance['kwota__sum']), 2)
+        act_date += timedelta(days=1)
+        daily_balance.append(bal)
+    fig = go.Figure(go.Scatter(
+        x=dates,
+        y=daily_balance,
+        mode='lines+markers'
+    ))
+    fig.update_layout(
+        xaxis=dict(
+            tickmode='linear',
+            tick0=0.5,
+            dtick=0.75,
+            title='Data',
+            titlefont={'family': 'Times New Roman'}
+        ),
+        yaxis=dict(title='Wydatki', titlefont={'family': 'Times New Roman'}),
+        title={'text': 'Twoje wydatki', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+        titlefont={'family': 'Times New Roman'},
+        paper_bgcolor='ghostwhite'
+    )
+    graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-    return render(request, "filtrujWydatki.html", context)
+    return render(request, "filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
 
 
-def FilterIncomes(request):
+def filter_incomes(request):
     if request.user.is_authenticated:
         do = Dochod.objects.filter(zrodlo__user=request.user.id)
         sources = Zrodlo.objects.filter(user=request.user.id)
@@ -447,6 +480,9 @@ def FilterIncomes(request):
         date_min = request.GET.get('date_min')
         date_max = request.GET.get('date_max')
         zrodlo = request.GET.get('zrodlo')
+
+        act_date = date.today() - timedelta(days=30)
+        tod_date = date.today()
 
         if is_valid_queryparam(name_contains_query):
             do = do.filter(nazwa__icontains=name_contains_query)
@@ -465,24 +501,55 @@ def FilterIncomes(request):
 
         if is_valid_queryparam(date_min):
             do = do.filter(data__gte=date_min)
+            act_date = datetime.strptime(date_min, '%Y-%m-%d').date()
 
         if is_valid_queryparam(date_max):
             do = do.filter(data__lt=date_max)
+            tod_date = datetime.strptime(date_max, '%Y-%m-%d').date()
 
         if is_valid_queryparam(zrodlo) & (zrodlo != "Wybierz..."):
             do = do.filter(zrodlo__nazwa=zrodlo)
 
-        context = {
-            'queryset': do,
-            'sources': sources,
-        }
+        dates = [act_date.strftime('%d-%m-%Y'), ]
+        bal = do.filter(data=act_date).aggregate(Sum('kwota'))
+        if bal['kwota__sum'] is None:
+            bal['kwota__sum'] = 0.00
+        daily_balance = [bal['kwota__sum'], ]
+        act_date += timedelta(days=1)
+        while act_date <= tod_date:
+            dates.append(act_date.strftime('%d-%m-%Y'))
+            incomes_balance = do.filter(data=act_date).aggregate(Sum('kwota'))
+            if incomes_balance['kwota__sum'] is None:
+                incomes_balance['kwota__sum'] = 0.00
+            bal = round(float(incomes_balance['kwota__sum']), 2)
+            act_date += timedelta(days=1)
+            daily_balance.append(bal)
+        fig = go.Figure(go.Scatter(
+            x=dates,
+            y=daily_balance,
+            mode='lines+markers'
+        ))
+        fig.update_layout(
+            xaxis=dict(
+                tickmode='linear',
+                tick0=0.5,
+                dtick=0.75,
+                title='Data',
+                titlefont={'family': 'Times New Roman'}
+            ),
+            yaxis=dict(title='Dochody', titlefont={'family': 'Times New Roman'}),
+            title={'text': 'Twoje dochody', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+            titlefont={'family': 'Times New Roman'},
+            paper_bgcolor='ghostwhite'
+        )
+        graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-        return render(request, "filtrujDochod.html", context)
+        return render(request, "filtrujDochod.html", {'queryset': do, 'sources': sources, 'fig': graph_div})
     else:
         return render(request, "unlogged.html", {})
 
 
-def render_to_pdf(template_src, context_dict={}):
+def render_to_pdf(template_src, context_dict=None):
     template = get_template(template_src)
     html = template.render(context_dict)
     result = BytesIO()
@@ -514,7 +581,7 @@ class DownloadPDF(View):
 
             response = HttpResponse(pdf, content_type='application/pdf')
             filename = "Transakcje_%s.pdf" % ("1")
-            content = "attachment; filename=%s" % (filename)
+            content = "attachment; filename=%s" % filename
             response['Content-Disposition'] = content
             return response
         else:
