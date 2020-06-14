@@ -533,7 +533,8 @@ class FilterViewPDF(View):
             parameters = {
                 'incomes': request_body['searchResult'],
                 'title': title,
-                'searchParameters': request_body['searchParameters']
+                'searchParameters': request_body['searchParameters'],
+                'date': date.today()
             }
             pdf = render_to_pdf('pdf/filter_pdf_template.html', parameters, '{}_{}.pdf'.format(title, date.today()))
             return pdf

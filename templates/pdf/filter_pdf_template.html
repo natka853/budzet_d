@@ -4,27 +4,27 @@
     <style>
 
         @page {
-            size: letter portrait;
+            size: A4;
             @frame header_frame {
-            -pdf-frame-content: header_content;
-            left: 50pt;
-            width: 512pt;
-            top: 50pt;
-            height: 40pt;
-        }
-        @frame content_frame {
-        left: 50pt;
-        width: 512pt;
-        top: 90pt;
-        height: 632pt;
-        }
-        @frame footer_frame {
-        -pdf-frame-content:footer_content;
-        left: 50pt;
-        width: 512pt;
-        top: 772pt;
-        height: 20pt;
-        }
+                -pdf-frame-content: header_content;
+                left: 50pt;
+                width: 512pt;
+                top: 50pt;
+                height: 40pt;
+            }
+            @frame content_frame {
+                left: 50pt;
+                width: 512pt;
+                top: 90pt;
+                height: 632pt;
+            }
+            @frame footer_frame {
+                -pdf-frame-content:footer_content;
+                left: 50pt;
+                width: 512pt;
+                top: 772pt;
+                height: 20pt;
+            }
         }
 
         body {
@@ -48,25 +48,20 @@
         .title span {
             color: #007cae;
         }
+
+        .details {
+            font-size: 12px;
+        }
     </style>
 </head>
 
 <body>
 <div id="header_content">
-    <div>
-        Filtry:
-        kwota minimum {{ searchParameters.kwotaMin }},
-        kwota maksimum {{ searchParameters.kwotaMax }},
-        data minimum {{ searchParameters.dateMin }},
-        data maksimum {{ searchParameters.dateMax }}
-    </div>
+    {{ date.day }}/{{ date.month }}/{{ date.year }}
 </div>
 
 <div id="footer_content">
-    Strona
-    <pdf:pagenumber/>
-    /
-    <pdf:pagecount/>
+    Strona <pdf:pagenumber/>/<pdf:pagecount/>
 </div>
 
 <div class='wrapper'>
@@ -98,6 +93,37 @@
         {% endfor %}
         </tbody>
     </table>
+</div>
+<br/>
+<div class="details">
+    Filtry:
+    {% if searchParameters.kwotaMin != '' %}
+        kwota min: {{ searchParameters.kwotaMin }}
+    {% endif %}
+
+    {% if searchParameters.kwotaMax != '' %}
+        kwota maks: {{ searchParameters.kwotaMax }}
+    {% endif %}
+
+    {% if searchParameters.dateMin != '' %}
+        data min: {{ searchParameters.dateMin }}
+    {% endif %}
+
+    {% if searchParameters.dateMax != '' %}
+        data maks: {{ searchParameters.dateMax }}
+    {% endif %}
+
+    {% if searchParameters.nameContains != '' %}
+        nazwa: {{ searchParameters.nameContains }}
+    {% endif %}
+
+    {% if searchParameters.idExact != '' %}
+        id: {{ searchParameters.idExact }}
+    {% endif %}
+
+    {% if searchParameters.descriptionContains != '' %}
+        opis: {{ searchParameters.descriptionContains }}
+    {% endif %}
 </div>
 </body>
 </html>
