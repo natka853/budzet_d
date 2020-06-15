@@ -41,9 +41,11 @@
                 <tbody>
                 {% for object in result %}
                     <tr>
-                        {% for key, value in object.items %}
-                            <td>{{ value }}</td>
-                        {% endfor %}
+                        <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year|stringformat:"02d" }}</td>
+                        <td>{{ object.nazwa }}</td>
+                        <td>{{ object.kategoria }}</td>
+                        <td>{{ object.opis }}</td>
+                        <td>{{ object.kwota }}</td>
                     </tr>
                 {% endfor %}
                 </tbody>
