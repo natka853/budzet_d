@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% block content %}
+{% block title %}prawidlowe wylogowanie{% endblock %}
+{% block jumbotron %}
         <h2>Zostałeś wylogowany pomyślnie </h2>
         <div class="border-top pt-3">
             <small class="text-muted">
                 <a href="{% url 'login' %}">Zaloguj się ponownie</a>
             </small>
         </div>
-{% endblock content %}
+{% endblock %}

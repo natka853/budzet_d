@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-
-{% block content %}
+{% block title %}źródła{% endblock %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Moje źródła</b></h1>
-    </div>
+{% endblock %}
+{% block content %}
     {% if messages %}
         {% for message in messages %}
             {% if message.tags == 'error' %}
@@ -41,6 +42,8 @@
         <hr>
         <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
         <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj źródło</a>
         </br>
     <br/>
 {% endblock %}

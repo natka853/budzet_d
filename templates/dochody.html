@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}{{ upper }}dochody{% endblock %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Moje dochody</b></h1>
-    </div>
-
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                <p class="alert alert-danger">
+                    {{ message }}
+                </p>
+            {% else %}
+                <p class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <table class="table">
         <thead>
             <tr>
@@ -38,6 +52,7 @@
     <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/zrodla">Przejdź do źródeł</a>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/wydatki">Przejdź do wydatków</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajPrzychod">Dodaj dochód</a>
     <br/>
     <br/>
 {% endblock %}

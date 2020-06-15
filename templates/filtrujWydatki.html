@@ -1,18 +1,15 @@
 {% extends 'base.html' %}
-{% block content %}
+{% block title %}filtruj wydatki{% endblock %}
 {% load static %}
 
-<html lang="en">
- <head>
-   <meta charset="utf-8">
+{% block head %}
    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
    <meta name="description" content="">
-   <title>Filtruj Wydatki</title>
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    <link rel="stylesheet" href="{% static 'templates.css' %}">
    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
- </head>
- <body>
+{% endblock %}
+{% block jumbotron %}
 <main role="main" class="container">
    <h3>Filtruj wydatki</h3>
     </br>
@@ -82,9 +79,9 @@
        </div>
      </label>
    <button type="submit" class="btn btn-primary">Szukaj</button>
-   </div>
    </form>
-   <hr/>
+{% endblock %}
+{% block content %}
  <div class="row">
         <div class="column" style="width: 50%">{{ fig2|safe }}</div>
         <div class="column" style="width: 50%">{{ fig3|safe }}</div>

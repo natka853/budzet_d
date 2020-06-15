@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}dodaj kategorię{% endblock %}
 
-{% block content %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Dodaj kategorię wydatku</b></h1>
-    </div>
+{% endblock %}
+{% block content %}
     <form method="post" class="needs-validation" novalidate> {% csrf_token %}
         <div class="form-group">
             <div>
@@ -13,22 +15,15 @@
                 </div>
             </div>
 
-            <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>
+            <input type="submit" value="Dodaj" role="button" class="btn btn-primary btn-lg"/>&nbsp
             <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
         </div>
     </form>
     <br/>
     <hr>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajWydatek">Przejdź do Dodaj Wydatek</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/kategorie">Przejdź do kategorii</a>&nbsp
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>
     </br>
-
-</br>
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
 {% endblock %}
-

@@ -295,7 +295,7 @@ def edit_income(request, nr, *args, **kwargs):
         income = get_object_or_404(Dochod, id=nr)
         if income.zrodlo.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/dochody/', request)
         sources = Zrodlo.objects.filter(user=request.user.id).exclude(id=income.zrodlo.id)
         if form.is_valid():
             if request.POST['nazwa']:
@@ -320,7 +320,7 @@ def delete_expense(request, nr, *args, **kwargs):
         expense = get_object_or_404(Wydatek, id=nr)
         if expense.kategoria.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/wydatki/', request)
         expense.delete()
         messages.success(request, "Poprawnie usunięto wydatek z bazy")
         return redirect('/podsumowanie/', request)
@@ -336,7 +336,7 @@ def delete_income(request, nr, *args, **kwargs):
             return redirect('/podsumowanie/', request)
         income.delete()
         messages.success(request, "Poprawnie usunięto dochód z bazy")
-        return redirect('/podsumowanie/', request)
+        return redirect('/dochody/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -346,7 +346,7 @@ def delete_category(request, nr, *args, **kwargs):
         category = get_object_or_404(Kategoria, id=nr)
         if category.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/kategorie/', request)
         category.delete()
         messages.success(request, "Poprawnie usunięto kategorię z bazy")
         return redirect('/kategorie/', request)
@@ -359,7 +359,7 @@ def delete_source(request, nr, *args, **kwargs):
         source = get_object_or_404(Zrodlo, id=nr)
         if source.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/zrodla/', request)
         source.delete()
         messages.success(request, "Poprawnie usunięto źródło z bazy")
         return redirect('/zrodla/', request)
@@ -382,7 +382,7 @@ def edit_expense(request, nr, *args, **kwargs):
         expense = get_object_or_404(Wydatek, id=nr)
         if expense.kategoria.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/wydatki/', request)
         categories = Kategoria.objects.filter(user=request.user.id).exclude(id=expense.kategoria.id)
         if form.is_valid():
             if request.POST['nazwa']:
@@ -396,7 +396,7 @@ def edit_expense(request, nr, *args, **kwargs):
             expense.kategoria = form.cleaned_data.get('kategoria')
             expense.save()
             messages.success(request, "Poprawnie edytowano wydatek")
-            return redirect('/podsumowanie/', request)
+            return redirect('/wydatki/', request)
         return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'expense': expense})
     else:
         return render(request, "unlogged.html", {})
@@ -421,7 +421,8 @@ def register_admin(request):
             user.is_staff = True
             user.is_superuser = True
             user.save()
-            return render(request, 'users/admin_register_success.html', {})
+            messages.success(request, 'Poprawnie zarejestrowano nowego administratora')
+            return redirect('/admin/auth/user/', request)
     else:
         form = AdminRegisterForm()
     return render(request, 'users/admin_register.html', {'form': form})
@@ -432,82 +433,85 @@ def is_valid_queryparam(param):
 
 
 def filter_expenses(request):
-    wy = Wydatek.objects.filter(kategoria__user=request.user.id)
-    categories = Kategoria.objects.filter(user=request.user.id)
+    if request.user.is_authenticated:
+        wy = Wydatek.objects.filter(kategoria__user=request.user.id)
+        categories = Kategoria.objects.filter(user=request.user.id)
 
-    name_contains_query = request.GET.get('name_contains')
-    id_exact_query = request.GET.get('id_exact')
-    description_contains_query = request.GET.get('description_contains')
-    kwota_min = request.GET.get('kwota_min')
-    kwota_max = request.GET.get('kwota_max')
-    date_min = request.GET.get('date_min')
-    date_max = request.GET.get('date_max')
-    category = request.GET.get('category')
+        name_contains_query = request.GET.get('name_contains')
+        id_exact_query = request.GET.get('id_exact')
+        description_contains_query = request.GET.get('description_contains')
+        kwota_min = request.GET.get('kwota_min')
+        kwota_max = request.GET.get('kwota_max')
+        date_min = request.GET.get('date_min')
+        date_max = request.GET.get('date_max')
+        category = request.GET.get('category')
 
-    act_date = date.today() - timedelta(days=30)
-    tod_date = date.today()
+        act_date = date.today() - timedelta(days=30)
+        tod_date = date.today()
 
-    if is_valid_queryparam(name_contains_query):
-        wy = wy.filter(nazwa__icontains=name_contains_query)
+        if is_valid_queryparam(name_contains_query):
+            wy = wy.filter(nazwa__icontains=name_contains_query)
 
-    if is_valid_queryparam(id_exact_query):
-        wy = wy.filter(id=id_exact_query)
+        if is_valid_queryparam(id_exact_query):
+            wy = wy.filter(id=id_exact_query)
 
-    if is_valid_queryparam(description_contains_query):
-        wy = wy.filter(opis__icontains=description_contains_query)
+        if is_valid_queryparam(description_contains_query):
+            wy = wy.filter(opis__icontains=description_contains_query)
 
-    if is_valid_queryparam(kwota_min):
-        wy = wy.filter(kwota__gte=kwota_min)
+        if is_valid_queryparam(kwota_min):
+            wy = wy.filter(kwota__gte=kwota_min)
 
-    if is_valid_queryparam(kwota_max):
-        wy = wy.filter(kwota__lt=kwota_max)
+        if is_valid_queryparam(kwota_max):
+            wy = wy.filter(kwota__lt=kwota_max)
 
-    if is_valid_queryparam(date_min):
-        wy = wy.filter(data__gte=date_min)
-        act_date = datetime.strptime(date_min, '%Y-%m-%d').date()
+        if is_valid_queryparam(date_min):
+            wy = wy.filter(data__gte=date_min)
+            act_date = datetime.strptime(date_min, '%Y-%m-%d').date()
 
-    if is_valid_queryparam(date_max):
-        wy = wy.filter(data__lt=date_max)
-        tod_date = datetime.strptime(date_max, '%Y-%m-%d').date()
+        if is_valid_queryparam(date_max):
+            wy = wy.filter(data__lt=date_max)
+            tod_date = datetime.strptime(date_max, '%Y-%m-%d').date()
 
-    if is_valid_queryparam(category) & (category != "Wybierz..."):
-        wy = wy.filter(kategoria__nazwa=category)
+        if is_valid_queryparam(category) & (category != "Wybierz..."):
+            wy = wy.filter(kategoria__nazwa=category)
 
-    dates = [act_date.strftime('%d-%m-%Y'), ]
-    bal = wy.filter(data=act_date).aggregate(Sum('kwota'))
-    if bal['kwota__sum'] is None:
-        bal['kwota__sum'] = 0.00
-    daily_balance = [bal['kwota__sum'], ]
-    act_date += timedelta(days=1)
-    while act_date <= tod_date:
-        dates.append(act_date.strftime('%d-%m-%Y'))
-        incomes_balance = wy.filter(data=act_date).aggregate(Sum('kwota'))
-        if incomes_balance['kwota__sum'] is None:
-            incomes_balance['kwota__sum'] = 0.00
-        bal = round(float(incomes_balance['kwota__sum']), 2)
+        dates = [act_date.strftime('%d-%m-%Y'), ]
+        bal = wy.filter(data=act_date).aggregate(Sum('kwota'))
+        if bal['kwota__sum'] is None:
+            bal['kwota__sum'] = 0.00
+        daily_balance = [bal['kwota__sum'], ]
         act_date += timedelta(days=1)
-        daily_balance.append(bal)
-    fig = go.Figure(go.Scatter(
-        x=dates,
-        y=daily_balance,
-        mode='lines+markers'
-    ))
-    fig.update_layout(
-        xaxis=dict(
-            tickmode='linear',
-            tick0=0.5,
-            dtick=0.75,
-            title='Data',
-            titlefont={'family': 'Times New Roman'}
-        ),
-        yaxis=dict(title='Wydatki', titlefont={'family': 'Times New Roman'}),
-        title={'text': 'Twoje wydatki', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
-        titlefont={'family': 'Times New Roman'},
-        paper_bgcolor='ghostwhite'
-    )
-    graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
+        while act_date <= tod_date:
+            dates.append(act_date.strftime('%d-%m-%Y'))
+            incomes_balance = wy.filter(data=act_date).aggregate(Sum('kwota'))
+            if incomes_balance['kwota__sum'] is None:
+                incomes_balance['kwota__sum'] = 0.00
+            bal = round(float(incomes_balance['kwota__sum']), 2)
+            act_date += timedelta(days=1)
+            daily_balance.append(bal)
+        fig = go.Figure(go.Scatter(
+            x=dates,
+            y=daily_balance,
+            mode='lines+markers'
+        ))
+        fig.update_layout(
+            xaxis=dict(
+                tickmode='linear',
+                tick0=0.5,
+                dtick=0.75,
+                title='Data',
+                titlefont={'family': 'Times New Roman'}
+            ),
+            yaxis=dict(title='Wydatki', titlefont={'family': 'Times New Roman'}),
+            title={'text': 'Twoje wydatki', 'y': 0.9, 'x': 0.5, 'xanchor': 'center', 'yanchor': 'top'},
+            titlefont={'family': 'Times New Roman'},
+            paper_bgcolor='ghostwhite'
+        )
+        graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-    return render(request, "filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
+        return render(request, "filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
+    else:
+        return render(request, "unlogged.html", {})
 
 
 def filter_incomes(request):

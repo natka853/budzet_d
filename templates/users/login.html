@@ -1,5 +1,6 @@
 {% extends "base.html" %}
-{% block content %}
+{% block title %}logowanie{% endblock %}
+{% block jumbotron %}
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -16,4 +17,4 @@
                 Potrzebujesz nowego konta? <a class="ml-2" href="/register">Zarejestruj się już teraz!</a>
             </small>
         </div>
-{% endblock content %}
+{% endblock %}

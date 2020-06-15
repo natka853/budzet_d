@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-
-{% block content %}
+{% block title %}edytuj wydatek{% endblock %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Edytuj wydatek</b></h1>
-    </div>
-
+{% endblock %}
+{% block content %}
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
             <label for="nazwa">Podaj nazwę wydatku</label></br>

@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-
-{% block content %}
+{% block title %}dodaj źródło{% endblock %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Dodaj źródło dochodu</b></h1>
-    </div>
+{% endblock %}
+{% block content %}
     <form method="post" class="needs-validation" novalidate> {% csrf_token %}
         <div class="form-group">
             <div>
@@ -18,15 +19,10 @@
         </div>
         <hr>
         <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajPrzychod">Przejdź do Dodaj Dochód</a>
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/zrodla">Przejdź do źródeł</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajPrzychod">Dodaj dochód</a>
         </br>
     </form>
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-        {% endfor %}
-    {% endif %}
-
 {% endblock %}
 

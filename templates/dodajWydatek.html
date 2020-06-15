@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
+{% block title %}dodaj wydatek{% endblock %}
 
-{% block content %}
+{% block jumbotron %}
     <h1 class="display-4"><b>Dodaj wydatek</b></h1>
-    </div>
+{% endblock %}
+{% block content %}
     <form method="post" class="needs-validation" novalidate> {% csrf_token %}
 
         <div class="form-group">
@@ -51,7 +53,8 @@
         <hr>
          <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
         <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajPrzychod">Przejdź do Dodaj Dochód</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/wydatki">Przejdź do wydatków</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajPrzychod">Dodaj dochód</a>&nbsp;
         </br>
     </form>
 {% endblock %}
