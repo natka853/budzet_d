@@ -75,9 +75,9 @@
            <div class="form-group col-md-4">
                <label for="inputState">Źródło</label>
                <select id="inputState" class="form-control" name="zrodlo">
-                   <option selected>Choose...</option>
+                   <option selected>Wybierz...</option>
                    {% for sour in sources %}
-                       <option value="{{ sour.id }}">{{ sour.nazwa }}</option>
+                       <option value="{{ sour.nazwa }}">{{ sour.nazwa }}</option>
                    {% endfor %}
                </select>
            </div>
