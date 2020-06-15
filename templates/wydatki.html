@@ -6,24 +6,35 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col">Data</th>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Kategoria</th>
-            <th scope="col">Opis</th>
-            <th scope="col">Kwota</th>
-        </tr>
+            <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Kategoria</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Akcje</th>
+            </tr>
         </thead>
         <tbody>
             {% for object in expenses %}
                 <tr>
-                    <td>{{ object.data }}</td>
+                    <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
                     <td>{{ object.nazwa }}</td>
                     <td>{{ object.kategoria }}</td>
                     <td>{{ object.opis }}</td>
-                    <td style="float: right">{{ object.kwota }}</td>
+                    <td style="float: right; color: red">-{{ object.kwota }}</td>
+                    <td><a title="Edytuj wydatek" href="/{{ object.id }}/edytujWydatek">
+                        <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń wydatek" href="/{{ object.id }}/usunietoWydatek"
+                           onclick="return confirm('Czy na pewno chcesz usunąć wybrany wydatek?')">
+                            <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
+                    </td>
                 </tr>
             {% endfor %}
-        </tbody>
-    </table>
+         </tbody>
+     </table>
+    <hr>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/kategorie">Przejdź do kategorii</a>
 {% endblock %}
