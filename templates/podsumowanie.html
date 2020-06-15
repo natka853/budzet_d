@@ -45,7 +45,13 @@
                         <td>{{ object.nazwa }}</td>
                         <td>{{ object.kategoria }}</td>
                         <td>{{ object.opis }}</td>
-                        <td>{{ object.kwota }}</td>
+
+                        {% if object.kwota > 0 %}
+                            <td style="color: green">{{ object.kwota }}</td>
+                        {% else %}
+                            <td style="color: red">{{ object.kwota }}</td>
+                        {% endif %}
+
                     </tr>
                 {% endfor %}
                 </tbody>
