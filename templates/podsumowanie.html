@@ -27,62 +27,23 @@
     </div>
     <div class="row">
         <div class="col-9">
-            <h4> Historia dochodów</h4>
+            <h4> Historia </h4>
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Data</th>
                     <th scope="col">Nazwa</th>
-                    <th scope="col">Źródło</th>
+                    <th scope="col">Źródło/Kategoria</th>
                     <th scope="col">Opis</th>
                     <th scope="col">Kwota</th>
-                    <th scope="col">Akcje</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for object in incomes %}
+                {% for object in result %}
                     <tr>
-                        <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
-                        <td>{{ object.nazwa }}</td>
-                        <td>{{ object.zrodlo }}</td>
-                        <td>{{ object.opis }}</td>
-                        <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
-                        <td><a title="Edytuj dochód" href="/{{ object.id }}/edytujDochod">
-                            <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
-                            <a title="Usuń dochód" href="/{{ object.id }}/usunietoDochod"
-                               onclick="return confirm('Czy na pewno chcesz usunąć wybrany dochód?')">
-                                <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        <h4> Historia wydatków</h4>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Kategoria</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Kwota</th>
-                    <th scope="col">Akcje</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for object in expenses %}
-                    <tr>
-                        <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
-                        <td>{{ object.nazwa }}</td>
-                        <td>{{ object.kategoria }}</td>
-                        <td>{{ object.opis }}</td>
-                        <td style="float: right; color: red">-{{ object.kwota }}</td>
-                        <td><a title="Edytuj wydatek" href="/{{ object.id }}/edytujWydatek">
-                            <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
-                            <a title="Usuń wydatek" href="/{{ object.id }}/usunietoWydatek"
-                               onclick="return confirm('Czy na pewno chcesz usunąć wybrany wydatek?')">
-                                <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
-                        </td>
+                        {% for key, value in object.items %}
+                            <td>{{ value }}</td>
+                        {% endfor %}
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -128,8 +89,7 @@
                 <a href="/pdf_download" class="list-group-item list-group-item-action"
                    style="height: 40px; background-color: ghostwhite">Pobierz
                     historię transakcji</a>
-
-                    <br/>
+                <br/>
                 <a href="/" class="list-group-item list-group-item-action"
                    style="height: 40px; background-color: ghostwhite">Wróć do strony
                     głównej</a>
