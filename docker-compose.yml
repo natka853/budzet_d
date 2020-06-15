@@ -5,7 +5,7 @@ services:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     environment:
-      - DJANGO_DEBUG=False
+      - DJANGO_DEBUG=True
     volumes:
       - .:/code
     ports:

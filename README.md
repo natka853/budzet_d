@@ -14,3 +14,8 @@ Konto usera:
 Konto superusera:
 - login:
 - hasło:
+
+#### Zmiana trybu DEBUG
+
+W pliku docker-compose.yml w `environment` ustawić opcję 
+`DJANGO_DEBUG` na `True`, aby włączyć tryb debug, na `False`, aby go wyłączyć.
