@@ -1,19 +1,32 @@
+from time import sleep
 from selenium import webdriver
 import unittest
 
 
 class tests(unittest.TestCase):
-    def test_open_main_page(self):
+    def A_test_open_main_page(self):
         driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
         driver.get('localhost:8000/')  # otwiera stronę podstawową w przeglądarce
         # driver.get('https://demobank.jaktestowac.pl/logowanie_prod.html')
         title = driver.title  # to co wyświetla się na karcie przeglądarki
-        print(title)
         assert 'Budżet domowy' == title  # sprawdza czy tytuł strony to 'Budżet domowy'
         driver.quit()  # zamyka przeglądarkę
 
-    def test_bad_login(self):
+    def B_test_bad_login(self):
         driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
         driver.get('localhost:8000/login')  # otwiera stronę logowania w przeglądarce
-        driver.find_element_by_name("Zaloguj").click()  # klika przycisk zaloguj w przeglądarce ale nie sprawdza czy nie zalogowało
+        driver.find_element_by_name("Zaloguj").click()
+        assert driver.current_url == 'http://localhost:8000/login/'
+        driver.quit()
+
+    def C_test_register(self):
+        driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
+        driver.get('localhost:8000/register')  # otwiera stronę logowania w przeglądarce
+        driver.find_element_by_name('username').send_keys('TestowyUzytkownik')
+        driver.find_element_by_name('email').send_keys('aaaaaaa@aa.xyz')
+        driver.find_element_by_name('password1').send_keys('SerotoninaA')
+        driver.find_element_by_name('password2').send_keys('SerotoninaA')
+        driver.find_element_by_name('Zarejestruj się').click()
+        sleep(1)
+        assert driver.find_element_by_name('rejestracja').is_displayed()
         driver.quit()
