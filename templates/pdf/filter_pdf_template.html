@@ -128,6 +128,14 @@
         opis: {{ searchParameters.descriptionContains }}
     {% endif %}
 
+    {% if searchParameters.kwotaMax == None and searchParameters.kwotaMin == None and searchParameters.dateMin == None %}
+        {% if searchParameters.dateMax == None and searchParameters.nameContains == None and searchParameters.idExact == None %}
+            {% if searchParameters.descriptionContains == None %}
+                -
+            {% endif %}
+        {% endif %}
+    {% endif %}
+
 </div>
 </body>
 </html>
