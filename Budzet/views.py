@@ -78,22 +78,25 @@ def summary(request, *args, **kwargs):
             daily_balance.append(bal)
 
         result_list = []
+        limit_date = date.today() - timedelta(days=30)
         for x in Dochod.objects.all():
-            row = {}
-            row['data'] = x.data
-            row['nazwa'] = x.nazwa
-            row['kategoria'] = x.zrodlo
-            row['opis'] = x.opis
-            row['kwota'] = x.kwota
-            result_list.append(row)
+            if x.data > limit_date:
+                row = {}
+                row['data'] = x.data
+                row['nazwa'] = x.nazwa
+                row['kategoria'] = x.zrodlo
+                row['opis'] = x.opis
+                row['kwota'] = x.kwota
+                result_list.append(row)
         for x in Wydatek.objects.all():
-            row = {}
-            row['data'] = x.data
-            row['nazwa'] = x.nazwa
-            row['kategoria'] = x.kategoria
-            row['opis'] = x.opis
-            row['kwota'] = -x.kwota
-            result_list.append(row)
+            if x.data > limit_date:
+                row = {}
+                row['data'] = x.data
+                row['nazwa'] = x.nazwa
+                row['kategoria'] = x.kategoria
+                row['opis'] = x.opis
+                row['kwota'] = -x.kwota
+                result_list.append(row)
 
         newlist = sorted(result_list, key=lambda k: k['data'], reverse=True)
 
