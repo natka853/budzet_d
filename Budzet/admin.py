@@ -1,6 +1,9 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
-# Register your models here.
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
+
+from .forms import AdminRegisterForm
 from .models import Dochod, Zrodlo, Wydatek, Kategoria
 
 
@@ -24,6 +27,16 @@ class ZrodloAdmin(admin.ModelAdmin):
     list_filter = ('user', )
 
 
+admin.site.unregister(User)
+
+
+@admin.register(User)
+class UserAdmin(UserAdmin):
+    add_form = AdminRegisterForm
+    model = User
+    list_display = ('username', 'email', 'is_staff', 'is_superuser')
+
+
 admin.site.register(Dochod, DochodAdmin)
 admin.site.register(Zrodlo, ZrodloAdmin)
 admin.site.register(Wydatek, WydatekAdmin)
@@ -33,4 +46,3 @@ admin.site.unregister(Group)
 # Changing admin header
 admin.site.site_header = "Administracja budżetu domowego"
 admin.site.index_title = "Administracja budżetu"
-
