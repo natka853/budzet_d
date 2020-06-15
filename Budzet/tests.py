@@ -4,7 +4,7 @@ import unittest
 
 
 class tests(unittest.TestCase):
-    def A_test_open_main_page(self):
+    def test_A_open_main_page(self):
         driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
         driver.get('localhost:8000/')  # otwiera stronę podstawową w przeglądarce
         # driver.get('https://demobank.jaktestowac.pl/logowanie_prod.html')
@@ -12,14 +12,14 @@ class tests(unittest.TestCase):
         assert 'Budżet domowy' == title  # sprawdza czy tytuł strony to 'Budżet domowy'
         driver.quit()  # zamyka przeglądarkę
 
-    def B_test_bad_login(self):
+    def test_B_bad_login(self):
         driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
         driver.get('localhost:8000/login')  # otwiera stronę logowania w przeglądarce
         driver.find_element_by_name("Zaloguj").click()
         assert driver.current_url == 'http://localhost:8000/login/'
         driver.quit()
 
-    def C_test_register(self):
+    def test_C_register(self):
         driver = webdriver.Chrome(executable_path=r'C:\Testy\chromedriver.exe')
         driver.get('localhost:8000/register')  # otwiera stronę logowania w przeglądarce
         driver.find_element_by_name('username').send_keys('TestowyUzytkownik')
