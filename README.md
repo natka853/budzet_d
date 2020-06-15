@@ -1,9 +1,10 @@
 ## Budżet domowy
 
 ### Uruchomienie
-1. Uruchom terminal
-2. Wejdź do folderu z projektem
-3. Wykonaj komendę `docker-compose up`
+1. Uruchomić Docker
+2. Uruchom terminal
+3. Wejdź do folderu z projektem
+4. Wykonaj komendę `docker-compose up`
 
 ### Dostęp do kont
 
