@@ -235,11 +235,13 @@ def edit_expense_category(request, nr, *args, **kwargs):
         form = EditCategoryForm(request.POST or None)
         category = get_object_or_404(Kategoria, id=nr)
         if category.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/kategorie/', request)
         if form.is_valid():
             category.nazwa = form.cleaned_data.get('nazwa')
             category.save()
-            form = EditCategoryForm()
+            messages.success(request, "Poprawnie edytowano kategorię wydatku")
+            return redirect('/kategorie/', request)
         return render(request, "edytujKategorieWydatku.html", {'form': form, 'category': category})
     else:
         return render(request, "unlogged.html", {})
@@ -250,11 +252,13 @@ def edit_income_source(request, nr, *args, **kwargs):
         form = EditSourceForm(request.POST or None)
         source = get_object_or_404(Zrodlo, id=nr)
         if source.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/zrodla/', request)
         if form.is_valid():
             source.nazwa = form.cleaned_data.get('nazwa')
             source.save()
-            form = EditSourceForm()
+            messages.success(request, "Poprawnie edytowano źródło dochodu")
+            return redirect('/zrodla/', request)
         return render(request, "edytujZrodloDochodu.html", {'form': form, 'source': source})
     else:
         return render(request, "unlogged.html", {})
@@ -265,7 +269,8 @@ def edit_income(request, nr, *args, **kwargs):
         form = EditIncomeForm(request.POST or None)
         income = get_object_or_404(Dochod, id=nr)
         if income.zrodlo.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         sources = Zrodlo.objects.filter(user=request.user.id).exclude(id=income.zrodlo.id)
         if form.is_valid():
             if request.POST['nazwa']:
@@ -278,7 +283,8 @@ def edit_income(request, nr, *args, **kwargs):
                 income.data = form.cleaned_data.get('data')
             income.zrodlo = form.cleaned_data.get('zrodlo')
             income.save()
-            form = EditIncomeForm()
+            messages.success(request, "Poprawnie edytowano dochód")
+            return redirect('/podsumowanie/', request)
         return render(request, "edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
     else:
         return render(request, "unlogged.html", {})
@@ -350,7 +356,8 @@ def edit_expense(request, nr, *args, **kwargs):
         form = EditExpenseForm(request.POST or None)
         expense = get_object_or_404(Wydatek, id=nr)
         if expense.kategoria.user.id != request.user.id:
-            return render(request, "noPermission.html", {})
+            messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
+            return redirect('/podsumowanie/', request)
         categories = Kategoria.objects.filter(user=request.user.id).exclude(id=expense.kategoria.id)
         if form.is_valid():
             if request.POST['nazwa']:
@@ -363,7 +370,8 @@ def edit_expense(request, nr, *args, **kwargs):
                 expense.data = form.cleaned_data.get('data')
             expense.kategoria = form.cleaned_data.get('kategoria')
             expense.save()
-            form = EditExpenseForm()
+            messages.success(request, "Poprawnie edytowano wydatek")
+            return redirect('/podsumowanie/', request)
         return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'expense': expense})
     else:
         return render(request, "unlogged.html", {})
