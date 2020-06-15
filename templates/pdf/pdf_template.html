@@ -58,7 +58,7 @@
 
 <body>
 <div id="header_content">
-    <span style="text-align: right">Data generowania dokumentu: {{ date.day }}/{{ date.month }}/{{ date.year }}</span>
+    <span style="text-align: right">Data generowania dokumentu: {{ date.day|stringformat:"02d" }}/{{ date.month|stringformat:"02d" }}/{{ date.year }}</span>
 </div>
 
 <div id="footer_content"> page

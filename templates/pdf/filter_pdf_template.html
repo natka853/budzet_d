@@ -57,7 +57,7 @@
 
 <body>
 <div id="header_content">
-    Data wygenerowania dokumentu: {{ date.day }}/{{ date.month }}/{{ date.year }}
+    Data wygenerowania dokumentu: {{ date.day|stringformat:"02d" }}/{{ date.month|stringformat:"02d" }}/{{ date.year }}
 </div>
 
 <div id="footer_content">
