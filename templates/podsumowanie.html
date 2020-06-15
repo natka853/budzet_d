@@ -27,13 +27,13 @@
     </div>
     <div class="row">
         <div class="col-9">
-            <h4> Historia </h4>
+            <h4> Historia dochodów</h4>
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">Data</th>
                     <th scope="col">Nazwa</th>
-                    <th scope="col">Źródło/Kategoria</th>
+                    <th scope="col">Źródło</th>
                     <th scope="col">Opis</th>
                     <th scope="col">Kwota</th>
                     <th scope="col">Akcje</th>
@@ -55,6 +55,21 @@
                         </td>
                     </tr>
                 {% endfor %}
+                </tbody>
+            </table>
+        <h4> Historia wydatków</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Data</th>
+                    <th scope="col">Nazwa</th>
+                    <th scope="col">Kategoria</th>
+                    <th scope="col">Opis</th>
+                    <th scope="col">Kwota</th>
+                    <th scope="col">Akcje</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for object in expenses %}
                     <tr>
                         <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
