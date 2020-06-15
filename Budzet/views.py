@@ -203,7 +203,7 @@ def add_expense(request, *args, **kwargs):
                 expense.data = today
             expense.save()  # zapis do bazy danych
             messages.success(request, 'Poprawnie dodano wydatek do bazy')
-            return redirect('/podsumowanie/', request)
+            return redirect('/wydatki/', request)
         return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -221,7 +221,7 @@ def add_income(request, *args, **kwargs):
                 income.data = today
             income.save()  # zapis do bazy danych
             messages.success(request, 'Poprawnie dodano dochód do bazy')
-            return redirect('/podsumowanie/', request)
+            return redirect('/dochody/', request)
         return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -235,7 +235,7 @@ def add_expense_category(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()  # zapis do bazy
             messages.success(request, 'Poprawnie dodano kategorię do bazy')
-            return redirect('/podsumowanie/', request)
+            return redirect('/kategorie/', request)
         return render(request, "dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -249,7 +249,7 @@ def add_income_source(request, *args, **kwargs):
             us.user = request.user  # ustawienie użytkownika na zalogowanego
             us.save()
             messages.success(request, 'Poprawnie dodano źródło do bazy')
-            return redirect('/podsumowanie/', request)
+            return redirect('/zrodla/', request)
         return render(request, "dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
@@ -309,7 +309,7 @@ def edit_income(request, nr, *args, **kwargs):
             income.zrodlo = form.cleaned_data.get('zrodlo')
             income.save()
             messages.success(request, "Poprawnie edytowano dochód")
-            return redirect('/podsumowanie/', request)
+            return redirect('/dochody/', request)
         return render(request, "edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
     else:
         return render(request, "unlogged.html", {})
@@ -323,7 +323,7 @@ def delete_expense(request, nr, *args, **kwargs):
             return redirect('/wydatki/', request)
         expense.delete()
         messages.success(request, "Poprawnie usunięto wydatek z bazy")
-        return redirect('/podsumowanie/', request)
+        return redirect('/wydatki/', request)
     else:
         return render(request, "unlogged.html", {})
 
@@ -333,7 +333,7 @@ def delete_income(request, nr, *args, **kwargs):
         income = get_object_or_404(Dochod, id=nr)
         if income.zrodlo.user.id != request.user.id:
             messages.error(request, "Nie posiadasz uprawnień do usunięcia obiektu!")
-            return redirect('/podsumowanie/', request)
+            return redirect('/dochody/', request)
         income.delete()
         messages.success(request, "Poprawnie usunięto dochód z bazy")
         return redirect('/dochody/', request)
