@@ -1,88 +1,92 @@
 {% extends 'base.html' %}
+
 {% block title%}filtruj dochód{% endblock %}
+
 {% load static %}
 
 {% block head %}
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <meta name="description" content="">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-   <link rel="stylesheet" href="{% static 'templates.css' %}">
-   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'templates.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 {% endblock %}
- {% block jumbotron %}
-<main role="main" class="container">
-   <h3>Filtruj dochody</h3>
+
+{% block jumbotron %}
+    <main role="main" class="container">
+    <h3>Filtruj dochody</h3>
     </br>
-   <form method="GET" action=".">
- <div class="form-row">
-     <div class="form-group col-12">
-         <div class="input-group">
-             <input class="form-control py-2 border-right-0 border" type="search" name="name_contains" placeholder="Nazwa zawiera..."/>
-             <span class="input-group-append">
-                 <div class="input-group-text bg-transparent">
-                     <i class="fa fa-search"></i>
-                 </div>
-             </span>
-         </div>
-     </div>
- </div>
- <div class="form-row">
-     <div class="form-group col-12">
-         <div class="input-group">
-             <input class="form-control py-2 border-right-0 border" type="search" name="id_exact" placeholder="Dokładne ID..."/>
-             <span class="input-group-append">
-                 <div class="input-group-text bg-transparent">
-                     <i class="fa fa-search"></i>
-                 </div>
-             </span>
-         </div>
-     </div>
- </div>
- <div class="form-row">
-     <div class="form-group col-12">
-         <div class="input-group">
-             <input class="form-control py-2 border-right-0 border" type="search" name="description_contains" placeholder="Opis zawiera..."/>
-             <span class="input-group-append">
-                 <div class="input-group-text bg-transparent">
-                     <i class="fa fa-search"></i>
-                 </div>
-             </span>
-         </div>
-     </div>
- </div>
-       <div class="form-row">
-           <div class="form-group col-md-2 col-lg-2">
-               <label for="kwotaMin">Minimalna Kwota</label>
-               <input type="number" min=-10000000 class="form-control" id="kwotaMin" name="kwota_min"
+    <form method="GET" action=".">
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="name_contains" placeholder="Nazwa zawiera..."/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="id_exact" placeholder="Dokładne ID..."/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-12">
+                <div class="input-group">
+                    <input class="form-control py-2 border-right-0 border" type="search" name="description_contains" placeholder="Opis zawiera..."/>
+                    <span class="input-group-append">
+                        <div class="input-group-text bg-transparent">
+                            <i class="fa fa-search"></i>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="kwotaMin">Minimalna Kwota</label>
+                <input type="number" min=-10000000 class="form-control" id="kwotaMin" name="kwota_min"
                       placeholder="Min. Kwota">
-           </div>
-           <div class="form-group col-md-2 col-lg-2">
-               <label for="kwotaMax">Maksymalna Kwota </label>
-               <input type="number" max="9999999999" class="form-control" id="kwotaMax" name="kwota_max"
+            </div>
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="kwotaMax">Maksymalna Kwota </label>
+                <input type="number" max="9999999999" class="form-control" id="kwotaMax" name="kwota_max"
                       placeholder="Max. Kwota">
-           </div>
-           <div class="form-group col-md-2 col-lg-2">
-               <label for="dateMin">Data od</label>
-               <input type="date" class="form-control" id="dateMin" name="date_min">
-           </div>
-           <div class="form-group col-md-2 col-lg-2">
-               <label for="dateMax">Data do </label>
-               <input type="date" class="form-control" id="dateMax" name="date_max">
-           </div>
-           <div class="form-group col-md-4">
-               <label for="inputState">Źródło</label>
-               <select id="inputState" class="form-control" name="zrodlo">
-                   <option selected>Wybierz...</option>
-                   {% for sour in sources %}
-                       <option value="{{ sour.nazwa }}">{{ sour.nazwa }}</option>
-                   {% endfor %}
-               </select>
-           </div>
-       </div>
-       </label>
-       <button type="submit" class="btn btn-primary">Szukaj</button>
-   </form>
+            </div>
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="dateMin">Data od</label>
+                <input type="date" class="form-control" id="dateMin" name="date_min">
+            </div>
+            <div class="form-group col-md-2 col-lg-2">
+                <label for="dateMax">Data do </label>
+                <input type="date" class="form-control" id="dateMax" name="date_max">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputState">Źródło</label>
+                <select id="inputState" class="form-control" name="zrodlo">
+                    <option selected>Wybierz...</option>
+                    {% for sour in sources %}
+                        <option value="{{ sour.nazwa }}">{{ sour.nazwa }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        </label>
+        <button type="submit" class="btn btn-primary">Szukaj</button>
+    </form>
 {% endblock %}
+
 {% block content %}
     <div class="row">
         <div class="column" style="width: 50%">{{ fig2|safe }}</div>
@@ -92,34 +96,32 @@
         <div class="col">
             <table class="table">
                 <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Źródło</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Kwota</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Źródło</th>
+                        <th scope="col">Opis</th>
+                        <th scope="col">Kwota</th>
+                    </tr>
                 </thead>
                 <tbody>
-
-                {% for dochod in queryset %}
-                    <tr>
-                        <td>{{ dochod.data.day }}/{{ dochod.data.month }}/{{ dochod.data.year }}</td>
-                        <td>{{ dochod.nazwa }}</td>
-                        <td>{{ dochod.zrodlo }}</td>
-                        <td>{{ dochod.opis }}</td>
-                        <td style="float: right; color: green">{{ dochod.kwota }}</td>
-                    </tr>
-                {% endfor %}
-
+                    {% for dochod in queryset %}
+                        <tr>
+                            <td>{{ dochod.data.day }}/{{ dochod.data.month }}/{{ dochod.data.year }}</td>
+                            <td>{{ dochod.nazwa }}</td>
+                            <td>{{ dochod.zrodlo }}</td>
+                            <td>{{ dochod.opis }}</td>
+                            <td style="float: right; color: green">{{ dochod.kwota }}</td>
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-<div>
-    {{ fig|safe }}
+    <div>
+        {{ fig|safe }}
     </div>
-        <div class="column" style="width: 50%">{{ fig2|safe }}</div>
+    <div class="column" style="width: 50%">{{ fig2|safe }}</div>
     <hr>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
     <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
@@ -127,38 +129,35 @@
     <a role="button" style="color: darkblue" class="btn btn-light" onclick="downloadTable(false)">Podgląd PDF</a>&nbsp;
     <a role="button" style="color: darkblue" class="btn btn-light" onclick="downloadTable(true)">Pobierz jako PDF</a>
     </br>
-    </div>
     </br>
-</main><!-- /.container -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    </main><!-- /.container -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-<script src="{% static 'downloadPdf.js' %}"></script>
+    <script src="{% static 'downloadPdf.js' %}"></script>
 
-<script>
-    function downloadTable(isDownload) {
-        const serverUrl = "{{ request.get_host }}";
-        const protocol = {% if request.is_secure %}"https"{% else %}"http"{% endif %};
-        const requestUrl = protocol + "://" + serverUrl + "/table/";
-
-        const searchResult = [];
-        {% for dochod in queryset %}
-            var row = {};
-            row.data = "{{ dochod.data.day }}/{{ dochod.data.month }}/{{ dochod.data.year }}";
-            row.nazwa = "{{ dochod.nazwa }}";
-            row.zrodlo = "{{ dochod.zrodlo }}";
-            row.opis = "{{ dochod.opis }}";
-            row.kwota = "{{ dochod.kwota }}";
-            searchResult.push(row);
-        {% endfor %}
-
-        generatePdf(requestUrl, searchResult, "Dochody", isDownload)
-    }
-</script>
+    <script>
+        function downloadTable(isDownload) {
+            const serverUrl = "{{ request.get_host }}";
+            const protocol = {% if request.is_secure %}"https"{% else %}"http"{% endif %};
+            const requestUrl = protocol + "://" + serverUrl + "/table/";
+            const searchResult = [];
+            {% for dochod in queryset %}
+                var row = {};
+                row.data = "{{ dochod.data.day }}/{{ dochod.data.month }}/{{ dochod.data.year }}";
+                row.nazwa = "{{ dochod.nazwa }}";
+                row.zrodlo = "{{ dochod.zrodlo }}";
+                row.opis = "{{ dochod.opis }}";
+                row.kwota = "{{ dochod.kwota }}";
+                searchResult.push(row);
+            {% endfor %}
+            generatePdf(requestUrl, searchResult, "Dochody", isDownload)
+        }
+    </script>
 {% endblock %}

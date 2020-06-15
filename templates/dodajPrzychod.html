@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}dodaj dochód{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Dodaj Dochód</b></h1>
 {% endblock %}
+
 {% block content %}
     <form method="post" class="needs-validation" novalidate> {% csrf_token %}
         <div class="form-group">
@@ -44,18 +47,15 @@
             <input type="date" name="data">
         </div>
         </br>
-
         <input class="btn btn-primary btn-lg" role="button" type="submit" value="Dodaj"/>
         <a role="button" class="btn btn-primary btn-lg" href="/podsumowanie">Anuluj</a>
-
-        <br/>
-    <hr>
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
-    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>&nbsp;
-    </br>
-
+        </br>
+        <hr>
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
+        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>&nbsp;
+        </br>
     </form>
 {% endblock %}
 

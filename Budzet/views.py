@@ -403,14 +403,17 @@ def edit_expense(request, nr, *args, **kwargs):
 
 
 def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return render(request, 'users/register_success.html', {})
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = UserRegisterForm(request.POST)
+            if form.is_valid():
+                form.save()
+                return render(request, 'users/register_success.html', {})
+        else:
+            form = UserRegisterForm()
+        return render(request, 'users/register.html', {'form': form})
     else:
-        form = UserRegisterForm()
-    return render(request, 'users/register.html', {'form': form})
+        return redirect('/', request)
 
 
 def register_admin(request):

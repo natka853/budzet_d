@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}źródła{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Moje źródła</b></h1>
 {% endblock %}
+
 {% block content %}
     {% if messages %}
         {% for message in messages %}
@@ -19,17 +22,17 @@
     {% endif %}
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Akcje</th>
-        </tr>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Akcje</th>
+            </tr>
         </thead>
         <tbody>
             {% for object in sources %}
                 <tr>
                     <td>{{ object.nazwa }}</td>
                     <td><a title="Edytuj źródło" href="/{{ object.id }}/edytujZrodloDochodu">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
                         <a title="Usuń źródło" href="/{{ object.id }}/usunietoZrodlo"
                            onclick="return confirm('Czy na pewno chcesz usunąć wybrane źródło?' +
                             '\nSpowoduje to usunięcie wszystkich powiązanych z nim dochodów!')">
@@ -39,11 +42,11 @@
             {% endfor %}
         </tbody>
     </table>
-        <hr>
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj źródło</a>
-        </br>
-    <br/>
+    <hr>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajZrodloDochodu">Dodaj źródło</a>
+    </br>
+    </br>
 {% endblock %}

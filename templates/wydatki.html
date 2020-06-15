@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}wydatki{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Moje wydatki</b></h1>
 {% endblock %}
+
 {% block content %}
     {% if messages %}
         {% for message in messages %}
@@ -44,14 +47,14 @@
                     </td>
                 </tr>
             {% endfor %}
-         </tbody>
-     </table>
+        </tbody>
+    </table>
     <hr>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
     <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/kategorie">Przejdź do kategorii</a>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/dochody">Przejdź do dochodów</a>
     <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajWydatek">Dodaj wydatek</a>
-    <br/>
-    <br/>
+    </br>
+    </br>
 {% endblock %}

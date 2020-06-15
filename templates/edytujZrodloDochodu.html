@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}edytuj źródło{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Edytuj źródło dochodu</b></h1>
 {% endblock %}
+
 {% block content %}
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
@@ -10,10 +13,9 @@
             <input type="text" class="form-control" name="nazwa" placeholder="{{ source.nazwa }}">
         </div>
         </br>
-
         <input type="submit" value="Zatwierdź" role="button" class="btn btn-primary btn-lg"/>
         <a role="button" class="btn btn-primary btn-lg" href="/zrodla">Anuluj</a>
-            <br/>
+        <br/>
         <hr>
         <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
         <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;

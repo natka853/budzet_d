@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}kategorie{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Moje kategorie</b></h1>
 {% endblock %}
+
 {% block content %}
     {% if messages %}
         {% for message in messages %}
@@ -19,17 +22,17 @@
     {% endif %}
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Akcje</th>
-        </tr>
+            <tr>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Akcje</th>
+            </tr>
         </thead>
         <tbody>
             {% for object in categories %}
                 <tr>
                     <td>{{ object.nazwa }}</td>
                     <td><a title="Edytuj kategorię" href="/{{ object.id }}/edytujKategorieWydatku">
-                            <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
+                        <img alt="Change" src="/static/admin/img/icon-changelink.svg"></a>
                         <a title="Usuń kategorię" href="/{{ object.id }}/usunietoKategorie"
                            onclick="return confirm('Czy na pewno chcesz usunąć wybraną kategorię?\n' +
                             'Spowoduje to usunięcie wszystkich powiązanych z nią wydatków!')">
@@ -39,11 +42,11 @@
             {% endfor %}
         </tbody>
     </table>
-        <hr>
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/wydatki">Przejdź do wydatków</a>
-        <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj kategorię</a>
-        </br>
-    <br/>
+    <hr>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/wydatki">Przejdź do wydatków</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/dodajKategorieWydatku">Dodaj kategorię</a>
+    </br>
+    </br>
 {% endblock %}

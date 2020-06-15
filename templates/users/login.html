@@ -1,6 +1,9 @@
 {% extends "base.html" %}
+
 {% block title %}logowanie{% endblock %}
+
 {% block jumbotron %}
+    {% if not user.is_authenticated %}
         <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -9,7 +12,6 @@
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info"  type="submit" href="/podsumowanie" name="Zaloguj">Zaloguj</button>
-
             </div>
         </form>
         <div class="border-top pt-3">
@@ -17,4 +19,9 @@
                 Potrzebujesz nowego konta? <a class="ml-2" href="/register">Zarejestruj się już teraz!</a>
             </small>
         </div>
+    {% else %}
+        <h2>Jesteś zalogowany!</h2>
+        </br>
+        <a role="button" class="btn btn-primary btn-lg" href="/">Wróć do strony domowej</a>
+    {% endif %}
 {% endblock %}

@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
+
 {% block title %}podsumowanie{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4">Podsumowanie</h1>
-    <p class="lead">Twoje saldo: {{ balance|floatformat:"2" }} zł</br>Dzisiejsze dochody: {{ today_incomes }} zł</br>
-        Dzisiejsze wydatki: {{ today_expenses }} zł </p>
+    <p class="lead">Twoje saldo: {{ balance|floatformat:"2" }} zł
+        </br>
+        Dzisiejsze dochody: {{ today_incomes }} zł
+        </br>
+        Dzisiejsze wydatki: {{ today_expenses }} zł
+    </p>
 {% endblock %}
+
 {% block content %}
     <div>
-    {{ fig|safe }}
+        {{ fig|safe }}
     </div>
     <div class="row">
         <div class="column" style="width: 50%">{{ fig2|safe }}</div>
@@ -18,29 +25,28 @@
             <h4> Historia z ostatnich 30 dni</h4>
             <table class="table">
                 <thead>
-                <tr>
-                    <th scope="col">Data</th>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Źródło/Kategoria</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Kwota</th>
-                </tr>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Nazwa</th>
+                        <th scope="col">Źródło/Kategoria</th>
+                        <th scope="col">Opis</th>
+                        <th scope="col">Kwota</th>
+                    </tr>
                 </thead>
                 <tbody>
-                {% for object in result %}
-                    <tr>
-                        <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year|stringformat:"02d" }}</td>
-                        <td>{{ object.nazwa }}</td>
-                        <td>{{ object.kategoria }}</td>
-                        <td>{{ object.opis }}</td>
-                        {% if object.kwota > 0 %}
-                            <td style="color: green; text-align: right">{{ object.kwota }}</td>
-                        {% else %}
-                            <td style="color: red; text-align: right">{{ object.kwota }}</td>
-                        {% endif %}
-
-                    </tr>
-                {% endfor %}
+                    {% for object in result %}
+                        <tr>
+                            <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year|stringformat:"02d" }}</td>
+                            <td>{{ object.nazwa }}</td>
+                            <td>{{ object.kategoria }}</td>
+                            <td>{{ object.opis }}</td>
+                            {% if object.kwota > 0 %}
+                                <td style="color: green; text-align: right">{{ object.kwota }}</td>
+                            {% else %}
+                                <td style="color: red; text-align: right">{{ object.kwota }}</td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -48,47 +54,23 @@
         <div class="col-sm">
             <div class="list-group-flush" style="margin-top: 35px">
                 <a class="list-group-item active disabled text-sm-left" style="height: 40px">Dodawanie</a>
-                <a href="/dodajPrzychod" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Dodaj
-                    dochód</a>
-                <a href="/dodajWydatek" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Dodaj
-                    wydatek</a>
-                <a href="/dodajKategorieWydatku" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Dodaj
-                    kategorię wydatku</a>
-                <a href="/dodajZrodloDochodu" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Dodaj
-                    źródło dochodu</a>
-                <a class="list-group-item list-group-item active disabled"
-                   style="height: 40px">Zarządzanie</a>
-                <a href="/kategorie" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Zarządzaj
-                    kategoriami</a>
-                <a href="/zrodla" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Zarządzaj
-                    źródłami</a>
-                <a href="/dochody" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Zarządzaj dochodami</a>
-                <a href="/wydatki" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Zarządzaj wydatkami</a>
+                <a href="/dodajPrzychod" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Dodaj dochód</a>
+                <a href="/dodajWydatek" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Dodaj wydatek</a>
+                <a href="/dodajKategorieWydatku" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Dodaj kategorię wydatku</a>
+                <a href="/dodajZrodloDochodu" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Dodaj źródło dochodu</a>
+                <a class="list-group-item list-group-item active disabled" style="height: 40px">Zarządzanie</a>
+                <a href="/kategorie" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Zarządzaj kategoriami</a>
+                <a href="/zrodla" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Zarządzaj źródłami</a>
+                <a href="/dochody" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Zarządzaj dochodami</a>
+                <a href="/wydatki" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Zarządzaj wydatkami</a>
                 <a class="list-group-item list-group-item active disabled" style="height: 40px">Filtrowanie</a>
-                <a href="/filtrujWydatki" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Filtruj
-                    wydatki</a>
-                <a href="/filtrujDochody" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Filtruj
-                    dochody</a>
+                <a href="/filtrujWydatki" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Filtruj wydatki</a>
+                <a href="/filtrujDochody" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Filtruj dochody</a>
                 <a class="list-group-item list-group-item active disabled" style="height: 40px">Dokument PDF</a>
-                <a href="/pdf_view" target="_blank" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Podgląd
-                    dokumentu</a>
-                <a href="/pdf_download" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Pobierz
-                    historię transakcji</a>
-                <br/>
-                <a href="/" class="list-group-item list-group-item-action"
-                   style="height: 40px; background-color: ghostwhite">Wróć do strony
-                    głównej</a>
+                <a href="/pdf_view" target="_blank" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Podgląd dokumentu</a>
+                <a href="/pdf_download" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Pobierz historię transakcji</a>
+                </br>
+                <a href="/" class="list-group-item list-group-item-action" style="height: 40px; background-color: ghostwhite">Wróć do strony głównej</a>
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
     <h1 class="display-4"><b>Witaj</b></h1>
     <p class="lead">Jest to aplikacja przeznaczona do kontroli Twoich dochodów i wydatków :)</p>
     <hr class="my-4">
-   {% if messages %}
+    {% if messages %}
         {% for message in messages %}
             {% if message.tags == 'error' %}
                 <p class="alert alert-danger">
@@ -28,6 +28,5 @@
         <p>Kliknij poniżej, aby się zalogować lub założyć nowe konto.</p>
         <a class="btn btn-primary btn-lg" href="/login" role="button" name="Zaloguj">Zaloguj się</a> &nbsp;
         <a class="btn btn-primary btn-lg" href="/register" role="button">Zarejestruj się</a>
-
     {% endif %}
 {% endblock %}

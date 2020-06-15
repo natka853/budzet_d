@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
+
 {% block title %}edytuj dochód{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Edytuj dochód</b></h1>
 {% endblock %}
+
 {% block content %}
     <form method="post" class="form-group"> {% csrf_token %}
         <div class="form-group">
@@ -36,10 +39,9 @@
             <input type="date" name="data">
         </div>
         </br>
-
         <input class="btn btn-primary btn-lg" role="button" type="submit" value="Zatwierdź"/>
         <a role="button" class="btn btn-primary btn-lg" href="/dochody">Anuluj</a>
-            <br/>
+        <br/>
         <hr>
         <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
         <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>&nbsp;

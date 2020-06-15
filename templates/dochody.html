@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}{{ upper }}dochody{% endblock %}
+
 {% block jumbotron %}
     <h1 class="display-4"><b>Moje dochody</b></h1>
 {% endblock %}
+
 {% block content %}
     {% if messages %}
         {% for message in messages %}
@@ -38,10 +40,10 @@
                     <td>{{ object.opis }}</td>
                     <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
                     <td><a title="Edytuj dochód" href="/{{ object.id }}/edytujDochod">
-                        <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
+                        <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"/></a>
                         <a title="Usuń dochód" href="/{{ object.id }}/usunietoDochod"
                             onclick="return confirm('Czy na pewno chcesz usunąć wybrany dochód?')">
-                            <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
+                            <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"/></a>
                     </td>
                 </tr>
             {% endfor %}

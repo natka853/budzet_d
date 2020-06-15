@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
+
 {% block title %}rejestracja{% endblock %}
+
 {% block jumbotron %}
     <h3>Zarejestruj się na naszą stronę Budżet domowy </h3>
 {% endblock %}
+
 {% block content %}
     <form method="post">
-    {% csrf_token %}
+        {% csrf_token %}
         {% for field in form %}
             <p>
-                {{ field.label_tag }}<br>
+                {{ field.label_tag }}
+                <br>
                 {{ field }}
                 {% if field.help_text %}
                     <small style="color: green">{{ field.help_text }}</small>
@@ -24,6 +28,6 @@
     <div class="border-top pt-3">
         <small class="text-muted">
             Masz już konto? <a class="ml-2" href="{% url 'login' %}">Zaloguj się</a>
-           </small>
+        </small>
     </div>
 {% endblock %}
