@@ -6,24 +6,35 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th scope="col">Data</th>
-            <th scope="col">Nazwa</th>
-            <th scope="col">Źródło</th>
-            <th scope="col">Opis</th>
-            <th scope="col">Kwota</th>
-        </tr>
+            <tr>
+                <th scope="col">Data</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Źródło</th>
+                <th scope="col">Opis</th>
+                <th scope="col">Kwota</th>
+                <th scope="col">Akcje</th>
+            </tr>
         </thead>
         <tbody>
-        {% for object in incomes %}
-            <tr>
-                <td>{{ object.data }}</td>
-                <td>{{ object.nazwa }}</td>
-                <td>{{ object.zrodlo }}</td>
-                <td>{{ object.opis }}</td>
-                <td style="float: right">{{ object.kwota }}</td>
-            </tr>
-        {% endfor %}
+            {% for object in incomes %}
+                <tr>
+                    <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
+                    <td>{{ object.nazwa }}</td>
+                    <td>{{ object.zrodlo }}</td>
+                    <td>{{ object.opis }}</td>
+                    <td style="float: right; color: forestgreen">+{{ object.kwota }}</td>
+                    <td><a title="Edytuj dochód" href="/{{ object.id }}/edytujDochod">
+                        <img alt="Edytuj" src="/static/admin/img/icon-changelink.svg"></a>
+                        <a title="Usuń dochód" href="/{{ object.id }}/usunietoDochod"
+                            onclick="return confirm('Czy na pewno chcesz usunąć wybrany dochód?')">
+                            <img alt="Usuń" src="/static/admin/img/icon-deletelink.svg"></a>
+                    </td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
+    <hr>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/podsumowanie">Powrót do podsumowania</a>&nbsp;
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/">Powrót do strony głównej</a>
+    <a role="button" style="color: darkblue" class="btn btn-light" href="/zrodla">Przejdź do źródeł</a>
 {% endblock %}
