@@ -35,7 +35,7 @@ def home_view(request, *args, **kwargs):
 def my_incomes(request, *args, **kwargs):
     if request.user.is_authenticated:
         incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
-        return render(request, "dochody.html", {'incomes': incomes})
+        return render(request, "modele/dochody.html", {'incomes': incomes})
     else:
         return render(request, "unlogged.html", {})
 
@@ -43,7 +43,7 @@ def my_incomes(request, *args, **kwargs):
 def my_expenses(request, *args, **kwargs):
     if request.user.is_authenticated:
         expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
-        return render(request, "wydatki.html", {'expenses': expenses})
+        return render(request, "modele/wydatki.html", {'expenses': expenses})
     else:
         return render(request, "unlogged.html", {})
 
@@ -178,7 +178,7 @@ def summary(request, *args, **kwargs):
 def my_sources(request, *args, **kwargs):
     if request.user.is_authenticated:
         sources = Zrodlo.objects.filter(user=request.user.id)
-        return render(request, "zrodla.html", {'sources': sources})
+        return render(request, "modele/zrodla.html", {'sources': sources})
     else:
         return render(request, "unlogged.html", {})
 
@@ -186,7 +186,7 @@ def my_sources(request, *args, **kwargs):
 def my_categories(request, *args, **kwargs):
     if request.user.is_authenticated:
         categories = Kategoria.objects.filter(user=request.user.id)
-        return render(request, "kategorie.html", {'categories': categories})
+        return render(request, "modele/kategorie.html", {'categories': categories})
     else:
         return render(request, "unlogged.html", {})
 
@@ -204,7 +204,7 @@ def add_expense(request, *args, **kwargs):
             expense.save()  # zapis do bazy danych
             messages.success(request, 'Poprawnie dodano wydatek do bazy')
             return redirect('/wydatki/', request)
-        return render(request, "dodajWydatek.html", {'categories': categories, 'form': form})
+        return render(request, "dodawanie/dodajWydatek.html", {'categories': categories, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
@@ -222,7 +222,7 @@ def add_income(request, *args, **kwargs):
             income.save()  # zapis do bazy danych
             messages.success(request, 'Poprawnie dodano dochód do bazy')
             return redirect('/dochody/', request)
-        return render(request, "dodajPrzychod.html", {'sources': sources, 'form': form})
+        return render(request, "dodawanie/dodajPrzychod.html", {'sources': sources, 'form': form})
     else:
         return render(request, "unlogged.html", {})
 
@@ -236,7 +236,7 @@ def add_expense_category(request, *args, **kwargs):
             us.save()  # zapis do bazy
             messages.success(request, 'Poprawnie dodano kategorię do bazy')
             return redirect('/kategorie/', request)
-        return render(request, "dodajKategorieWydatku.html", {'form': form})
+        return render(request, "dodawanie/dodajKategorieWydatku.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
 
@@ -250,7 +250,7 @@ def add_income_source(request, *args, **kwargs):
             us.save()
             messages.success(request, 'Poprawnie dodano źródło do bazy')
             return redirect('/zrodla/', request)
-        return render(request, "dodajZrodloDochodu.html", {'form': form})
+        return render(request, "dodawanie/dodajZrodloDochodu.html", {'form': form})
     else:
         return render(request, "unlogged.html", {})
 
@@ -267,7 +267,7 @@ def edit_expense_category(request, nr, *args, **kwargs):
             category.save()
             messages.success(request, "Poprawnie edytowano kategorię wydatku")
             return redirect('/kategorie/', request)
-        return render(request, "edytujKategorieWydatku.html", {'form': form, 'category': category})
+        return render(request, "edytowanie/edytujKategorieWydatku.html", {'form': form, 'category': category})
     else:
         return render(request, "unlogged.html", {})
 
@@ -284,7 +284,7 @@ def edit_income_source(request, nr, *args, **kwargs):
             source.save()
             messages.success(request, "Poprawnie edytowano źródło dochodu")
             return redirect('/zrodla/', request)
-        return render(request, "edytujZrodloDochodu.html", {'form': form, 'source': source})
+        return render(request, "edytowanie/edytujZrodloDochodu.html", {'form': form, 'source': source})
     else:
         return render(request, "unlogged.html", {})
 
@@ -310,7 +310,7 @@ def edit_income(request, nr, *args, **kwargs):
             income.save()
             messages.success(request, "Poprawnie edytowano dochód")
             return redirect('/dochody/', request)
-        return render(request, "edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
+        return render(request, "edytowanie/edytujDochod.html", {'form': form, 'sources': sources, 'income': income})
     else:
         return render(request, "unlogged.html", {})
 
@@ -397,7 +397,7 @@ def edit_expense(request, nr, *args, **kwargs):
             expense.save()
             messages.success(request, "Poprawnie edytowano wydatek")
             return redirect('/wydatki/', request)
-        return render(request, "edytujWydatek.html", {'form': form, 'categories': categories, 'expense': expense})
+        return render(request, "edytowanie/edytujWydatek.html", {'form': form, 'categories': categories, 'expense': expense})
     else:
         return render(request, "unlogged.html", {})
 
@@ -512,7 +512,7 @@ def filter_expenses(request):
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-        return render(request, "filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
+        return render(request, "filtrowanie/filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
     else:
         return render(request, "unlogged.html", {})
 
@@ -594,7 +594,7 @@ def filter_incomes(request):
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-        return render(request, "filtrujDochod.html", {'queryset': do, 'sources': sources, 'fig': graph_div})
+        return render(request, "filtrowanie/filtrujDochod.html", {'queryset': do, 'sources': sources, 'fig': graph_div})
     else:
         return render(request, "unlogged.html", {})
 
