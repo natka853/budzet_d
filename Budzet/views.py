@@ -76,6 +76,27 @@ def summary(request, *args, **kwargs):
             bal += round(float(incomes_balance['kwota__sum']) - float(expenses_balance['kwota__sum']), 2)
             act_date += timedelta(days=1)
             daily_balance.append(bal)
+
+        result_list = []
+        for x in Dochod.objects.all():
+            row = {}
+            row['data'] = x.data
+            row['nazwa'] = x.nazwa
+            row['kategoria'] = x.zrodlo
+            row['opis'] = x.opis
+            row['kwota'] = x.kwota
+            result_list.append(row)
+        for x in Wydatek.objects.all():
+            row = {}
+            row['data'] = x.data
+            row['nazwa'] = x.nazwa
+            row['kategoria'] = x.kategoria
+            row['opis'] = x.opis
+            row['kwota'] = -x.kwota
+            result_list.append(row)
+
+        newlist = sorted(result_list, key=lambda k: k['data'], reverse=True)
+
         fig = go.Figure(go.Scatter(
             x=dates,
             y=daily_balance,
@@ -145,7 +166,8 @@ def summary(request, *args, **kwargs):
         return render(request, "podsumowanie.html", {'incomes': incomes, 'expenses': expenses,
                                                      'balance': balance, 'today_incomes': today_incomes['kwota__sum'],
                                                      'today_expenses': today_expenses['kwota__sum'], 'fig': graph_div,
-                                                     'fig2': graph_div_cat, 'fig3': graph_div_src})
+                                                     'fig2': graph_div_cat, 'fig3': graph_div_src,
+                                                     'result': newlist})
     else:
         return render(request, "unlogged.html", {})
 
