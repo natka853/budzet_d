@@ -100,33 +100,34 @@
 <br/>
 <div class="details">
     Filtry:
-    {% if searchParameters.kwotaMin != '' %}
+    {% if searchParameters.kwotaMin != None %}
         kwota min: {{ searchParameters.kwotaMin }}
     {% endif %}
 
-    {% if searchParameters.kwotaMax != '' %}
+    {% if searchParameters.kwotaMax != None %}
         kwota maks: {{ searchParameters.kwotaMax }}
     {% endif %}
 
-    {% if searchParameters.dateMin != '' %}
+    {% if searchParameters.dateMin != None %}
         data min: {{ searchParameters.dateMin }}
     {% endif %}
 
-    {% if searchParameters.dateMax != '' %}
+    {% if searchParameters.dateMax != None %}
         data maks: {{ searchParameters.dateMax }}
     {% endif %}
 
-    {% if searchParameters.nameContains != '' %}
+    {% if searchParameters.nameContains != None %}
         nazwa: {{ searchParameters.nameContains }}
     {% endif %}
 
-    {% if searchParameters.idExact != '' %}
+    {% if searchParameters.idExact != None %}
         id: {{ searchParameters.idExact }}
     {% endif %}
 
-    {% if searchParameters.descriptionContains != '' %}
+    {% if searchParameters.descriptionContains != None %}
         opis: {{ searchParameters.descriptionContains }}
     {% endif %}
+
 </div>
 </body>
 </html>
