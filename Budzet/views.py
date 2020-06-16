@@ -177,7 +177,7 @@ def summary(request, *args, **kwargs):
 
 def my_sources(request, *args, **kwargs):
     if request.user.is_authenticated:
-        sources = Zrodlo.objects.filter(user=request.user.id)
+        sources = Zrodlo.objects.filter(user=request.user.id).order_by('nazwa')
         return render(request, "modele/zrodla.html", {'sources': sources})
     else:
         return render(request, "unlogged.html", {})
@@ -185,7 +185,7 @@ def my_sources(request, *args, **kwargs):
 
 def my_categories(request, *args, **kwargs):
     if request.user.is_authenticated:
-        categories = Kategoria.objects.filter(user=request.user.id)
+        categories = Kategoria.objects.filter(user=request.user.id).order_by('nazwa')
         return render(request, "modele/kategorie.html", {'categories': categories})
     else:
         return render(request, "unlogged.html", {})
