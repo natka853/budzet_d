@@ -512,7 +512,7 @@ def filter_expenses(request):
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-        return render(request, "filtrowanie/filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
+        return render(request, "filtrujWydatki.html", {'queryset': wy, 'categories': categories, 'fig': graph_div})
     else:
         return render(request, "unlogged.html", {})
 
@@ -594,7 +594,7 @@ def filter_incomes(request):
         )
         graph_div = plotly.offline.plot(fig, auto_open=False, output_type="div")
 
-        return render(request, "filtrowanie/filtrujDochod.html", {'queryset': do, 'sources': sources, 'fig': graph_div})
+        return render(request, "filtrujDochod.html", {'queryset': do, 'sources': sources, 'fig': graph_div})
     else:
         return render(request, "unlogged.html", {})
 
