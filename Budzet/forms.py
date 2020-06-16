@@ -71,8 +71,6 @@ class AdminRegisterForm(UserCreationForm):
                   'email',
                   'password1',
                   'password2',
-                  'is_staff',
-                  'is_superuser'
                   )
 
 
