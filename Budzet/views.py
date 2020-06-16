@@ -34,7 +34,7 @@ def home_view(request, *args, **kwargs):
 
 def my_incomes(request, *args, **kwargs):
     if request.user.is_authenticated:
-        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data').reverse
+        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data').reverse()
         return render(request, "modele/dochody.html", {'incomes': incomes})
     else:
         return render(request, "unlogged.html", {})
