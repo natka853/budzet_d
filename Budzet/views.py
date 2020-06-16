@@ -419,9 +419,8 @@ def register(request):
 def register_admin(request):
     if request.method == 'POST':
         form = AdminRegisterForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.save()
+        if form.is_valid(): # do wyrzucenia dwie linijki że is_staff i is_superuser = true !!!!!!!
+            form.save()
             messages.success(request, 'Poprawnie zarejestrowano nowego administratora')
             return redirect('/admin/auth/user/', request)
     else:

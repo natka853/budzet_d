@@ -70,7 +70,7 @@ class AdminRegisterForm(UserCreationForm):
         fields = ('username',
                   'email',
                   'password1',
-                  'password2',  # do usunięcia is_staff i is_superuser
+                  'password2',
                   'is_staff',
                   'is_superuser'
                   )
