@@ -34,19 +34,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for object in result %}
-                        <tr>
-                            <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year|stringformat:"02d" }}</td>
-                            <td>{{ object.nazwa }}</td>
-                            <td>{{ object.kategoria }}</td>
-                            <td>{{ object.opis }}</td>
-                            {% if object.kwota > 0 %}
-                                <td style="color: green; text-align: right">{{ object.kwota }}</td>
-                            {% else %}
-                                <td style="color: red; text-align: right">{{ object.kwota }}</td>
-                            {% endif %}
-                        </tr>
-                    {% endfor %}
+                {% for object in result %}
+                    <tr>
+                        <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year }}</td>
+                        <td>{{ object.nazwa }}</td>
+                        <td>{{ object.kategoria }}</td>
+                        <td>{{ object.opis }}</td>
+                        {% if object.kwota > 0 %}
+                            <td style="color: green; text-align: right">{{ object.kwota }}</td>
+                        {% else %}
+                            <td style="color: red; text-align: right">{{ object.kwota }}</td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
         </div>
