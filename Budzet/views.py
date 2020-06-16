@@ -34,7 +34,7 @@ def home_view(request, *args, **kwargs):
 
 def my_incomes(request, *args, **kwargs):
     if request.user.is_authenticated:
-        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id))
+        incomes = Dochod.objects.filter(zrodlo__in=Zrodlo.objects.filter(user=request.user.id)).order_by('data')
         return render(request, "modele/dochody.html", {'incomes': incomes})
     else:
         return render(request, "unlogged.html", {})
@@ -42,7 +42,7 @@ def my_incomes(request, *args, **kwargs):
 
 def my_expenses(request, *args, **kwargs):
     if request.user.is_authenticated:
-        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id))
+        expenses = Wydatek.objects.filter(kategoria__in=Kategoria.objects.filter(user=request.user.id)).order_by('data')
         return render(request, "modele/wydatki.html", {'expenses': expenses})
     else:
         return render(request, "unlogged.html", {})
