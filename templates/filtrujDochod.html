@@ -7,9 +7,16 @@
 {% block head %}
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'templates.css' %}">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    {#    <link rel="stylesheet" href="{% static 'templates.css' %}">#}
+    <style>
+        ul {
+            list-style-type: none;
+        }
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 {% endblock %}
 
 {% block jumbotron %}
@@ -140,9 +147,93 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
-    <script src="{% static 'downloadPdf.js' %}"></script>
 
+
+    {#    <script src="{% static 'downloadPdf.js' %}"></script>#}
     <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        function downloadBlob(blob, filename) {
+            const a = document.createElement("a");
+            a.style = "display: none";
+            const url = window.URL.createObjectURL(blob);
+            a.setAttribute("href", url);
+            a.setAttribute("download", filename);
+            document.getElementsByTagName("body")[0].append(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+        }
+
+        function viewBlob(blob) {
+            const url = window.URL.createObjectURL(blob);
+            const newTab = window.open(url, '_blank');
+            newTab.focus();
+        }
+
+        function generatePdf(requestUrl, searchResult, title, isDownload) {
+            let download = isDownload;
+            if (download === undefined) {
+                download = false;
+            }
+
+            const csrfToken = getCookie('csrftoken');
+            const request = new Request(
+                requestUrl,
+                {
+                    headers: {
+                        'X-CSRFToken': csrfToken,
+                        "Content-Type": "application/json; charset=utf-8"
+                    }
+                }
+            );
+
+            const currentUrl = new URL(window.location.href);
+            const currentUrlSearchParameters = currentUrl.searchParams;
+
+            const searchParameters = {
+                nameContains: currentUrlSearchParameters.get("name_contains"),
+                idExact: currentUrlSearchParameters.get("id_exact"),
+                descriptionContains: currentUrlSearchParameters.get("description_contains"),
+                kwotaMin: currentUrlSearchParameters.get("kwota_min"),
+                kwotaMax: currentUrlSearchParameters.get("kwota_max"),
+                dateMin: currentUrlSearchParameters.get("date_min"),
+                dateMax: currentUrlSearchParameters.get("date_max"),
+                inputState: currentUrlSearchParameters.get("zrodlo")
+            };
+
+            const requestBody = {searchResult: searchResult, searchParameters: searchParameters, title: title};
+
+            fetch(request, {
+                method: 'POST',
+                mode: 'same-origin',  // Do not send CSRF token to another domain.
+                body: JSON.stringify(requestBody)
+            }).then(function (response) {
+                const filename = response.headers.get('Content-Disposition').split("filename=")[1].split("\"").join("");
+                response.blob().then(blob => {
+                    if (download) {
+                        downloadBlob(blob, filename);
+                    } else {
+                        viewBlob(blob);
+                    }
+                });
+            });
+        }
+
         function downloadTable(isDownload) {
             const serverUrl = "{{ request.get_host }}";
             const protocol = {% if request.is_secure %}"https"{% else %}"http"{% endif %};
