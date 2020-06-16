@@ -79,7 +79,7 @@ def summary(request, *args, **kwargs):
 
         result_list = []
         limit_date = date.today() - timedelta(days=30)
-        for x in Dochod.objects.all():
+        for x in Dochod.objects.all().filter(zrodlo__user=request.user.id):
             if x.data > limit_date:
                 row = {}
                 row['data'] = x.data
@@ -88,7 +88,7 @@ def summary(request, *args, **kwargs):
                 row['opis'] = x.opis
                 row['kwota'] = x.kwota
                 result_list.append(row)
-        for x in Wydatek.objects.all():
+        for x in Wydatek.objects.all().filter(kategoria__user=request.user.id):
             if x.data > limit_date:
                 row = {}
                 row['data'] = x.data
