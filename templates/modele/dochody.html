@@ -34,7 +34,7 @@
         <tbody>
             {% for object in incomes %}
                 <tr>
-                    <td>{{ object.data.day }}/{{ object.data.month }}/{{ object.data.year }}</td>
+                    <td>{{ object.data.day|stringformat:"02d" }}/{{ object.data.month|stringformat:"02d" }}/{{ object.data.year }}</td>
                     <td>{{ object.nazwa }}</td>
                     <td>{{ object.zrodlo }}</td>
                     <td>{{ object.opis }}</td>

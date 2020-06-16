@@ -9,12 +9,12 @@
 ### Dostęp do kont
 
 Konto usera:
-- login:
-- hasło:
+- login: uzytkownik
+- hasło: haslo123
 
 Konto superusera:
-- login:
-- hasło:
+- login: admin
+- hasło: haslo123
 
 #### Zmiana trybu DEBUG
 
